@@ -86,7 +86,7 @@
           "summary": "Delete a grant by user_id",
           "notes": "Delete a grant associated with your account.",
           "type": "void",
-          "nickname": "delete_",
+          "nickname": "delete_grants_by_user_id",
           "parameters": [
             {
               "paramType": "query",
