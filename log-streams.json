@@ -182,6 +182,13 @@
           "nickname": "patch_log-streams_by_id",
           "parameters": [
             {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the log stream to get",
+              "type": "string",
+              "required": true
+            },
+            {
               "paramType": "body",
               "name": "body",
               "type": "patch_log-streams_by_id_body",

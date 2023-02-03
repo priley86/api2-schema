@@ -304,6 +304,7 @@
   "models": {
     "get_resource-servers_response": {
       "type": "object",
+      "schemaName": "resourceServer",
       "properties": {
         "id": {
           "type": "string",
@@ -326,6 +327,7 @@
           "description": "List of permissions (scopes) that this API uses.",
           "items": {
             "type": "object",
+            "schemaName": "scope",
             "properties": {
               "value": {
                 "type": "string",
@@ -383,16 +385,6 @@
       },
       "additionalProperties": false
     },
-    "get_resource-servers_response_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in access tokens",
-      "properties": { "sub": { "$ref": "get_resource-servers_response_sub" } },
-      "additionalProperties": false
-    },
-    "get_resource-servers_response_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
-    },
     "get_resource-servers_response_client": {
       "type": "object",
       "properties": {},
@@ -400,6 +392,7 @@
     },
     "post_resource-servers_body": {
       "type": "object",
+      "name": "resourceServerCreate",
       "properties": {
         "name": {
           "type": "string",
@@ -417,6 +410,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "schemaName": "scope",
             "properties": {
               "value": {
                 "type": "string",
@@ -480,18 +474,9 @@
       "properties": {},
       "additionalProperties": false
     },
-    "post_resource-servers_body_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in access tokens",
-      "properties": { "sub": { "$ref": "post_resource-servers_body_sub" } },
-      "additionalProperties": false
-    },
-    "post_resource-servers_body_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
-    },
     "get_resource-servers_by_id_response": {
       "type": "object",
+      "schemaName": "resourceServer",
       "properties": {
         "id": {
           "type": "string",
@@ -514,6 +499,7 @@
           "description": "List of permissions (scopes) that this API uses.",
           "items": {
             "type": "object",
+            "schemaName": "scope",
             "properties": {
               "value": {
                 "type": "string",
@@ -590,6 +576,7 @@
     },
     "patch_resource-servers_by_id_body": {
       "type": "object",
+      "schemaName": "resourceServerUpdate",
       "properties": {
         "name": {
           "type": "string",
@@ -601,6 +588,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "schemaName": "scope",
             "properties": {
               "value": {
                 "type": "string",
@@ -662,18 +650,6 @@
       "type": "object",
       "properties": {},
       "additionalProperties": false
-    },
-    "patch_resource-servers_by_id_body_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in access tokens",
-      "properties": {
-        "sub": { "$ref": "patch_resource-servers_by_id_body_sub" }
-      },
-      "additionalProperties": false
-    },
-    "patch_resource-servers_by_id_body_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
     }
   }
 }

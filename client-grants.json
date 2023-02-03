@@ -234,6 +234,7 @@
   "models": {
     "get_client-grants_response": {
       "type": "object",
+      "schemaName": "clientGrant",
       "properties": {
         "id": { "type": "string", "description": "ID of the client grant." },
         "client_id": { "type": "string", "description": "ID of the client." },
@@ -253,6 +254,7 @@
     },
     "post_client-grants_body": {
       "type": "object",
+      "schemaName": "clientGrantCreate",
       "properties": {
         "client_id": { "type": "string", "description": "ID of the client." },
         "audience": {
@@ -273,6 +275,7 @@
     },
     "patch_client-grants_by_id_response": {
       "type": "object",
+      "schemaName": "clientGrant",
       "properties": {
         "id": { "type": "string", "description": "ID of the client grant." },
         "client_id": { "type": "string", "description": "ID of the client." },

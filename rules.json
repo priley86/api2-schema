@@ -322,6 +322,7 @@
   "models": {
     "get_rules_response": {
       "type": "object",
+      "schemaName": "rule",
       "properties": {
         "name": {
           "type": "string",
@@ -358,6 +359,7 @@
     },
     "post_rules_response": {
       "type": "object",
+      "schemaName": "rule",
       "properties": {
         "name": {
           "type": "string",
@@ -394,6 +396,7 @@
     },
     "post_rules_body": {
       "type": "object",
+      "schemaName": "ruleCreate",
       "properties": {
         "name": {
           "type": "string",
@@ -425,6 +428,7 @@
     },
     "get_rules_by_id_response": {
       "type": "object",
+      "schemaName": "rule",
       "properties": {
         "name": {
           "type": "string",
@@ -461,6 +465,7 @@
     },
     "patch_rules_by_id_response": {
       "type": "object",
+      "schemaName": "rule",
       "properties": {
         "name": {
           "type": "string",
@@ -497,6 +502,7 @@
     },
     "patch_rules_by_id_body": {
       "type": "object",
+      "schemaName": "ruleUpdate",
       "properties": {
         "script": {
           "type": "string",

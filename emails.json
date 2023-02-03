@@ -167,6 +167,7 @@
   "models": {
     "get_provider_response": {
       "type": "object",
+      "schemaName": "emailProvider",
       "properties": {
         "name": {
           "type": "string",
@@ -215,6 +216,7 @@
     },
     "patch_provider_response": {
       "type": "object",
+      "schemaName": "emailProvider",
       "properties": {
         "name": {
           "type": "string",
@@ -403,6 +405,7 @@
     },
     "post_provider_response": {
       "type": "object",
+      "schemaName": "emailProvider",
       "properties": {
         "name": {
           "type": "string",

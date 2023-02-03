@@ -222,11 +222,10 @@
               "required": true
             },
             {
-              "paramType": "path",
+              "paramType": "query",
               "name": "force",
               "description": "Force action deletion detaching bindings",
-              "type": "boolean",
-              "required": false
+              "type": "boolean"
             }
           ],
           "responseMessages": [
@@ -603,7 +602,8 @@
               "paramType": "path",
               "name": "id",
               "description": "The id of the action to test.",
-              "type": "string"
+              "type": "string",
+              "required": true
             },
             {
               "paramType": "body",
@@ -825,11 +825,6 @@
                       "type": "string",
                       "description": "Runtime that will be used when none is specified when creating an action."
                     },
-                    "url": {
-                      "x-swagger-docs": false,
-                      "type": "string",
-                      "description": "url refers to some documentation or reference for this trigger."
-                    },
                     "compatible_triggers": {
                       "type": "array",
                       "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -867,134 +862,6 @@
                 "minItems": 1,
                 "maxItems": 1,
                 "defaultValue": [{ "id": "post-login", "version": "v2" }]
-              },
-              "required_configuration": {
-                "x-swagger-docs": false,
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "description": "param describes specific config / secrets required by an action.",
-                  "required": ["name", "label", "type"],
-                  "additionalProperties": false,
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "name is analogous to the name attribute in an input form element."
-                    },
-                    "label": {
-                      "type": "string",
-                      "description": "label is analogous to what you put in the label form element."
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "type will dictate how the form element is displayed.",
-                      "enum": ["string"]
-                    },
-                    "placeholder": {
-                      "type": "string",
-                      "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "description provides more context for certain fields which requires more explanation."
-                    },
-                    "default_value": {
-                      "type": "string",
-                      "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                    },
-                    "optional": {
-                      "type": "boolean",
-                      "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                    },
-                    "required": {
-                      "type": "boolean",
-                      "description": "required will determine if the param value is required for the behavior of the action."
-                    },
-                    "options": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                          "value": {
-                            "type": "string",
-                            "description": "The value of an option that will be used within the application."
-                          },
-                          "label": {
-                            "type": "string",
-                            "description": "The display value of an option suitable for displaying in a UI."
-                          }
-                        }
-                      },
-                      "description": "The allowable options for this param."
-                    }
-                  }
-                },
-                "description": "The configuration that must be provided by an action when it is bound to a trigger."
-              },
-              "required_secrets": {
-                "x-swagger-docs": false,
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "description": "param describes specific config / secrets required by an action.",
-                  "required": ["name", "label", "type"],
-                  "additionalProperties": false,
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "name is analogous to the name attribute in an input form element."
-                    },
-                    "label": {
-                      "type": "string",
-                      "description": "label is analogous to what you put in the label form element."
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "type will dictate how the form element is displayed.",
-                      "enum": ["string"]
-                    },
-                    "placeholder": {
-                      "type": "string",
-                      "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                    },
-                    "description": {
-                      "type": "string",
-                      "description": "description provides more context for certain fields which requires more explanation."
-                    },
-                    "default_value": {
-                      "type": "string",
-                      "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                    },
-                    "optional": {
-                      "type": "boolean",
-                      "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                    },
-                    "required": {
-                      "type": "boolean",
-                      "description": "required will determine if the param value is required for the behavior of the action."
-                    },
-                    "options": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "additionalProperties": false,
-                        "properties": {
-                          "value": {
-                            "type": "string",
-                            "description": "The value of an option that will be used within the application."
-                          },
-                          "label": {
-                            "type": "string",
-                            "description": "The display value of an option suitable for displaying in a UI."
-                          }
-                        }
-                      },
-                      "description": "The allowable options for this param."
-                    }
-                  }
-                },
-                "description": "The secrets that must be provided by an action when it is bound to a trigger."
               },
               "code": {
                 "type": "string",
@@ -1055,13 +922,6 @@
                     "updated_at": "2021-01-01T00:00:00.000Z"
                   }
                 ]
-              },
-              "current_version": {
-                "x-swagger-docs": false,
-                "type": "object",
-                "items": {},
-                "description": "The version of the action that is currently deployed.",
-                "defaultValue": {}
               },
               "deployed_version": {
                 "type": "object",
@@ -1176,11 +1036,6 @@
                           "default_runtime": {
                             "type": "string",
                             "description": "Runtime that will be used when none is specified when creating an action."
-                          },
-                          "url": {
-                            "x-swagger-docs": false,
-                            "type": "string",
-                            "description": "url refers to some documentation or reference for this trigger."
                           },
                           "compatible_triggers": {
                             "type": "array",
@@ -1485,11 +1340,6 @@
               "default_runtime": {
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
-              },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
               },
               "compatible_triggers": {
                 "type": "array",
@@ -1990,11 +1840,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -2135,11 +1980,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -2237,11 +2077,6 @@
               "default_runtime": {
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
-              },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
               },
               "compatible_triggers": {
                 "type": "array",
@@ -2748,11 +2583,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -3252,11 +3082,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -3401,21 +3226,6 @@
                 "type": "string",
                 "description": "The name of the action that was executed.",
                 "defaultValue": "my-action"
-              },
-              "binding_id": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "binding_id identifies the binding for this particular result."
-              },
-              "version_id": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "version_id identifies the deployed Action::Version at the time of execution."
-              },
-              "response": {
-                "x-swagger-docs": false,
-                "type": "object",
-                "description": "response indicates the exact JSON response that was returned by this particular action."
               },
               "error": {
                 "type": "object",
@@ -3597,11 +3407,6 @@
                 },
                 "description": "Any errors that occurred while the version was being built."
               },
-              "layer_id": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "layer_id is typically a hash message digest which refers to the combination of dependencies that this particular function requires. This is system generated."
-              },
               "action": {
                 "additionalProperties": false,
                 "type": "object",
@@ -3657,11 +3462,6 @@
                           "type": "string",
                           "description": "Runtime that will be used when none is specified when creating an action."
                         },
-                        "url": {
-                          "x-swagger-docs": false,
-                          "type": "string",
-                          "description": "url refers to some documentation or reference for this trigger."
-                        },
                         "compatible_triggers": {
                           "type": "array",
                           "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -3699,134 +3499,6 @@
                     "minItems": 1,
                     "maxItems": 1,
                     "defaultValue": [{ "id": "post-login", "version": "v2" }]
-                  },
-                  "required_configuration": {
-                    "x-swagger-docs": false,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "param describes specific config / secrets required by an action.",
-                      "required": ["name", "label", "type"],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "name is analogous to the name attribute in an input form element."
-                        },
-                        "label": {
-                          "type": "string",
-                          "description": "label is analogous to what you put in the label form element."
-                        },
-                        "type": {
-                          "type": "string",
-                          "description": "type will dictate how the form element is displayed.",
-                          "enum": ["string"]
-                        },
-                        "placeholder": {
-                          "type": "string",
-                          "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "description provides more context for certain fields which requires more explanation."
-                        },
-                        "default_value": {
-                          "type": "string",
-                          "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                        },
-                        "optional": {
-                          "type": "boolean",
-                          "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                        },
-                        "required": {
-                          "type": "boolean",
-                          "description": "required will determine if the param value is required for the behavior of the action."
-                        },
-                        "options": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "value": {
-                                "type": "string",
-                                "description": "The value of an option that will be used within the application."
-                              },
-                              "label": {
-                                "type": "string",
-                                "description": "The display value of an option suitable for displaying in a UI."
-                              }
-                            }
-                          },
-                          "description": "The allowable options for this param."
-                        }
-                      }
-                    },
-                    "description": "The configuration that must be provided by an action when it is bound to a trigger."
-                  },
-                  "required_secrets": {
-                    "x-swagger-docs": false,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "param describes specific config / secrets required by an action.",
-                      "required": ["name", "label", "type"],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "name is analogous to the name attribute in an input form element."
-                        },
-                        "label": {
-                          "type": "string",
-                          "description": "label is analogous to what you put in the label form element."
-                        },
-                        "type": {
-                          "type": "string",
-                          "description": "type will dictate how the form element is displayed.",
-                          "enum": ["string"]
-                        },
-                        "placeholder": {
-                          "type": "string",
-                          "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "description provides more context for certain fields which requires more explanation."
-                        },
-                        "default_value": {
-                          "type": "string",
-                          "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                        },
-                        "optional": {
-                          "type": "boolean",
-                          "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                        },
-                        "required": {
-                          "type": "boolean",
-                          "description": "required will determine if the param value is required for the behavior of the action."
-                        },
-                        "options": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "value": {
-                                "type": "string",
-                                "description": "The value of an option that will be used within the application."
-                              },
-                              "label": {
-                                "type": "string",
-                                "description": "The display value of an option suitable for displaying in a UI."
-                              }
-                            }
-                          },
-                          "description": "The allowable options for this param."
-                        }
-                      }
-                    },
-                    "description": "The secrets that must be provided by an action when it is bound to a trigger."
                   },
                   "code": {
                     "type": "string",
@@ -3887,13 +3559,6 @@
                         "updated_at": "2021-01-01T00:00:00.000Z"
                       }
                     ]
-                  },
-                  "current_version": {
-                    "x-swagger-docs": false,
-                    "type": "object",
-                    "items": {},
-                    "description": "The version of the action that is currently deployed.",
-                    "defaultValue": {}
                   },
                   "deployed_version": {
                     "type": "object",
@@ -4008,11 +3673,6 @@
                               "default_runtime": {
                                 "type": "string",
                                 "description": "Runtime that will be used when none is specified when creating an action."
-                              },
-                              "url": {
-                                "x-swagger-docs": false,
-                                "type": "string",
-                                "description": "url refers to some documentation or reference for this trigger."
                               },
                               "compatible_triggers": {
                                 "type": "array",
@@ -4301,11 +3961,6 @@
                       "type": "string",
                       "description": "Runtime that will be used when none is specified when creating an action."
                     },
-                    "url": {
-                      "x-swagger-docs": false,
-                      "type": "string",
-                      "description": "url refers to some documentation or reference for this trigger."
-                    },
                     "compatible_triggers": {
                       "type": "array",
                       "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -4426,22 +4081,10 @@
                   "iga-fulfillment-execution"
                 ]
               },
-              "trigger_instance_id": {
-                "x-swagger-docs": false,
-                "description": "The identifier to which this instance of the trigger is bound."
-              },
               "display_name": {
                 "type": "string",
                 "description": "The name of the binding.",
                 "defaultValue": "my-action-1"
-              },
-              "metadata": {
-                "x-swagger-docs": false,
-                "type": "object",
-                "additionalProperties": {
-                  "type": "string",
-                  "description": "metadata expresses connection_id, client_id, or connection_name filters for the binding."
-                }
               },
               "action": {
                 "additionalProperties": false,
@@ -4498,11 +4141,6 @@
                           "type": "string",
                           "description": "Runtime that will be used when none is specified when creating an action."
                         },
-                        "url": {
-                          "x-swagger-docs": false,
-                          "type": "string",
-                          "description": "url refers to some documentation or reference for this trigger."
-                        },
                         "compatible_triggers": {
                           "type": "array",
                           "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -4540,134 +4178,6 @@
                     "minItems": 1,
                     "maxItems": 1,
                     "defaultValue": [{ "id": "post-login", "version": "v2" }]
-                  },
-                  "required_configuration": {
-                    "x-swagger-docs": false,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "param describes specific config / secrets required by an action.",
-                      "required": ["name", "label", "type"],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "name is analogous to the name attribute in an input form element."
-                        },
-                        "label": {
-                          "type": "string",
-                          "description": "label is analogous to what you put in the label form element."
-                        },
-                        "type": {
-                          "type": "string",
-                          "description": "type will dictate how the form element is displayed.",
-                          "enum": ["string"]
-                        },
-                        "placeholder": {
-                          "type": "string",
-                          "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "description provides more context for certain fields which requires more explanation."
-                        },
-                        "default_value": {
-                          "type": "string",
-                          "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                        },
-                        "optional": {
-                          "type": "boolean",
-                          "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                        },
-                        "required": {
-                          "type": "boolean",
-                          "description": "required will determine if the param value is required for the behavior of the action."
-                        },
-                        "options": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "value": {
-                                "type": "string",
-                                "description": "The value of an option that will be used within the application."
-                              },
-                              "label": {
-                                "type": "string",
-                                "description": "The display value of an option suitable for displaying in a UI."
-                              }
-                            }
-                          },
-                          "description": "The allowable options for this param."
-                        }
-                      }
-                    },
-                    "description": "The configuration that must be provided by an action when it is bound to a trigger."
-                  },
-                  "required_secrets": {
-                    "x-swagger-docs": false,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "param describes specific config / secrets required by an action.",
-                      "required": ["name", "label", "type"],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "name is analogous to the name attribute in an input form element."
-                        },
-                        "label": {
-                          "type": "string",
-                          "description": "label is analogous to what you put in the label form element."
-                        },
-                        "type": {
-                          "type": "string",
-                          "description": "type will dictate how the form element is displayed.",
-                          "enum": ["string"]
-                        },
-                        "placeholder": {
-                          "type": "string",
-                          "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "description provides more context for certain fields which requires more explanation."
-                        },
-                        "default_value": {
-                          "type": "string",
-                          "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                        },
-                        "optional": {
-                          "type": "boolean",
-                          "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                        },
-                        "required": {
-                          "type": "boolean",
-                          "description": "required will determine if the param value is required for the behavior of the action."
-                        },
-                        "options": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "value": {
-                                "type": "string",
-                                "description": "The value of an option that will be used within the application."
-                              },
-                              "label": {
-                                "type": "string",
-                                "description": "The display value of an option suitable for displaying in a UI."
-                              }
-                            }
-                          },
-                          "description": "The allowable options for this param."
-                        }
-                      }
-                    },
-                    "description": "The secrets that must be provided by an action when it is bound to a trigger."
                   },
                   "code": {
                     "type": "string",
@@ -4728,13 +4238,6 @@
                         "updated_at": "2021-01-01T00:00:00.000Z"
                       }
                     ]
-                  },
-                  "current_version": {
-                    "x-swagger-docs": false,
-                    "type": "object",
-                    "items": {},
-                    "description": "The version of the action that is currently deployed.",
-                    "defaultValue": {}
                   },
                   "deployed_version": {
                     "type": "object",
@@ -4849,11 +4352,6 @@
                               "default_runtime": {
                                 "type": "string",
                                 "description": "Runtime that will be used when none is specified when creating an action."
-                              },
-                              "url": {
-                                "x-swagger-docs": false,
-                                "type": "string",
-                                "description": "url refers to some documentation or reference for this trigger."
                               },
                               "compatible_triggers": {
                                 "type": "array",
@@ -5081,55 +4579,6 @@
                     "defaultValue": "2021-01-01T00:00:00.000Z"
                   }
                 }
-              },
-              "configuration": {
-                "x-swagger-docs": false,
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the particular secret, e.g. API_KEY."
-                    },
-                    "value": {
-                      "type": "string",
-                      "description": "The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API."
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "description": "The time when the secret was last updated.",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              },
-              "secrets": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the particular secret, e.g. API_KEY.",
-                      "defaultValue": "mySecret"
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "description": "The time when the secret was last updated.",
-                      "format": "date-time",
-                      "defaultValue": "2021-01-01T00:00:00.000Z"
-                    }
-                  }
-                },
-                "description": "The list of secrets that are included in an action or a version of an action.",
-                "defaultValue": [
-                  {
-                    "name": "mySecret",
-                    "updated_at": "2021-01-01T00:00:00.000Z"
-                  }
-                ],
-                "x-swagger-docs": false
               },
               "created_at": {
                 "type": "string",
@@ -5206,22 +4655,10 @@
                   "iga-fulfillment-execution"
                 ]
               },
-              "trigger_instance_id": {
-                "x-swagger-docs": false,
-                "description": "The identifier to which this instance of the trigger is bound."
-              },
               "display_name": {
                 "type": "string",
                 "description": "The name of the binding.",
                 "defaultValue": "my-action-1"
-              },
-              "metadata": {
-                "x-swagger-docs": false,
-                "type": "object",
-                "additionalProperties": {
-                  "type": "string",
-                  "description": "metadata expresses connection_id, client_id, or connection_name filters for the binding."
-                }
               },
               "action": {
                 "additionalProperties": false,
@@ -5278,11 +4715,6 @@
                           "type": "string",
                           "description": "Runtime that will be used when none is specified when creating an action."
                         },
-                        "url": {
-                          "x-swagger-docs": false,
-                          "type": "string",
-                          "description": "url refers to some documentation or reference for this trigger."
-                        },
                         "compatible_triggers": {
                           "type": "array",
                           "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -5320,134 +4752,6 @@
                     "minItems": 1,
                     "maxItems": 1,
                     "defaultValue": [{ "id": "post-login", "version": "v2" }]
-                  },
-                  "required_configuration": {
-                    "x-swagger-docs": false,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "param describes specific config / secrets required by an action.",
-                      "required": ["name", "label", "type"],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "name is analogous to the name attribute in an input form element."
-                        },
-                        "label": {
-                          "type": "string",
-                          "description": "label is analogous to what you put in the label form element."
-                        },
-                        "type": {
-                          "type": "string",
-                          "description": "type will dictate how the form element is displayed.",
-                          "enum": ["string"]
-                        },
-                        "placeholder": {
-                          "type": "string",
-                          "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "description provides more context for certain fields which requires more explanation."
-                        },
-                        "default_value": {
-                          "type": "string",
-                          "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                        },
-                        "optional": {
-                          "type": "boolean",
-                          "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                        },
-                        "required": {
-                          "type": "boolean",
-                          "description": "required will determine if the param value is required for the behavior of the action."
-                        },
-                        "options": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "value": {
-                                "type": "string",
-                                "description": "The value of an option that will be used within the application."
-                              },
-                              "label": {
-                                "type": "string",
-                                "description": "The display value of an option suitable for displaying in a UI."
-                              }
-                            }
-                          },
-                          "description": "The allowable options for this param."
-                        }
-                      }
-                    },
-                    "description": "The configuration that must be provided by an action when it is bound to a trigger."
-                  },
-                  "required_secrets": {
-                    "x-swagger-docs": false,
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "description": "param describes specific config / secrets required by an action.",
-                      "required": ["name", "label", "type"],
-                      "additionalProperties": false,
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "description": "name is analogous to the name attribute in an input form element."
-                        },
-                        "label": {
-                          "type": "string",
-                          "description": "label is analogous to what you put in the label form element."
-                        },
-                        "type": {
-                          "type": "string",
-                          "description": "type will dictate how the form element is displayed.",
-                          "enum": ["string"]
-                        },
-                        "placeholder": {
-                          "type": "string",
-                          "description": "placeholder is analogous to the placeholder attribute in an input form element."
-                        },
-                        "description": {
-                          "type": "string",
-                          "description": "description provides more context for certain fields which requires more explanation."
-                        },
-                        "default_value": {
-                          "type": "string",
-                          "description": "default_value becomes the pre-filled value for a given input. Useful to provide smart defaults."
-                        },
-                        "optional": {
-                          "type": "boolean",
-                          "description": "LABS ONLY optional will determine if the param value is optional for the behavior of the action."
-                        },
-                        "required": {
-                          "type": "boolean",
-                          "description": "required will determine if the param value is required for the behavior of the action."
-                        },
-                        "options": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                              "value": {
-                                "type": "string",
-                                "description": "The value of an option that will be used within the application."
-                              },
-                              "label": {
-                                "type": "string",
-                                "description": "The display value of an option suitable for displaying in a UI."
-                              }
-                            }
-                          },
-                          "description": "The allowable options for this param."
-                        }
-                      }
-                    },
-                    "description": "The secrets that must be provided by an action when it is bound to a trigger."
                   },
                   "code": {
                     "type": "string",
@@ -5508,13 +4812,6 @@
                         "updated_at": "2021-01-01T00:00:00.000Z"
                       }
                     ]
-                  },
-                  "current_version": {
-                    "x-swagger-docs": false,
-                    "type": "object",
-                    "items": {},
-                    "description": "The version of the action that is currently deployed.",
-                    "defaultValue": {}
                   },
                   "deployed_version": {
                     "type": "object",
@@ -5629,11 +4926,6 @@
                               "default_runtime": {
                                 "type": "string",
                                 "description": "Runtime that will be used when none is specified when creating an action."
-                              },
-                              "url": {
-                                "x-swagger-docs": false,
-                                "type": "string",
-                                "description": "url refers to some documentation or reference for this trigger."
                               },
                               "compatible_triggers": {
                                 "type": "array",
@@ -5861,55 +5153,6 @@
                     "defaultValue": "2021-01-01T00:00:00.000Z"
                   }
                 }
-              },
-              "configuration": {
-                "x-swagger-docs": false,
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the particular secret, e.g. API_KEY."
-                    },
-                    "value": {
-                      "type": "string",
-                      "description": "The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API."
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "description": "The time when the secret was last updated.",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              },
-              "secrets": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the particular secret, e.g. API_KEY.",
-                      "defaultValue": "mySecret"
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "description": "The time when the secret was last updated.",
-                      "format": "date-time",
-                      "defaultValue": "2021-01-01T00:00:00.000Z"
-                    }
-                  }
-                },
-                "description": "The list of secrets that are included in an action or a version of an action.",
-                "defaultValue": [
-                  {
-                    "name": "mySecret",
-                    "updated_at": "2021-01-01T00:00:00.000Z"
-                  }
-                ],
-                "x-swagger-docs": false
               },
               "created_at": {
                 "type": "string",
@@ -5990,86 +5233,59 @@
         "bindings": {
           "type": "array",
           "items": {
-            "type": "object",
-            "oneOf": [{ "required": ["id"] }, { "required": ["ref"] }],
-            "properties": {
-              "id": { "x-swagger-docs": false, "type": "string" },
-              "ref": {
+            "oneOf": [
+              {
                 "type": "object",
                 "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": ["binding_id", "action_id", "action_name"],
-                    "description": "How the action is being referred to: `action_id` or `action_name`.",
-                    "defaultValue": "action_name"
+                  "ref": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["binding_id", "action_id", "action_name"],
+                        "description": "How the action is being referred to: `action_id` or `action_name`.",
+                        "defaultValue": "action_name"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "The id or name of an action that is being bound to a trigger.",
+                        "defaultValue": "my-action"
+                      }
+                    },
+                    "description": "A reference to an action. An action can be referred to by ID or by Name."
                   },
-                  "value": {
+                  "display_name": {
                     "type": "string",
-                    "description": "The id or name of an action that is being bound to a trigger.",
-                    "defaultValue": "my-action"
+                    "description": "The name of the binding.",
+                    "defaultValue": "my-action-1"
+                  },
+                  "secrets": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the particular secret, e.g. API_KEY.",
+                          "defaultValue": "mySecret"
+                        },
+                        "value": {
+                          "type": "string",
+                          "description": "The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API.",
+                          "defaultValue": "mySecretValue"
+                        }
+                      }
+                    },
+                    "description": "The list of secrets that are included in an action or a version of an action.",
+                    "defaultValue": [
+                      { "name": "mySecret", "value": "mySecretValue" }
+                    ]
                   }
                 },
-                "description": "A reference to an action. An action can be referred to by ID or by Name."
-              },
-              "display_name": {
-                "type": "string",
-                "description": "The name of the binding.",
-                "defaultValue": "my-action-1"
-              },
-              "metadata": {
-                "x-swagger-docs": false,
-                "type": "object",
-                "additionalProperties": {
-                  "type": "string",
-                  "description": "metadata expresses connection_id, client_id, or connection_name filters for the binding."
-                }
-              },
-              "configuration": {
-                "x-swagger-docs": false,
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the particular secret, e.g. API_KEY."
-                    },
-                    "value": {
-                      "type": "string",
-                      "description": "The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API."
-                    },
-                    "updated_at": {
-                      "type": "string",
-                      "description": "The time when the secret was last updated.",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              },
-              "secrets": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "description": "The name of the particular secret, e.g. API_KEY.",
-                      "defaultValue": "mySecret"
-                    },
-                    "value": {
-                      "type": "string",
-                      "description": "The value of the particular secret, e.g. secret123. A secret's value can only be set upon creation. A secret's value will never be returned by the API.",
-                      "defaultValue": "mySecretValue"
-                    }
-                  }
-                },
-                "description": "The list of secrets that are included in an action or a version of an action.",
-                "defaultValue": [
-                  { "name": "mySecret", "value": "mySecretValue" }
-                ]
+                "required": ["ref"],
+                "additionalProperties": false
               }
-            },
-            "additionalProperties": false
+            ]
           },
           "description": "The actions that will be bound to this trigger. The order in which they are included will be the order in which they are executed.",
           "defaultValue": [
@@ -6261,11 +5477,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -6359,11 +5570,6 @@
               "default_runtime": {
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
-              },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
               },
               "compatible_triggers": {
                 "type": "array",
@@ -7019,11 +6225,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -7117,11 +6318,6 @@
               "default_runtime": {
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
-              },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
               },
               "compatible_triggers": {
                 "type": "array",
@@ -7748,11 +6944,6 @@
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
               },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
-              },
               "compatible_triggers": {
                 "type": "array",
                 "description": "compatible_triggers informs which other trigger supports the same event and api.",
@@ -7846,11 +7037,6 @@
               "default_runtime": {
                 "type": "string",
                 "description": "Runtime that will be used when none is specified when creating an action."
-              },
-              "url": {
-                "x-swagger-docs": false,
-                "type": "string",
-                "description": "url refers to some documentation or reference for this trigger."
               },
               "compatible_triggers": {
                 "type": "array",
@@ -8307,6 +7493,7 @@
     },
     "post_deploy_draft_version_body": {
       "type": "object",
+      "schemaName": "draftUpdate",
       "properties": {
         "update_draft": {
           "type": "boolean",

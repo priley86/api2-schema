@@ -476,6 +476,7 @@
       "additionalProperties": false
     },
     "put_email-templates_by_templateName_body": {
+      "schemaName": "emailTemplateUpdate",
       "title": "put_email_template",
       "type": "object",
       "properties": {

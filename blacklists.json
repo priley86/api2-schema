@@ -100,6 +100,7 @@
   "models": {
     "get_tokens_response": {
       "type": "object",
+      "schemaName": "token",
       "properties": {
         "aud": {
           "type": "string",
@@ -117,6 +118,7 @@
     },
     "post_tokens_body": {
       "type": "object",
+      "schemaName": "token",
       "properties": {
         "aud": {
           "type": "string",

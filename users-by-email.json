@@ -157,6 +157,7 @@
               },
               "profileData": {
                 "type": "object",
+                "schemaName": "userProfile",
                 "properties": {
                   "email": {
                     "type": "string",
