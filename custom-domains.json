@@ -1,0 +1,856 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Custom Domains",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/custom-domains",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get custom domains configurations",
+          "notes": "Retrieve details on <a href=\"https://auth0.com/docs/custom-domains\">custom domains</a>.",
+          "tags": [],
+          "type": "array",
+          "nickname": "get_custom-domains",
+          "parameters": [],
+          "items": { "$ref": "get_custom-domains_response" },
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Custom domains successfully retrieved."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:custom_domains.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "Some fields cannot be read with the permissions granted by the bearer token scopes. The message will vary depending on the fields and the scopes.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:custom_domains"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Configure a new custom domain",
+          "notes": "Create a new custom domain.\n\nNote: The custom domain will need to be verified before it will accept\nrequests.\n\nOptional attributes that can be updated:\n\n- custom_client_ip_header\n- tls_policy\n\n\nTLS Policies:\n\n- recommended - for modern usage this includes TLS 1.2 only\n- compatible - compatible with older browsers this policy includes TLS 1.0, 1.1, 1.2\n\n\nSome considerations:\n\n- The TLS ciphers and protocols available in each TLS policy follow industry recommendations, and may be updated occasionally.\n- Do not use the <code>compatible</code> TLS policy unless you have clients that require TLS 1.0.\n",
+          "tags": [],
+          "type": "post_custom-domains_response",
+          "nickname": "post_custom-domains",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_custom-domains_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "message": "Custom domain successfully created (verification is pending)."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The 'tls_policy' cannot be set on self_managed domains",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The 'custom_client_ip_header' cannot be set on auth0_managed domains",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:custom_domains.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 409,
+              "message": "Custom domain already exists.",
+              "errorCode": "custom_domain_conflict"
+            },
+            {
+              "code": 409,
+              "message": "You reached the maximum number of custom domains for your account.",
+              "errorCode": "custom_domain_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:custom_domains"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/custom-domains/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get custom domain configuration",
+          "notes": "Retrieve a custom domain configuration and status.",
+          "tags": [],
+          "type": "get_custom-domains_by_id_response",
+          "nickname": "get_custom-domains_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the custom domain to retrieve.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Custom domain successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:custom_domains.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "Some fields cannot be read with the permissions granted by the bearer token scopes. The message will vary depending on the fields and the scopes.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 404,
+              "message": "Custom domain not found.",
+              "errorCode": "inexistent_custom_domain"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:custom_domains"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete custom domain configuration",
+          "notes": "Delete a custom domain and stop serving requests for it.",
+          "tags": [],
+          "type": "void",
+          "nickname": "delete_custom-domains_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the custom domain to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Custom domain successfully deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:custom_domains.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:custom_domains"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update custom domain configuration",
+          "notes": "Update a custom domain.\n\nThese are the attributes that can be updated:\n\n- custom_client_ip_header\n- tls_policy\n\n<h5>Updating CUSTOM_CLIENT_IP_HEADER for a custom domain</h5>To update the <code>custom_client_ip_header</code> for a domain, the body to\nsend should be:\n<pre><code>{ \"custom_client_ip_header\": \"cf-connecting-ip\" }</code></pre>\n\n<h5>Updating TLS_POLICY for a custom domain</h5>To update the <code>tls_policy</code> for a domain, the body to send should be:\n<pre><code>{ \"tls_policy\": \"compatible\" }</code></pre>\n\n\nTLS Policies:\n\n- recommended - for modern usage this includes TLS 1.2 only\n- compatible - compatible with older browsers this policy includes TLS 1.0, 1.1, 1.2\n\n\nSome considerations:\n\n- The TLS ciphers and protocols available in each TLS policy follow industry recommendations, and may be updated occasionally.\n- Do not use the <code>compatible</code> TLS policy unless you have clients that require TLS 1.0.\n",
+          "tags": [],
+          "type": "patch_custom-domains_by_id_response",
+          "nickname": "patch_custom-domains_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the custom domain to update",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_custom-domains_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Custom domain updated." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The 'tls_policy' cannot be set on self_managed domains",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The 'custom_client_ip_header' cannot be set on auth0_managed domains",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:custom_domains.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "Your account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:custom_domains"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/custom-domains/{id}/verify",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Verify a custom domain",
+          "notes": "Run the verification process on a custom domain.\n\nNote: Check the <code>status</code> field to see its verification status. Once verification is complete, it may take up to 10 minutes before the custom domain can start accepting requests.\n\nFor <code>self_managed_certs</code>, when the custom domain is verified for the first time, the response will also include the <code>cname_api_key</code> which you will need to configure your proxy. This key must be kept secret, and is used to validate the proxy requests.\n\n<a href=\"https://auth0.com/docs/custom-domains#step-2-verify-ownership\">Learn more</a> about verifying custom domains that use Auth0 Managed certificates.\n<a href=\"https://auth0.com/docs/custom-domains/self-managed-certificates#step-2-verify-ownership\">Learn more</a> about verifying custom domains that use Self Managed certificates.\n",
+          "tags": [],
+          "type": "post_verify_response",
+          "nickname": "post_verify",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the custom domain to verify.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Custom domain successfully verified." },
+            { "code": 200, "message": "Custom domain failed verification." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Custom domain already verified.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:custom_domains.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 404,
+              "message": "Custom domain not found.",
+              "errorCode": "inexistent_custom_domain"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["create:custom_domains"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_custom-domains_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "custom_domain_id": {
+          "type": "string",
+          "description": "ID of the custom domain.",
+          "defaultValue": "cd_0000000000000001"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain name.",
+          "defaultValue": "login.mycompany.com"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is a primary domain (true) or not (false).",
+          "defaultValue": false
+        },
+        "status": {
+          "type": "string",
+          "enum": ["disabled", "pending", "pending_verification", "ready"],
+          "description": "Custom domain configuration status. Can be `disabled`, `pending`, `pending_verification`, or `ready`.",
+          "defaultValue": "ready"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["auth0_managed_certs", "self_managed_certs"],
+          "description": "Custom domain provisioning type. Can be `auth0_managed_certs` or `self_managed_certs`.",
+          "defaultValue": "self_managed_certs"
+        },
+        "origin_domain_name": {
+          "type": "string",
+          "description": "Intermediate address.",
+          "defaultValue": "mycompany_cd_0000000000000001.edge.tenants.auth0.com"
+        },
+        "verification": {
+          "$ref": "get_custom-domains_response_verification",
+          "description": "Domain verification settings."
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "description": "The HTTP header to fetch the client's IP address"
+        },
+        "tls_policy": {
+          "type": "string",
+          "description": "The TLS version policy",
+          "defaultValue": "recommended"
+        }
+      },
+      "required": ["custom_domain_id", "domain", "primary", "status", "type"]
+    },
+    "get_custom-domains_response_verification": {
+      "type": "object",
+      "description": "Domain verification settings.",
+      "additionalProperties": false,
+      "properties": {
+        "methods": {
+          "type": "array",
+          "description": "Domain verification methods.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["cname", "txt"],
+                "description": "Domain verification method.",
+                "defaultValue": "txt"
+              },
+              "record": {
+                "type": "string",
+                "description": "Value used to verify the domain.",
+                "defaultValue": "auth0-domain-verification=..."
+              },
+              "domain": {
+                "type": "string",
+                "description": "The name of the txt record for verification",
+                "defaultValue": "_cf-custom-hostname.login.mycompany.com"
+              }
+            },
+            "required": ["name", "record"]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "post_custom-domains_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "custom_domain_id": {
+          "type": "string",
+          "description": "ID of the custom domain.",
+          "defaultValue": "cd_0000000000000001"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain name.",
+          "defaultValue": "login.mycompany.com"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is a primary domain (true) or not (false).",
+          "defaultValue": false
+        },
+        "status": {
+          "type": "string",
+          "enum": ["disabled", "pending", "pending_verification", "ready"],
+          "description": "Custom domain configuration status. Can be `disabled`, `pending`, `pending_verification`, or `ready`.",
+          "defaultValue": "ready"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["auth0_managed_certs", "self_managed_certs"],
+          "description": "Custom domain provisioning type. Can be `auth0_managed_certs` or `self_managed_certs`.",
+          "defaultValue": "self_managed_certs"
+        },
+        "verification": {
+          "$ref": "post_custom-domains_response_verification",
+          "description": "Domain verification settings."
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "description": "The HTTP header to fetch the client's IP address"
+        },
+        "tls_policy": {
+          "type": "string",
+          "description": "The TLS version policy",
+          "defaultValue": "recommended"
+        }
+      },
+      "required": [
+        "custom_domain_id",
+        "domain",
+        "primary",
+        "status",
+        "type",
+        "verification"
+      ]
+    },
+    "post_custom-domains_response_verification": {
+      "type": "object",
+      "description": "Domain verification settings.",
+      "additionalProperties": false,
+      "properties": {
+        "methods": {
+          "type": "array",
+          "description": "Domain verification methods.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["cname", "txt"],
+                "description": "Domain verification method.",
+                "defaultValue": "txt"
+              },
+              "record": {
+                "type": "string",
+                "description": "Value used to verify the domain.",
+                "defaultValue": "auth0-domain-verification=..."
+              },
+              "domain": {
+                "type": "string",
+                "description": "The name of the txt record for verification",
+                "defaultValue": "_cf-custom-hostname.login.mycompany.com"
+              }
+            },
+            "required": ["name", "record"]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "post_custom-domains_body": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "pattern": "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]).)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$",
+          "description": "Domain name."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["auth0_managed_certs", "self_managed_certs"],
+          "description": "Custom domain provisioning type. Must be `auth0_managed_certs` or `self_managed_certs`."
+        },
+        "verification_method": {
+          "type": "string",
+          "enum": ["txt"],
+          "description": "Custom domain verification method. Must be `txt`.",
+          "defaultValue": "txt"
+        },
+        "tls_policy": {
+          "type": "string",
+          "enum": ["recommended", "compatible"],
+          "description": "compatible includes TLS 1.0, 1.1, 1.2, and recommended only includes TLS 1.2",
+          "defaultValue": "recommended"
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "enum": [
+            "true-client-ip",
+            "cf-connecting-ip",
+            "x-forwarded-for",
+            null
+          ],
+          "description": "HTTP header to fetch client IP header. Ex: CF-Connecting-IP, X-Forwarded-For or True-Client-IP.",
+          "defaultValue": "true-client-ip"
+        }
+      },
+      "required": ["domain", "type"],
+      "additionalProperties": false
+    },
+    "get_custom-domains_by_id_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "custom_domain_id": {
+          "type": "string",
+          "description": "ID of the custom domain.",
+          "defaultValue": "cd_0000000000000001"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain name.",
+          "defaultValue": "login.mycompany.com"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is a primary domain (true) or not (false).",
+          "defaultValue": false
+        },
+        "status": {
+          "type": "string",
+          "enum": ["disabled", "pending", "pending_verification", "ready"],
+          "description": "Custom domain configuration status. Can be `disabled`, `pending`, `pending_verification`, or `ready`.",
+          "defaultValue": "ready"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["auth0_managed_certs", "self_managed_certs"],
+          "description": "Custom domain provisioning type. Can be `auth0_managed_certs` or `self_managed_certs`.",
+          "defaultValue": "self_managed_certs"
+        },
+        "origin_domain_name": {
+          "type": "string",
+          "description": "Intermediate address.",
+          "defaultValue": "mycompany_cd_0000000000000001.edge.tenants.auth0.com"
+        },
+        "verification": {
+          "$ref": "get_custom-domains_by_id_response_verification",
+          "description": "Domain verification settings."
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "description": "The HTTP header to fetch the client's IP address"
+        },
+        "tls_policy": {
+          "type": "string",
+          "description": "The TLS version policy",
+          "defaultValue": "recommended"
+        }
+      },
+      "required": ["custom_domain_id", "domain", "primary", "status", "type"]
+    },
+    "get_custom-domains_by_id_response_verification": {
+      "type": "object",
+      "description": "Domain verification settings.",
+      "additionalProperties": false,
+      "properties": {
+        "methods": {
+          "type": "array",
+          "description": "Domain verification methods.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["cname", "txt"],
+                "description": "Domain verification method.",
+                "defaultValue": "txt"
+              },
+              "record": {
+                "type": "string",
+                "description": "Value used to verify the domain.",
+                "defaultValue": "auth0-domain-verification=..."
+              },
+              "domain": {
+                "type": "string",
+                "description": "The name of the txt record for verification",
+                "defaultValue": "_cf-custom-hostname.login.mycompany.com"
+              }
+            },
+            "required": ["name", "record"]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "patch_custom-domains_by_id_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "custom_domain_id": {
+          "type": "string",
+          "description": "ID of the custom domain.",
+          "defaultValue": "cd_0000000000000001"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain name.",
+          "defaultValue": "login.mycompany.com"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is a primary domain (true) or not (false).",
+          "defaultValue": false
+        },
+        "status": {
+          "type": "string",
+          "enum": ["disabled", "pending", "pending_verification", "ready"],
+          "description": "Custom domain configuration status. Can be `disabled`, `pending`, `pending_verification`, or `ready`.",
+          "defaultValue": "ready"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["auth0_managed_certs", "self_managed_certs"],
+          "description": "Custom domain provisioning type. Can be `auth0_managed_certs` or `self_managed_certs`.",
+          "defaultValue": "self_managed_certs"
+        },
+        "verification": {
+          "$ref": "patch_custom-domains_by_id_response_verification",
+          "description": "Domain verification settings."
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "description": "The HTTP header to fetch the client's IP address"
+        },
+        "tls_policy": {
+          "type": "string",
+          "description": "The TLS version policy",
+          "defaultValue": "recommended"
+        }
+      },
+      "required": [
+        "custom_domain_id",
+        "domain",
+        "primary",
+        "status",
+        "type",
+        "verification"
+      ]
+    },
+    "patch_custom-domains_by_id_response_verification": {
+      "type": "object",
+      "description": "Domain verification settings.",
+      "additionalProperties": false,
+      "properties": {
+        "methods": {
+          "type": "array",
+          "description": "Domain verification methods.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["cname", "txt"],
+                "description": "Domain verification method.",
+                "defaultValue": "txt"
+              },
+              "record": {
+                "type": "string",
+                "description": "Value used to verify the domain.",
+                "defaultValue": "auth0-domain-verification=..."
+              },
+              "domain": {
+                "type": "string",
+                "description": "The name of the txt record for verification",
+                "defaultValue": "_cf-custom-hostname.login.mycompany.com"
+              }
+            },
+            "required": ["name", "record"]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "patch_custom-domains_by_id_body": {
+      "type": "object",
+      "properties": {
+        "tls_policy": {
+          "type": "string",
+          "enum": ["recommended", "compatible"],
+          "description": "compatible includes TLS 1.0, 1.1, 1.2, and recommended only includes TLS 1.2",
+          "defaultValue": "recommended"
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "enum": ["true-client-ip", "cf-connecting-ip", "x-forwarded-for", ""],
+          "description": "The HTTP header to fetch the client's IP address",
+          "defaultValue": "true-client-ip"
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_verify_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "custom_domain_id": {
+          "type": "string",
+          "description": "ID of the custom domain.",
+          "defaultValue": "cd_0000000000000001"
+        },
+        "domain": {
+          "type": "string",
+          "description": "Domain name.",
+          "defaultValue": "login.mycompany.com"
+        },
+        "primary": {
+          "type": "boolean",
+          "description": "Whether this is a primary domain (true) or not (false).",
+          "defaultValue": false
+        },
+        "status": {
+          "type": "string",
+          "enum": ["disabled", "pending", "pending_verification", "ready"],
+          "description": "Custom domain configuration status. Can be `disabled`, `pending`, `pending_verification`, or `ready`.",
+          "defaultValue": "ready"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["auth0_managed_certs", "self_managed_certs"],
+          "description": "Custom domain provisioning type. Can be `auth0_managed_certs` or `self_managed_certs`.",
+          "defaultValue": "self_managed_certs"
+        },
+        "cname_api_key": {
+          "type": "string",
+          "description": "CNAME API key header.",
+          "defaultValue": "d4feca..."
+        },
+        "origin_domain_name": {
+          "type": "string",
+          "description": "Intermediate address.",
+          "defaultValue": "mycompany_cd_0000000000000001.edge.tenants.auth0.com"
+        },
+        "verification": {
+          "$ref": "post_verify_response_verification",
+          "description": "Domain verification settings."
+        },
+        "custom_client_ip_header": {
+          "type": "string",
+          "description": "The HTTP header to fetch the client's IP address"
+        },
+        "tls_policy": {
+          "type": "string",
+          "description": "The TLS version policy",
+          "defaultValue": "recommended"
+        }
+      },
+      "required": ["custom_domain_id", "domain", "primary", "status", "type"]
+    },
+    "post_verify_response_verification": {
+      "type": "object",
+      "description": "Domain verification settings.",
+      "additionalProperties": false,
+      "properties": {
+        "methods": {
+          "type": "array",
+          "description": "Domain verification methods.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": ["cname", "txt"],
+                "description": "Domain verification method.",
+                "defaultValue": "txt"
+              },
+              "record": {
+                "type": "string",
+                "description": "Value used to verify the domain.",
+                "defaultValue": "auth0-domain-verification=..."
+              },
+              "domain": {
+                "type": "string",
+                "description": "The name of the txt record for verification",
+                "defaultValue": "_cf-custom-hostname.login.mycompany.com"
+              }
+            },
+            "required": ["name", "record"]
+          },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

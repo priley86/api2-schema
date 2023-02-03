@@ -1,0 +1,932 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Attack Protection",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/attack-protection/breached-password-detection",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get breached password detection settings",
+          "notes": "Get breached password detection settings",
+          "type": "get_breached-password-detection_response",
+          "nickname": "get_breached-password-detection",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:attack_protection"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update breached password detection settings",
+          "notes": "Update breached password detection settings",
+          "type": "patch_breached-password-detection_response",
+          "nickname": "patch_breached-password-detection",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_breached-password-detection_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:attack_protection"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/attack-protection/brute-force-protection",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the brute force configuration",
+          "notes": "Get the brute force configuration",
+          "type": "get_brute-force-protection_response",
+          "nickname": "get_brute-force-protection",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:attack_protection"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update the brute force configuration",
+          "notes": "Update the brute force configuration",
+          "type": "patch_brute-force-protection_response",
+          "nickname": "patch_brute-force-protection",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_brute-force-protection_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:attack_protection"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/attack-protection/suspicious-ip-throttling",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the suspicious IP throttling configuration",
+          "notes": "Get the suspicious IP throttling configuration",
+          "type": "get_suspicious-ip-throttling_response",
+          "nickname": "get_suspicious-ip-throttling",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:attack_protection"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update the suspicious IP throttling configuration",
+          "notes": "Update the suspicious IP throttling configuration",
+          "type": "patch_suspicious-ip-throttling_response",
+          "nickname": "patch_suspicious-ip-throttling",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_suspicious-ip-throttling_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:attack_protection"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/attack-protection/brute-force-protection/defaults",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the brute force configuration defaults",
+          "notes": "Get the brute force configuration defaults",
+          "type": "get_defaults_response",
+          "nickname": "get_defaults",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:attack_protection.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:attack_protection"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_breached-password-detection_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not breached password detection is active.",
+          "defaultValue": true
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a breached password is detected during a login.\n      Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "user_notification", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        },
+        "admin_notification_frequency": {
+          "type": "array",
+          "description": "When \"admin_notification\" is enabled, determines how often email notifications are sent.\n        Possible values: <code>immediately</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["immediately", "daily", "weekly", "monthly"]
+          },
+          "defaultValue": ["immediately", "weekly"]
+        },
+        "method": {
+          "type": "string",
+          "description": "The subscription level for breached password detection methods. Use \"enhanced\" to enable Credential Guard.\n        Possible values: <code>standard</code>, <code>enhanced</code>.",
+          "defaultValue": "standard",
+          "enum": ["standard", "enhanced"]
+        },
+        "stage": { "$ref": "get_breached-password-detection_response_stage" }
+      }
+    },
+    "get_breached-password-detection_response_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pre-user-registration": {
+          "$ref": "get_breached-password-detection_response_pre-user-registration"
+        }
+      }
+    },
+    "get_breached-password-detection_response_pre-user-registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a breached password is detected during a signup.\n              Possible values: <code>block</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        }
+      }
+    },
+    "patch_breached-password-detection_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not breached password detection is active.",
+          "defaultValue": true
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a breached password is detected during a login.\n      Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "user_notification", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        },
+        "admin_notification_frequency": {
+          "type": "array",
+          "description": "When \"admin_notification\" is enabled, determines how often email notifications are sent.\n        Possible values: <code>immediately</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["immediately", "daily", "weekly", "monthly"]
+          },
+          "defaultValue": ["immediately", "weekly"]
+        },
+        "method": {
+          "type": "string",
+          "description": "The subscription level for breached password detection methods. Use \"enhanced\" to enable Credential Guard.\n        Possible values: <code>standard</code>, <code>enhanced</code>.",
+          "defaultValue": "standard",
+          "enum": ["standard", "enhanced"]
+        },
+        "stage": { "$ref": "patch_breached-password-detection_response_stage" }
+      }
+    },
+    "patch_breached-password-detection_response_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pre-user-registration": {
+          "$ref": "patch_breached-password-detection_response_pre-user-registration"
+        }
+      }
+    },
+    "patch_breached-password-detection_response_pre-user-registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a breached password is detected during a signup.\n              Possible values: <code>block</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        }
+      }
+    },
+    "patch_breached-password-detection_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not breached password detection is active.",
+          "defaultValue": true
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a breached password is detected during a login.\n      Possible values: <code>block</code>, <code>user_notification</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "user_notification", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        },
+        "admin_notification_frequency": {
+          "type": "array",
+          "description": "When \"admin_notification\" is enabled, determines how often email notifications are sent.\n        Possible values: <code>immediately</code>, <code>daily</code>, <code>weekly</code>, <code>monthly</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["immediately", "daily", "weekly", "monthly"]
+          },
+          "defaultValue": ["immediately", "weekly"]
+        },
+        "method": {
+          "type": "string",
+          "description": "The subscription level for breached password detection methods. Use \"enhanced\" to enable Credential Guard.\n        Possible values: <code>standard</code>, <code>enhanced</code>.",
+          "defaultValue": "standard",
+          "enum": ["standard", "enhanced"]
+        },
+        "stage": { "$ref": "patch_breached-password-detection_body_stage" }
+      }
+    },
+    "patch_breached-password-detection_body_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pre-user-registration": {
+          "$ref": "patch_breached-password-detection_body_pre-user-registration"
+        }
+      }
+    },
+    "patch_breached-password-detection_body_pre-user-registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a breached password is detected during a signup.\n              Possible values: <code>block</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        }
+      }
+    },
+    "get_brute-force-protection_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not brute force attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a brute force protection threshold is violated.\n        Possible values: <code>block</code>, <code>user_notification</code>.",
+          "items": { "type": "string", "enum": ["block", "user_notification"] },
+          "defaultValue": ["block", "user_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ],
+          "uniqueItems": true
+        },
+        "mode": {
+          "type": "string",
+          "description": "Account Lockout: Determines whether or not IP address is used when counting failed attempts.\n          Possible values: <code>count_per_identifier_and_ip</code>, <code>count_per_identifier</code>.",
+          "defaultValue": "count_per_identifier_and_ip",
+          "enum": ["count_per_identifier_and_ip", "count_per_identifier"]
+        },
+        "max_attempts": {
+          "type": "integer",
+          "description": "Maximum number of unsuccessful attempts.",
+          "nullable": true,
+          "minimum": 1,
+          "maximum": 100,
+          "defaultValue": 10
+        }
+      }
+    },
+    "patch_brute-force-protection_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not brute force attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a brute force protection threshold is violated.\n        Possible values: <code>block</code>, <code>user_notification</code>.",
+          "items": { "type": "string", "enum": ["block", "user_notification"] },
+          "defaultValue": ["block", "user_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ],
+          "uniqueItems": true
+        },
+        "mode": {
+          "type": "string",
+          "description": "Account Lockout: Determines whether or not IP address is used when counting failed attempts.\n          Possible values: <code>count_per_identifier_and_ip</code>, <code>count_per_identifier</code>.",
+          "defaultValue": "count_per_identifier_and_ip",
+          "enum": ["count_per_identifier_and_ip", "count_per_identifier"]
+        },
+        "max_attempts": {
+          "type": "integer",
+          "description": "Maximum number of unsuccessful attempts.",
+          "nullable": true,
+          "minimum": 1,
+          "maximum": 100,
+          "defaultValue": 10
+        }
+      }
+    },
+    "patch_brute-force-protection_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not brute force attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a brute force protection threshold is violated.\n        Possible values: <code>block</code>, <code>user_notification</code>.",
+          "items": { "type": "string", "enum": ["block", "user_notification"] },
+          "defaultValue": ["block", "user_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ],
+          "uniqueItems": true
+        },
+        "mode": {
+          "type": "string",
+          "description": "Account Lockout: Determines whether or not IP address is used when counting failed attempts.\n          Possible values: <code>count_per_identifier_and_ip</code>, <code>count_per_identifier</code>.",
+          "defaultValue": "count_per_identifier_and_ip",
+          "enum": ["count_per_identifier_and_ip", "count_per_identifier"]
+        },
+        "max_attempts": {
+          "type": "integer",
+          "description": "Maximum number of unsuccessful attempts.",
+          "nullable": true,
+          "minimum": 1,
+          "maximum": 100,
+          "defaultValue": 10
+        }
+      }
+    },
+    "get_suspicious-ip-throttling_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not suspicious IP throttling attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a suspicious IP throttling threshold is violated.\n          Possible values: <code>block</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "uniqueItems": true,
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ]
+        },
+        "stage": {
+          "$ref": "get_suspicious-ip-throttling_response_stage",
+          "description": "Holds per-stage configuration options (max_attempts and rate)."
+        }
+      }
+    },
+    "get_suspicious-ip-throttling_response_stage": {
+      "type": "object",
+      "description": "Holds per-stage configuration options (max_attempts and rate).",
+      "additionalProperties": false,
+      "properties": {
+        "pre-login": {
+          "$ref": "get_suspicious-ip-throttling_response_pre-login",
+          "description": "Configuration options that apply before every login attempt."
+        },
+        "pre-user-registration": {
+          "$ref": "get_suspicious-ip-throttling_response_pre-user-registration",
+          "description": "Configuration options that apply before every user registration attempt."
+        }
+      }
+    },
+    "get_suspicious-ip-throttling_response_pre-login": {
+      "type": "object",
+      "description": "Configuration options that apply before every login attempt.",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "description": "Total number of attempts allowed per day.",
+          "minimum": 1,
+          "maximum": 2500,
+          "defaultValue": 100
+        },
+        "rate": {
+          "type": "integer",
+          "description": "Interval of time, given in milliseconds, at which new attempts are granted.",
+          "minimum": 34560,
+          "maximum": 86400000,
+          "defaultValue": 864000
+        }
+      }
+    },
+    "get_suspicious-ip-throttling_response_pre-user-registration": {
+      "type": "object",
+      "description": "Configuration options that apply before every user registration attempt.",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "description": "Total number of attempts allowed.",
+          "minimum": 1,
+          "maximum": 72000,
+          "defaultValue": 50
+        },
+        "rate": {
+          "type": "integer",
+          "description": "Interval of time, given in milliseconds, at which new attempts are granted.",
+          "minimum": 1200,
+          "maximum": 86400000,
+          "defaultValue": 1728000
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not suspicious IP throttling attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a suspicious IP throttling threshold is violated.\n          Possible values: <code>block</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "uniqueItems": true,
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ]
+        },
+        "stage": {
+          "$ref": "patch_suspicious-ip-throttling_response_stage",
+          "description": "Holds per-stage configuration options (max_attempts and rate)."
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_response_stage": {
+      "type": "object",
+      "description": "Holds per-stage configuration options (max_attempts and rate).",
+      "additionalProperties": false,
+      "properties": {
+        "pre-login": {
+          "$ref": "patch_suspicious-ip-throttling_response_pre-login",
+          "description": "Configuration options that apply before every login attempt."
+        },
+        "pre-user-registration": {
+          "$ref": "patch_suspicious-ip-throttling_response_pre-user-registration",
+          "description": "Configuration options that apply before every user registration attempt."
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_response_pre-login": {
+      "type": "object",
+      "description": "Configuration options that apply before every login attempt.",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "description": "Total number of attempts allowed per day.",
+          "minimum": 1,
+          "maximum": 2500,
+          "defaultValue": 100
+        },
+        "rate": {
+          "type": "integer",
+          "description": "Interval of time, given in milliseconds, at which new attempts are granted.",
+          "minimum": 34560,
+          "maximum": 86400000,
+          "defaultValue": 864000
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_response_pre-user-registration": {
+      "type": "object",
+      "description": "Configuration options that apply before every user registration attempt.",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "description": "Total number of attempts allowed.",
+          "minimum": 1,
+          "maximum": 72000,
+          "defaultValue": 50
+        },
+        "rate": {
+          "type": "integer",
+          "description": "Interval of time, given in milliseconds, at which new attempts are granted.",
+          "minimum": 1200,
+          "maximum": 86400000,
+          "defaultValue": 1728000
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not suspicious IP throttling attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a suspicious IP throttling threshold is violated.\n          Possible values: <code>block</code>, <code>admin_notification</code>.",
+          "items": {
+            "type": "string",
+            "enum": ["block", "admin_notification"]
+          },
+          "defaultValue": ["block", "admin_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "uniqueItems": true,
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ]
+        },
+        "stage": {
+          "$ref": "patch_suspicious-ip-throttling_body_stage",
+          "description": "Holds per-stage configuration options (max_attempts and rate)."
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_body_stage": {
+      "type": "object",
+      "description": "Holds per-stage configuration options (max_attempts and rate).",
+      "additionalProperties": false,
+      "properties": {
+        "pre-login": {
+          "$ref": "patch_suspicious-ip-throttling_body_pre-login",
+          "description": "Configuration options that apply before every login attempt."
+        },
+        "pre-user-registration": {
+          "$ref": "patch_suspicious-ip-throttling_body_pre-user-registration",
+          "description": "Configuration options that apply before every user registration attempt."
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_body_pre-login": {
+      "type": "object",
+      "description": "Configuration options that apply before every login attempt.",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "description": "Total number of attempts allowed per day.",
+          "minimum": 1,
+          "maximum": 2500,
+          "defaultValue": 100
+        },
+        "rate": {
+          "type": "integer",
+          "description": "Interval of time, given in milliseconds, at which new attempts are granted.",
+          "minimum": 34560,
+          "maximum": 86400000,
+          "defaultValue": 864000
+        }
+      }
+    },
+    "patch_suspicious-ip-throttling_body_pre-user-registration": {
+      "type": "object",
+      "description": "Configuration options that apply before every user registration attempt.",
+      "additionalProperties": false,
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "description": "Total number of attempts allowed.",
+          "minimum": 1,
+          "maximum": 72000,
+          "defaultValue": 50
+        },
+        "rate": {
+          "type": "integer",
+          "description": "Interval of time, given in milliseconds, at which new attempts are granted.",
+          "minimum": 1200,
+          "maximum": 86400000,
+          "defaultValue": 1728000
+        }
+      }
+    },
+    "get_defaults_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether or not brute force attack protections are active."
+        },
+        "shields": {
+          "type": "array",
+          "description": "Action to take when a brute force protection threshold is violated.\n        Possible values: <code>block</code>, <code>user_notification</code>.",
+          "items": { "type": "string", "enum": ["block", "user_notification"] },
+          "defaultValue": ["block", "user_notification"]
+        },
+        "allowlist": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "List of trusted IP addresses that will not have attack protection enforced against them.",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              { "format": "ipv4" },
+              { "format": "cidr" },
+              { "format": "ipv6" },
+              { "format": "ipv6_cidr" }
+            ]
+          },
+          "defaultValue": [
+            "143.204.0.105",
+            "2600:9000:208f:ca00:d:f5f5:b40:93a1"
+          ],
+          "uniqueItems": true
+        },
+        "mode": {
+          "type": "string",
+          "description": "Account Lockout: Determines whether or not IP address is used when counting failed attempts.\n          Possible values: <code>count_per_identifier_and_ip</code>, <code>count_per_identifier</code>.",
+          "defaultValue": "count_per_identifier_and_ip",
+          "enum": ["count_per_identifier_and_ip", "count_per_identifier"]
+        },
+        "max_attempts": {
+          "type": "integer",
+          "description": "Maximum number of unsuccessful attempts.",
+          "nullable": true,
+          "minimum": 1,
+          "maximum": 100,
+          "defaultValue": 10
+        }
+      }
+    }
+  }
+}

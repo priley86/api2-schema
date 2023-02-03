@@ -1,0 +1,303 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/User Blocks",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/user-blocks",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get blocks by identifier",
+          "notes": "Retrieve a list of blocked IP addresses for a given identifier (e.g., username, phone number or email).\n",
+          "type": "get_user-blocks_response",
+          "nickname": "get_user-blocks",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "identifier",
+              "description": "Should be any of a username, phone number, or email.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "consider_brute_force_enablement",
+              "description": "\n          If true and Brute Force Protection is enabled and configured to block logins, will return a list of blocked IP addresses.\n          If true and Brute Force Protection is disabled, will return an empty list.\n        ",
+              "type": "boolean",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "User successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:users"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Unblock by identifier",
+          "notes": "Unblock a user blocked due to an excessive amount of incorrectly-provided credentials.\n",
+          "type": "void",
+          "nickname": "delete_user-blocks",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "identifier",
+              "description": "Should be any of a username, phone number, or email.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "User successfully unblocked." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Some fields cannot be read with the permissions granted by the bearer token scopes. The message will vary depending on the fields and the scopes.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:users."
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/user-blocks/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a user's blocks",
+          "notes": "Retrieve a list of blocked IP addresses for the login identifiers (email, username, phone number, etc) associated with the specified user.\n\n",
+          "type": "get_user-blocks_by_id_response",
+          "nickname": "get_user-blocks_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "user_id of the user blocks to retrieve.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "consider_brute_force_enablement",
+              "description": "\n          If true and Brute Force Protection is enabled and configured to block logins, will return a list of blocked IP addresses.\n          If true and Brute Force Protection is disabled, will return an empty list.\n        ",
+              "type": "boolean"
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "User block successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:users"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Unblock a user",
+          "notes": "Unblock a user that was blocked due to an excessive amount of incorrectly provided credentials.\n\nNote: This endpoint does not unblock users that were <a href=\"https://auth0.com/docs/user-profile#block-and-unblock-a-user\">blocked by admins</a>.\n",
+          "type": "void",
+          "nickname": "delete_user-blocks_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The user_id of the user to update.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "User successfully unblocked." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Some fields cannot be read with the permissions granted by the bearer token scopes. The message will vary depending on the fields and the scopes.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:users."
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_user-blocks_response": {
+      "type": "object",
+      "properties": {
+        "blocked_for": {
+          "type": "array",
+          "description": "Array of identifier + IP address pairs.  IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string",
+                "description": "Identifier (should be any of an `email`, `username`, or `phone_number`)",
+                "defaultValue": "john.doe@gmail.com"
+              },
+              "ip": {
+                "type": "string",
+                "description": "IP Address",
+                "defaultValue": "10.0.0.1"
+              },
+              "connection": {
+                "type": "string",
+                "description": "Connection identifier"
+              }
+            }
+          },
+          "defaultValue": [
+            { "identifier": "john.doe@gmail.com", "ip": "10.0.0.1" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_user-blocks_by_id_response": {
+      "type": "object",
+      "properties": {
+        "blocked_for": {
+          "type": "array",
+          "description": "Array of identifier + IP address pairs.  IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "identifier": {
+                "type": "string",
+                "description": "Identifier (should be any of an `email`, `username`, or `phone_number`)",
+                "defaultValue": "john.doe@gmail.com"
+              },
+              "ip": {
+                "type": "string",
+                "description": "IP Address",
+                "defaultValue": "10.0.0.1"
+              },
+              "connection": {
+                "type": "string",
+                "description": "Connection identifier"
+              }
+            }
+          },
+          "defaultValue": [
+            { "identifier": "john.doe@gmail.com", "ip": "10.0.0.1" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

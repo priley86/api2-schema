@@ -1,0 +1,99 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "apis": [
+    {
+      "path": "/Branding"
+    },
+    {
+      "path": "/Client Grants"
+    },
+    {
+      "path": "/Clients"
+    },
+    {
+      "path": "/Connections"
+    },
+    {
+      "path": "/Custom Domains"
+    },
+    {
+      "path": "/Device Credentials"
+    },
+    {
+      "path": "/Grants"
+    },
+    {
+      "path": "/Hooks"
+    },
+    {
+      "path": "/Log Streams"
+    },
+    {
+      "path": "/Logs"
+    },
+    {
+      "path": "/Organizations"
+    },
+    {
+      "path": "/Prompts"
+    },
+    {
+      "path": "/Resource Servers"
+    },
+    {
+      "path": "/Roles"
+    },
+    {
+      "path": "/Rules"
+    },
+    {
+      "path": "/Rules Configs"
+    },
+    {
+      "path": "/User Blocks"
+    },
+    {
+      "path": "/Users"
+    },
+    {
+      "path": "/Users By Email"
+    },
+    {
+      "path": "/Actions"
+    },
+    {
+      "path": "/Attack Protection"
+    },
+    {
+      "path": "/Blacklists"
+    },
+    {
+      "path": "/Email Templates"
+    },
+    {
+      "path": "/Emails"
+    },
+    {
+      "path": "/Guardian"
+    },
+    {
+      "path": "/Jobs"
+    },
+    {
+      "path": "/Keys"
+    },
+    {
+      "path": "/Stats"
+    },
+    {
+      "path": "/Tenants"
+    },
+    {
+      "path": "/Anomaly"
+    },
+    {
+      "path": "/Tickets"
+    }
+  ]
+}

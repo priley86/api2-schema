@@ -1,0 +1,1648 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Guardian",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/guardian/factors",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve Factors and their Status",
+          "notes": "Retrieve all <a href=\"https://auth0.com/docs/multifactor-authentication\">multi-factor authentication</a> configurations.",
+          "type": "array",
+          "nickname": "get_factors",
+          "parameters": [],
+          "items": { "$ref": "get_factors_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Factors successfully retrieved." },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/policies",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the Multi-factor Authentication policies",
+          "notes": "Gets the MFA policies for the tenant.\n\nThe following policies are supported: <ul><li><code>all-applications</code> policy - will prompt with MFA for all logins.</li><li><code>confidence-score</code> policy - will prompt with MFA only for low confidence logins.</li></ul>\nUse of the Adaptive MFA feature requires an add-on for the Enterprise plan. Please contact sales with any questions. For more information about Adaptive MFA, read our <a href=\"https://auth0.com/docs/mfa/adaptive-mfa\">full documentation</a>.\n",
+          "type": "array",
+          "nickname": "get_policies",
+          "parameters": [],
+          "items": { "$ref": "get_policies_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Success" },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:mfa_policies"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Set the Multi-factor Authentication policies",
+          "notes": "Sets the MFA policies for the tenant.\n\nThe following policies are supported: <ul><li><code>all-applications</code> policy - will prompt with MFA for all logins.</li><li><code>confidence-score</code> policy - will prompt with MFA only for low confidence logins.</li></ul> Pass an empty array to remove all MFA policies.\nUse of the Adaptive MFA feature requires an add-on for the Enterprise plan. Please contact sales with any questions. For more information about Adaptive MFA, read our <a href=\"https://auth0.com/docs/mfa/adaptive-mfa\">full documentation</a>.\n\n",
+          "type": "array",
+          "nickname": "put_policies",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_policies_body",
+              "required": true
+            }
+          ],
+          "items": { "$ref": "put_policies_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Policies updated" },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:mfa_policies"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/enrollments/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve a multi-factor authentication enrollment",
+          "notes": "Retrieve an enrollment (including its status and type).\n\nNote: Phone numbers are partially obfuscated.",
+          "type": "get_enrollments_by_id_response",
+          "nickname": "get_enrollments_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the enrollment to be retrieve.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Enrollment successfully retrieved." },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid.",
+              "errorCode": "invalid_token"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:guardian_enrollments"] }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete a multi-factor authentication enrollment",
+          "notes": "Delete an enrollment to allow the user to enroll with multi-factor authentication again.",
+          "type": "void",
+          "nickname": "delete_enrollments_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the enrollment to be deleted.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Enrollment successfully deleted." },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid.",
+              "errorCode": "invalid_token"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope (expected delete:enrollment).",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:guardian_enrollments"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/phone/message-types",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve the Enabled Phone Factors",
+          "type": "get_message-types_response",
+          "nickname": "get_message-types",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 200, "message": "Returns the enabled phone factors" },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update the Enabled Phone Factors",
+          "notes": "Update enabled phone factors for multi-factor authentication",
+          "type": "put_message-types_response",
+          "nickname": "put_message-types",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_message-types_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected SMS provider configuration"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" },
+            {
+              "code": 404,
+              "message": "The phone factor does not exist.",
+              "errorCode": {
+                "INVALID_BODY": "invalid_body",
+                "INVALID_URI": "invalid_uri",
+                "INVALID_QUERY_STRING": "invalid_query_string",
+                "INVALID_USER": "invalid_user",
+                "CLIENT_CONFLICT": "client_conflict",
+                "RULE_CONFLICT": "rule_conflict",
+                "HOOK_CONFLICT": "hook_conflict",
+                "CONNECTION_CONFLICT": "connection_conflict",
+                "TENANT_CONFLICT": "tenant_conflict",
+                "DEVICE_CREDENTIAL_CONFLICT": "device_credential_conflict",
+                "RESOURCE_SERVER_CONFLICT": "resource_server_conflict",
+                "CLIENT_GRANT_CONFLICT": "client_grant_conflict",
+                "EMAIL_PROVIDER_CONFLICT": "email_provider_conflict",
+                "EMAIL_TEMPLATE_CONFLICT": "email_template_conflict",
+                "IDENTITY_CONFLICT": "identity_conflict",
+                "SHIELD_CONFLICT": "shield_conflict",
+                "USER_ASP_CONFLICT": "user_asp_conflict",
+                "CUSTOM_DOMAIN_CONFLICT": "custom_domain_conflict",
+                "LOG_STREAM_CONFLICT": "log_stream_conflict",
+                "USER_CONFLICT": "user_conflict",
+                "TEMPLATES_UNIVERSAL_LOGIN_CONFLICT": "templates_universal_login_conflict",
+                "INEXISTENT_CLIENT": "inexistent_client",
+                "INEXISTENT_ORGANIZATION": "inexistent_organization",
+                "INEXISTENT_CLIENT_GRANT": "inexistent_client_grant",
+                "INEXISTENT_CONNECTION": "inexistent_connection",
+                "INEXISTENT_EMAIL_PROVIDER": "inexistent_email_provider",
+                "INEXISTENT_EMAIL_TEMPLATE": "inexistent_email_template",
+                "INEXISTENT_EMAIL_TRIGGER": "inexistent_email_trigger",
+                "INVALID_EMAIL_TRIGGER": "invalid_email_trigger",
+                "INEXISTENT_USER": "inexistent_user",
+                "INEXISTENT_JOB": "inexistent_job",
+                "INEXISTENT_RESOURCE_SERVER": "inexistent_resource_server",
+                "INEXISTENT_RESOURCE_SERVER_PERMISSION": "inexistent_resource_server_permission",
+                "INEXISTENT_REQUESTED_SCOPE": "inexistent_requested_scope",
+                "INEXISTENT_TRIGGER": "inexistent_trigger",
+                "INEXISTENT_SHIELD": "inexistent_shield",
+                "INEXISTENT_RULE": "inexistent_rule",
+                "INEXISTENT_HOOK": "inexistent_hook",
+                "INEXISTENT_LOG": "inexistent_log",
+                "INEXISTENT_LOG_STREAM": "inexistent_log_stream",
+                "INEXISTENT_TENANT": "inexistent_tenant",
+                "INEXISTENT_GROUP": "inexistent_group",
+                "INEXISTENT_POLICY": "inexistent_policy",
+                "INEXISTENT_CUSTOM_DOMAIN": "inexistent_custom_domain",
+                "INEXISTENT_INVITATION": "inexistent_invitation",
+                "INEXISTENT_TENANT_KEY": "inexistent_tenant_key",
+                "INEXISTENT_TEMPLATES_UNIVERSAL_LOGIN": "inexistent_templates_universal_login",
+                "INEXISTENT_IDENTITY": "inexistent_identity",
+                "INEXISTENT_TENANT_MEMBER": "inexistent_tenant_member",
+                "DELETE_MAIN_USER_IDENTITY": "delete_main_user_identity",
+                "DELETE_AUTH0_TENANT_USERS": "delete_auth0_tenant_users",
+                "DELETE_GLOBAL_CLIENT": "delete_global_client",
+                "DELETE_SYSTEM_RESOURCE_SERVER": "delete_system_resource_server",
+                "DELETE_MASTER_TENANT": "delete_master_tenant",
+                "DELETE_RTA": "delete_root_tenant_authority",
+                "INVALID_BEARER_FORMAT": "invalid_bearer_format",
+                "UNOWNED_RESOURCE": "unowned_resource",
+                "INSUFFICIENT_SCOPE": "insufficient_scope",
+                "HOOKS_NOT_ALLOWED": "hooks_not_allowed",
+                "ACTIONS_NOT_ALLOWED": "actions_not_allowed",
+                "USER_MISSING_EMAIL": "user_missing_email",
+                "CONNECTION_IS_DISABLED": "connection_is_disabled",
+                "RESERVED_IDENTIFIER": "reserved_identifier",
+                "RESERVED_SCOPE": "reserved_scope",
+                "UNSUPPORTED_OPERATION": "operation_not_supported",
+                "AUTH0_IDP_ERROR": "auth0_idp_error",
+                "LIMITED_RATE": "limited_rate",
+                "TOO_MANY_ENTITIES": "too_many_entities",
+                "ENROLLMENT_NOT_FOUND": "enrollment_not_found",
+                "JOB_RESULTS_NOT_FOUND": "job_results_not_found",
+                "JOB_DELETE_FORBIDDEN": "job_delete_forbidden",
+                "INVITATION_EXPIRED": "invitation_expired",
+                "INVALID_PAGING": "invalid_paging",
+                "QUERY_TIMEOUT": "query_timeout",
+                "QUERY_SYNTAX_ERROR": "query_syntax_error",
+                "INVALID_PARAMETER_VALUE": "invalid_parameter_value",
+                "TOO_MANY_BLOCKS": "too_many_blocks",
+                "DELETE_ASSOCIATED_CREDENTIAL": "delete_associated_credential",
+                "INEXISTENT_CREDENTIAL": "inexistent_credential",
+                "TOO_MANY_CREDENTIALS": "too_many_credentials",
+                "INVALID_OR_EXPIRED_USER_CODE": "invalid_or_expired_user_code",
+                "INVALID_SUBJECT_TOKEN": "invalid_subject_token",
+                "INVALID_DEVICE_CODE": "invalid_device_code",
+                "INVALID_GRANT": "invalid_grant",
+                "INVALID_ROPG_CONNECTION": "invalid_ropg_connection",
+                "ORGANIZATION_NOT_ALLOWED": "organization_not_allowed",
+                "ORGANIZATION_CONFLICT": "organization_conflict",
+                "CUSTOM_DOMAIN_REQUIRED": "custom_domain_required",
+                "THEME_NOT_FOUND": "theme_not_found",
+                "THEME_ALREADY_EXISTS": "theme_already_exists",
+                "NOT_ENABLED": "feature_not_enabled",
+                "NOT_ENTITLED": "feature_not_entitled"
+              }
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/phone/selected-provider",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve phone configuration (one of auth0|twilio|phone-message-hook)",
+          "type": "get_selected-provider_response",
+          "nickname": "get_selected-provider",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected SMS provider configuration"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update phone configuration (one of auth0|twilio|phone-message-hook)",
+          "type": "put_selected-provider_response",
+          "nickname": "put_selected-provider",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_selected-provider_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected SMS provider configuration"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/phone/templates",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve Enrollment and Verification Phone Templates",
+          "notes": "Retrieve phone enrollment and verification templates (subscription required).",
+          "type": "get_templates_response",
+          "nickname": "get_templates",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "SMS enrollment and verification templates successfully retrieved."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update Enrollment and Verification Phone Templates",
+          "notes": "Customize the messages sent to complete phone enrollment and verification (subscription required).",
+          "type": "put_templates_response",
+          "nickname": "put_templates",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_templates_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "SMS enrollment and verification templates successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/push-notification/selected-provider",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve push notification provider",
+          "type": "get_selected-provider_response",
+          "nickname": "get_selected-provider",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected push notification provider"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update Push Notification configuration (one of direct|sns|guardian)",
+          "type": "put_selected-provider_response",
+          "nickname": "put_selected-provider",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_selected-provider_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected push notification provider configuration"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/sms/selected-provider",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve SMS configuration (one of auth0|twilio|phone-message-hook)",
+          "notes": "A new endpoint is available to retrieve the configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider'>phone configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "get_selected-provider_response",
+          "nickname": "get_selected-provider",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected SMS provider configuration"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update SMS configuration (one of auth0|twilio|phone-message-hook)",
+          "notes": "A new endpoint is available to update the configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider'>phone configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "put_selected-provider_response",
+          "nickname": "put_selected-provider",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_selected-provider_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Returns selected SMS provider configuration"
+            },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/sms/templates",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve SMS Enrollment and Verification Templates",
+          "notes": "Retrieve SMS enrollment and verification templates (subscription required). \n\n    A new endpoint is available to retrieve enrollment and verification templates related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates'>phone templates</a>). It has the same payload as this one. Please use it instead.",
+          "type": "get_templates_response",
+          "nickname": "get_templates",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "SMS enrollment and verification templates successfully retrieved."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update SMS Enrollment and Verification Templates",
+          "notes": "Customize the messages sent to complete SMS enrollment and verification (subscription required).\n    \n    A new endpoint is available to update enrollment and verification templates related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates'>phone templates</a>). It has the same payload as this one. Please use it instead.",
+          "type": "put_templates_response",
+          "nickname": "put_templates",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_templates_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "SMS enrollment and verification templates successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/phone/providers/twilio",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve Twilio phone configuration",
+          "notes": "Retrieve the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio phone provider configuration</a> (subscription required).",
+          "type": "get_twilio_response",
+          "nickname": "get_twilio",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Twilio SMS configuration successfully retrieved."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update Twilio phone configuration",
+          "notes": "Configure the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio phone provider configuration</a> (subscription required).",
+          "type": "put_twilio_response",
+          "nickname": "put_twilio",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_twilio_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Twilio SMS configuration successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/push-notification/providers/apns",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve APNS push notification configuration",
+          "type": "get_apns_response",
+          "nickname": "get_apns",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "APNS configuration successfully retrieved."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Updates APNs provider configuration",
+          "type": "patch_apns_response",
+          "nickname": "patch_apns",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_apns_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "APNS configuration successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Updates APNs provider configuration",
+          "type": "put_apns_response",
+          "nickname": "put_apns",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_apns_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "APNS configuration successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/push-notification/providers/sns",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve AWS SNS push notification configuration",
+          "notes": "Retrieve the <a href=\"https://auth0.com/docs/multifactor-authentication/developer/sns-configuration\">AWS SNS push notification provider configuration</a> (subscription required).",
+          "type": "get_sns_response",
+          "nickname": "get_sns",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "AWS SNS configuration successfully retrieved."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update SNS configuration for push notifications",
+          "notes": "Configure the <a href=\"https://auth0.com/docs/multifactor-authentication/developer/sns-configuration\">AWS SNS push notification provider configuration</a> (subscription required).",
+          "type": "patch_sns_response",
+          "nickname": "patch_sns",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_sns_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "AWS SNS configuration successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update AWS SNS push notification configuration",
+          "notes": "Configure the <a href=\"https://auth0.com/docs/multifactor-authentication/developer/sns-configuration\">AWS SNS push notification provider configuration</a> (subscription required).",
+          "type": "put_sns_response",
+          "nickname": "put_sns",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_sns_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "AWS SNS configuration successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/sms/providers/twilio",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve Twilio SMS configuration",
+          "notes": "Retrieve the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio SMS provider configuration</a> (subscription required).\n\n    A new endpoint is available to retrieve the Twilio configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio'>phone Twilio configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "get_twilio_response",
+          "nickname": "get_twilio",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Twilio SMS configuration successfully retrieved."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Update Twilio SMS configuration",
+          "notes": "Configure the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio SMS provider configuration</a> (subscription required).\n    \n    A new endpoint is available to update the Twilio configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio'>phone Twilio configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "put_twilio_response",
+          "nickname": "put_twilio",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_twilio_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Twilio SMS configuration successfully updated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            { "code": 403, "message": "Insufficient scope." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/push-notification/providers/fcm",
+      "operations": [
+        {
+          "method": "patch",
+          "summary": "Updates FCM provider configuration",
+          "type": "patch_fcm_response",
+          "nickname": "patch_fcm",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_fcm_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "FCM configuration updated" },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Updates FCM provider configuration",
+          "type": "put_fcm_response",
+          "nickname": "put_fcm",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_fcm_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "FCM configuration updated" },
+            { "code": 400, "message": "Invalid input based on schemas" },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid"
+            },
+            { "code": 403, "message": "Insufficient scope" }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/enrollments/ticket",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Create a multi-factor authentication enrollment ticket",
+          "notes": "Generate an email with a link to start the multi-factor authentication enrollment process (subscription required).",
+          "type": "post_ticket_response",
+          "nickname": "post_ticket",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_ticket_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Enrollment ticket successfully created."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["create:guardian_enrollment_tickets"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/guardian/factors/{name}",
+      "operations": [
+        {
+          "method": "put",
+          "summary": "Update a Multi-factor Authentication Factor",
+          "notes": "Update a multi-factor authentication factor (subscription required).",
+          "type": "put_factors_by_name_response",
+          "nickname": "put_factors_by_name",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "name",
+              "description": "Factor name. Can be `sms`, `push-notification`, `email`, `duo` `otp` `webauthn-roaming`, `webauthn-platform`, or `recovery-code`.",
+              "type": "string",
+              "required": true,
+              "enum": [
+                "push-notification",
+                "sms",
+                "email",
+                "duo",
+                "otp",
+                "webauthn-roaming",
+                "webauthn-platform",
+                "recovery-code"
+              ]
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_factors_by_name_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Factor updated successfully." },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:guardian_factors"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_factors_response": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this factor is enabled (true) or disabled (false).",
+          "defaultValue": true
+        },
+        "trial_expired": {
+          "type": "boolean",
+          "description": "Whether trial limits have been exceeded.",
+          "defaultValue": true
+        },
+        "name": {
+          "defaultValue": "sms",
+          "type": "string",
+          "enum": [
+            "push-notification",
+            "sms",
+            "email",
+            "duo",
+            "otp",
+            "webauthn-roaming",
+            "webauthn-platform",
+            "recovery-code"
+          ],
+          "minLength": 1,
+          "description": "Factor name. Can be `sms`, `push-notification`, `email`, `duo` `otp` `webauthn-roaming`, `webauthn-platform`, or `recovery-code`."
+        }
+      },
+      "required": ["enabled"],
+      "additionalProperties": false
+    },
+    "get_policies_response": {
+      "type": "string",
+      "enum": ["all-applications", "confidence-score"],
+      "description": "The MFA policy"
+    },
+    "put_policies_response": {
+      "type": "string",
+      "enum": ["all-applications", "confidence-score"],
+      "description": "The MFA policy"
+    },
+    "put_policies_body": {
+      "type": "string",
+      "enum": ["all-applications", "confidence-score"],
+      "description": "The MFA policy"
+    },
+    "get_enrollments_by_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID for this enrollment.",
+          "defaultValue": "dev_0000000000000001"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "confirmed"],
+          "description": "Status of this enrollment. Can be `pending` or `confirmed`.",
+          "defaultValue": "pending"
+        },
+        "name": {
+          "type": "string",
+          "description": "Device name (only for push notification).",
+          "minLength": 1,
+          "maxLength": 20,
+          "pattern": "^\\+[0-9]{8, 20}",
+          "defaultValue": "iPhone 7"
+        },
+        "identifier": {
+          "type": "string",
+          "description": "Device identifier. This is usually the phone identifier.",
+          "defaultValue": "76dc-a90c-a88c-a90c-a88c-a88c-a90c"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number.",
+          "defaultValue": "+1 999999999999"
+        },
+        "enrolled_at": {
+          "type": "string",
+          "description": "Enrollment date and time.",
+          "defaultValue": "2016-07-12T17:56:26.804Z"
+        },
+        "last_auth": {
+          "type": "string",
+          "description": "Last authentication date and time.",
+          "defaultValue": "2016-07-12T17:56:26.804Z"
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    },
+    "get_message-types_response": {
+      "type": "object",
+      "properties": {
+        "message_types": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["sms", "voice"] },
+          "description": "The list of phone factors to enable on the tenant. Can include `sms` and `voice`.",
+          "defaultValue": ["sms"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_message-types_response": {
+      "type": "object",
+      "properties": {
+        "message_types": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["sms", "voice"] },
+          "description": "The list of phone factors to enable on the tenant. Can include `sms` and `voice`.",
+          "defaultValue": ["sms"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_message-types_body": {
+      "type": "object",
+      "properties": {
+        "message_types": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["sms", "voice"] },
+          "description": "The list of phone factors to enable on the tenant. Can include `sms` and `voice`.",
+          "defaultValue": ["sms"]
+        }
+      },
+      "required": ["message_types"],
+      "additionalProperties": false
+    },
+    "get_selected-provider_response": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "enum": ["auth0", "twilio", "phone-message-hook"],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_selected-provider_response": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "enum": ["auth0", "twilio", "phone-message-hook"],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_selected-provider_body": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "enum": ["auth0", "twilio", "phone-message-hook"],
+          "type": "string"
+        }
+      },
+      "required": ["provider"],
+      "additionalProperties": false
+    },
+    "get_templates_response": {
+      "type": "object",
+      "properties": {
+        "enrollment_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are invited to enroll with a phone number.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}. Please enter this code to verify your enrollment."
+        },
+        "verification_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are prompted to verify their account.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}"
+        }
+      },
+      "required": ["enrollment_message", "verification_message"],
+      "additionalProperties": false
+    },
+    "put_templates_response": {
+      "type": "object",
+      "properties": {
+        "enrollment_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are invited to enroll with a phone number.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}. Please enter this code to verify your enrollment."
+        },
+        "verification_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are prompted to verify their account.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}"
+        }
+      },
+      "required": ["enrollment_message", "verification_message"],
+      "additionalProperties": false
+    },
+    "put_templates_body": {
+      "type": "object",
+      "properties": {
+        "enrollment_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are invited to enroll with a phone number.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}. Please enter this code to verify your enrollment."
+        },
+        "verification_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are prompted to verify their account.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}"
+        }
+      },
+      "required": ["enrollment_message", "verification_message"],
+      "additionalProperties": false
+    },
+    "get_twilio_response": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "From number",
+          "minLength": 0,
+          "maxLength": 64,
+          "defaultValue": "+1223323"
+        },
+        "messaging_service_sid": {
+          "type": "string",
+          "description": "Copilot SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "5dEkAiHLPCuQ1uJj4qNXcAnERFAL6cpq"
+        },
+        "auth_token": {
+          "type": "string",
+          "description": "Twilio Authentication token",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "zw5Ku6z2sxhd0ZVXto5SDHX6KPDByJPU"
+        },
+        "sid": {
+          "type": "string",
+          "description": "Twilio SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_twilio_response": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "From number",
+          "minLength": 0,
+          "maxLength": 64,
+          "defaultValue": "+1223323"
+        },
+        "messaging_service_sid": {
+          "type": "string",
+          "description": "Copilot SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "5dEkAiHLPCuQ1uJj4qNXcAnERFAL6cpq"
+        },
+        "auth_token": {
+          "type": "string",
+          "description": "Twilio Authentication token",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "zw5Ku6z2sxhd0ZVXto5SDHX6KPDByJPU"
+        },
+        "sid": {
+          "type": "string",
+          "description": "Twilio SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_twilio_body": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "From number",
+          "minLength": 0,
+          "maxLength": 64,
+          "defaultValue": "+1223323"
+        },
+        "messaging_service_sid": {
+          "type": "string",
+          "description": "Copilot SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "5dEkAiHLPCuQ1uJj4qNXcAnERFAL6cpq"
+        },
+        "auth_token": {
+          "type": "string",
+          "description": "Twilio Authentication token",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "zw5Ku6z2sxhd0ZVXto5SDHX6KPDByJPU"
+        },
+        "sid": {
+          "type": "string",
+          "description": "Twilio SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_apns_response": {
+      "type": "object",
+      "properties": {
+        "bundle_id": { "type": "string", "minLength": 1, "maxLength": 20 },
+        "sandbox": { "type": "boolean" },
+        "enabled": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "patch_apns_response": {
+      "type": "object",
+      "properties": {
+        "sandbox": { "type": "boolean" },
+        "bundle_id": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      },
+      "additionalProperties": false
+    },
+    "patch_apns_body": {
+      "type": "object",
+      "properties": {
+        "sandbox": { "type": "boolean" },
+        "bundle_id": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "p12": { "type": "string", "minLength": 1, "maxLength": 10000 }
+      },
+      "additionalProperties": false
+    },
+    "put_apns_response": {
+      "type": "object",
+      "properties": {
+        "sandbox": { "type": "boolean" },
+        "bundle_id": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      },
+      "additionalProperties": false
+    },
+    "put_apns_body": {
+      "type": "object",
+      "properties": {
+        "sandbox": { "type": "boolean" },
+        "bundle_id": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "p12": { "type": "string", "minLength": 1, "maxLength": 10000 }
+      },
+      "additionalProperties": false
+    },
+    "get_sns_response": {
+      "type": "object",
+      "properties": {
+        "aws_access_key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        },
+        "aws_secret_access_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "B1ER5JHDGJL3C4sVAKK7SBsq806R3IpL"
+        },
+        "aws_region": {
+          "type": "string",
+          "pattern": "^(?:us-east-[0-9]{1,2}|us-west-[0-9]{1,2}|ap-southeast-[0-9]{1,2}|ap-northeast-[0-9]{1,2}|ap-central-[0-9]{1,2}|eu-west-[0-9]{1,2}|eu-central-[0-9]{1,2})$",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "us-west-1"
+        },
+        "sns_apns_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "sns_gcm_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "urn://yRMeBxgcCXh8MeTXPBAxhQnm6gP6f5nP"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_sns_response": {
+      "type": "object",
+      "properties": {
+        "aws_access_key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        },
+        "aws_secret_access_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "B1ER5JHDGJL3C4sVAKK7SBsq806R3IpL"
+        },
+        "aws_region": {
+          "type": "string",
+          "pattern": "^(?:us-east-[0-9]{1,2}|us-west-[0-9]{1,2}|ap-southeast-[0-9]{1,2}|ap-northeast-[0-9]{1,2}|ap-central-[0-9]{1,2}|eu-west-[0-9]{1,2}|eu-central-[0-9]{1,2})$",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "us-west-1"
+        },
+        "sns_apns_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "sns_gcm_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "urn://yRMeBxgcCXh8MeTXPBAxhQnm6gP6f5nP"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_sns_body": {
+      "type": "object",
+      "properties": {
+        "aws_access_key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        },
+        "aws_secret_access_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "B1ER5JHDGJL3C4sVAKK7SBsq806R3IpL"
+        },
+        "aws_region": {
+          "type": "string",
+          "pattern": "^(?:us-east-[0-9]{1,2}|us-west-[0-9]{1,2}|ap-southeast-[0-9]{1,2}|ap-northeast-[0-9]{1,2}|ap-central-[0-9]{1,2}|eu-west-[0-9]{1,2}|eu-central-[0-9]{1,2})$",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "us-west-1"
+        },
+        "sns_apns_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "sns_gcm_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "urn://yRMeBxgcCXh8MeTXPBAxhQnm6gP6f5nP"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_sns_response": {
+      "type": "object",
+      "properties": {
+        "aws_access_key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        },
+        "aws_secret_access_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "B1ER5JHDGJL3C4sVAKK7SBsq806R3IpL"
+        },
+        "aws_region": {
+          "type": "string",
+          "pattern": "^(?:us-east-[0-9]{1,2}|us-west-[0-9]{1,2}|ap-southeast-[0-9]{1,2}|ap-northeast-[0-9]{1,2}|ap-central-[0-9]{1,2}|eu-west-[0-9]{1,2}|eu-central-[0-9]{1,2})$",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "us-west-1"
+        },
+        "sns_apns_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "sns_gcm_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "urn://yRMeBxgcCXh8MeTXPBAxhQnm6gP6f5nP"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_sns_body": {
+      "type": "object",
+      "properties": {
+        "aws_access_key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        },
+        "aws_secret_access_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "B1ER5JHDGJL3C4sVAKK7SBsq806R3IpL"
+        },
+        "aws_region": {
+          "type": "string",
+          "pattern": "^(?:us-east-[0-9]{1,2}|us-west-[0-9]{1,2}|ap-southeast-[0-9]{1,2}|ap-northeast-[0-9]{1,2}|ap-central-[0-9]{1,2}|eu-west-[0-9]{1,2}|eu-central-[0-9]{1,2})$",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "us-west-1"
+        },
+        "sns_apns_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "sns_gcm_platform_application_arn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "urn://yRMeBxgcCXh8MeTXPBAxhQnm6gP6f5nP"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_fcm_response": {
+      "type": "object",
+      "minProperties": 0,
+      "maxProperties": 0
+    },
+    "patch_fcm_body": {
+      "type": "object",
+      "properties": {
+        "server_key": { "type": "string", "minLength": 1, "maxLength": 152 }
+      },
+      "additionalProperties": false
+    },
+    "put_fcm_response": {
+      "type": "object",
+      "minProperties": 0,
+      "maxProperties": 0
+    },
+    "put_fcm_body": {
+      "type": "object",
+      "properties": {
+        "server_key": { "type": "string", "minLength": 1, "maxLength": 152 }
+      },
+      "additionalProperties": false
+    },
+    "post_ticket_response": {
+      "type": "object",
+      "properties": {
+        "ticket_id": {
+          "type": "string",
+          "description": "The ticket_id used to identify the enrollment",
+          "defaultValue": "u2x2-u2x2-u2x2-u2x2-u2x2-u2x2"
+        },
+        "ticket_url": {
+          "type": "string",
+          "format": "url",
+          "description": "The url you can use to start enrollment",
+          "defaultValue": "https://{tenant}.guardian.auth0.com/enrollment?ticket_id={ticket_id}"
+        }
+      }
+    },
+    "post_ticket_body": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "user_id for the enrollment ticket",
+          "format": "user-id"
+        },
+        "email": {
+          "type": "string",
+          "description": "alternate email to which the enrollment email will be sent. Optional - by default, the email will be sent to the user's default address",
+          "format": "email"
+        },
+        "send_mail": {
+          "type": "boolean",
+          "default": false,
+          "description": "Send an email to the user to start the enrollment"
+        }
+      },
+      "required": ["user_id"],
+      "additionalProperties": false
+    },
+    "put_factors_by_name_response": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this factor is enabled (true) or disabled (false).",
+          "defaultValue": "true"
+        }
+      },
+      "required": ["enabled"],
+      "additionalProperties": false
+    },
+    "put_factors_by_name_body": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this factor is enabled (true) or disabled (false)."
+        }
+      },
+      "required": ["enabled"],
+      "additionalProperties": false
+    }
+  }
+}

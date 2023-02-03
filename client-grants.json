@@ -1,0 +1,308 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Client Grants",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/client-grants",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get client grants",
+          "notes": "Retrieve <a href=\"https://auth0.com/docs/api-auth/grant/client-credentials\">client grants</a>.\n",
+          "type": "array",
+          "nickname": "get_client-grants",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "audience",
+              "description": "Optional filter on audience.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "client_id",
+              "description": "Optional filter on client_id.",
+              "type": "string"
+            }
+          ],
+          "items": { "$ref": "get_client-grants_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Client grants successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:client_grants.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:client_grants"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Create client grant",
+          "notes": "Create a client grant.",
+          "type": "void",
+          "nickname": "post_client-grants",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_client-grants_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Client grant successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:client_grants.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Resource server not found",
+              "errorCode": "inexistent_resource_server"
+            },
+            {
+              "code": 404,
+              "message": "Client not found",
+              "errorCode": "inexistent_client"
+            },
+            {
+              "code": 409,
+              "message": "A resource server with the same identifier already exists.",
+              "errorCode": "resource_server_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:client_grants"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/client-grants/{id}",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Delete client grant",
+          "notes": "Delete a client grant.",
+          "type": "void",
+          "nickname": "delete_client-grants_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the client grant to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Client grant successfully deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:client_grants.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:client_grants"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update client grant",
+          "notes": "Update a client grant.",
+          "type": "patch_client-grants_by_id_response",
+          "nickname": "patch_client-grants_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the client grant to update.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_client-grants_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Client grant successfully updated." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:client_grants.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The client grant does not exist.",
+              "errorCode": "inexistent_client_grant"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:client_grants"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_client-grants_response": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID of the client grant." },
+        "client_id": { "type": "string", "description": "ID of the client." },
+        "audience": {
+          "type": "string",
+          "description": "Audience or API identifier of this client grant.",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "array",
+          "description": "Scopes allowed for this client grant.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_client-grants_body": {
+      "type": "object",
+      "properties": {
+        "client_id": { "type": "string", "description": "ID of the client." },
+        "audience": {
+          "type": "string",
+          "description": "Audience or API identifier of this client grant.",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "array",
+          "description": "Scopes allowed for this client grant.",
+          "items": { "type": "string", "minLength": 1, "maxLength": 280 },
+          "maxItems": 1000,
+          "uniqueItems": true
+        }
+      },
+      "required": ["client_id", "audience", "scope"],
+      "additionalProperties": false
+    },
+    "patch_client-grants_by_id_response": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID of the client grant." },
+        "client_id": { "type": "string", "description": "ID of the client." },
+        "audience": {
+          "type": "string",
+          "description": "Audience or API identifier of this client grant.",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "array",
+          "description": "Scopes allowed for this client grant.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_client-grants_by_id_body": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "array",
+          "description": "Scopes allowed for this client grant.",
+          "items": { "type": "string", "minLength": 1, "maxLength": 280 },
+          "maxItems": 1000,
+          "uniqueItems": true
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    }
+  }
+}

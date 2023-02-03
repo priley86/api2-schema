@@ -1,0 +1,1420 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Connections",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/connections",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get all connections",
+          "notes": "Retrieves every connection matching the specified strategy. All connections are retrieved if no strategy is being specified. Accepts a list of fields to include or exclude in the resulting list of connection objects.\n",
+          "type": "array",
+          "nickname": "get_connections",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "The amount of entries per page. Default: no paging is used, all connections are returned",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "The page number. Zero based",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "true if a query summary must be included in the result, false otherwise. Default <code>false</code>.",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "strategy",
+              "description": "Provide strategies to only retrieve connections with such strategies",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ad",
+                  "adfs",
+                  "amazon",
+                  "apple",
+                  "dropbox",
+                  "bitbucket",
+                  "aol",
+                  "auth0-oidc",
+                  "auth0",
+                  "baidu",
+                  "bitly",
+                  "box",
+                  "custom",
+                  "daccount",
+                  "dwolla",
+                  "email",
+                  "evernote-sandbox",
+                  "evernote",
+                  "exact",
+                  "facebook",
+                  "fitbit",
+                  "flickr",
+                  "github",
+                  "google-apps",
+                  "google-oauth2",
+                  "instagram",
+                  "ip",
+                  "line",
+                  "linkedin",
+                  "miicard",
+                  "oauth1",
+                  "oauth2",
+                  "office365",
+                  "oidc",
+                  "okta",
+                  "paypal",
+                  "paypal-sandbox",
+                  "pingfederate",
+                  "planningcenter",
+                  "renren",
+                  "salesforce-community",
+                  "salesforce-sandbox",
+                  "salesforce",
+                  "samlp",
+                  "sharepoint",
+                  "shopify",
+                  "sms",
+                  "soundcloud",
+                  "thecity-sandbox",
+                  "thecity",
+                  "thirtysevensignals",
+                  "twitter",
+                  "untappd",
+                  "vkontakte",
+                  "waad",
+                  "weibo",
+                  "windowslive",
+                  "wordpress",
+                  "yahoo",
+                  "yammer",
+                  "yandex",
+                  "auth0-adldap"
+                ],
+                "uniqueItems": true
+              }
+            },
+            {
+              "paramType": "query",
+              "name": "name",
+              "description": "Provide the name of the connection to retrieve",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "<code>true</code> if the fields specified are to be included in the result, <code>false</code> otherwise (defaults to <code>true</code>)",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_connections_response" },
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "The conections were retrieved. See <strong>Response Class</strong> below for schema."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: read:connections",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:connections"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Create a connection",
+          "notes": "Creates a new connection according to the JSON object received in <code>body</code>.<br/> The samples on the right show all available attributes. Mandatory attributes are <code>name</code> and <code>strategy</code>.<br/> Valid Strategy names are: <code>ad</code>, <code>adfs</code>, <code>amazon</code>, <code>apple</code>, <code>dropbox</code>, <code>bitbucket</code>, <code>aol</code>, <code>auth0-oidc</code>, <code>auth0</code>, <code>baidu</code>, <code>bitly</code>, <code>box</code>, <code>custom</code>, <code>daccount</code>, <code>dwolla</code>, <code>email</code>, <code>evernote-sandbox</code>, <code>evernote</code>, <code>exact</code>, <code>facebook</code>, <code>fitbit</code>, <code>flickr</code>, <code>github</code>, <code>google-apps</code>, <code>google-oauth2</code>, <code>instagram</code>, <code>ip</code>, <code>line</code>, <code>linkedin</code>, <code>miicard</code>, <code>oauth1</code>, <code>oauth2</code>, <code>office365</code>, <code>oidc</code>, <code>okta</code>, <code>paypal</code>, <code>paypal-sandbox</code>, <code>pingfederate</code>, <code>planningcenter</code>, <code>renren</code>, <code>salesforce-community</code>, <code>salesforce-sandbox</code>, <code>salesforce</code>, <code>samlp</code>, <code>sharepoint</code>, <code>shopify</code>, <code>sms</code>, <code>soundcloud</code>, <code>thecity-sandbox</code>, <code>thecity</code>, <code>thirtysevensignals</code>, <code>twitter</code>, <code>untappd</code>, <code>vkontakte</code>, <code>waad</code>, <code>weibo</code>, <code>windowslive</code>, <code>wordpress</code>, <code>yahoo</code>, <code>yammer</code>, <code>yandex</code><br/><br/><div class=\"alert alert-warning\">Connections created via this endpoint may redirect users to log in, receive and store user identities, and update user root profiles</div>",
+          "type": "post_connections_response",
+          "nickname": "post_connections",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_connections_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "message": "The connection was created. See <strong>Response Class</strong> below for schema."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Your account is not allowed to set options.set_user_root_attributes",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "options.set_user_root_attributes can be set only for enterprise connections, social connections or custom database connections (using external users store)",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: create:connections",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "You reached the limit of entities of this type for this tenant.",
+              "errorCode": "too_many_entities"
+            },
+            {
+              "code": 409,
+              "message": "A connection with the same name already exists",
+              "errorCode": "connection_conflict"
+            },
+            {
+              "code": 409,
+              "message": "A connection with the same name is being deleted, try again later",
+              "errorCode": "connection_conflict"
+            },
+            {
+              "code": 409,
+              "message": "There is already another connection with some realms from \"realms\" parameter",
+              "errorCode": "connection_conflict"
+            },
+            {
+              "code": 409,
+              "message": "There is already a domain connection enabled for strategy",
+              "errorCode": "connection_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:connections"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/connections/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a connection",
+          "notes": "Retrieves a connection by its <code>ID</code>.\n",
+          "type": "get_connections_by_id_response",
+          "nickname": "get_connections_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the connection to retrieve",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "A comma separated list of fields to include or exclude (depending on include_fields) from the result, empty to retrieve all fields",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "<code>true</code> if the fields specified are to be included in the result, <code>false</code> otherwise (defaults to <code>true</code>)",
+              "type": "boolean"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "The connection was retrieved. See <strong>Response Class</strong> below for schema."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: read:connections",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The connection does not exist.",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:connections"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete a connection",
+          "notes": "Deletes a connection and all its users.\n",
+          "type": "void",
+          "nickname": "delete_connections_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the connection to delete",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 202, "message": "The connection is being deleted." },
+            { "code": 204, "message": "The connection no longer exists." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: delete:connections",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:connections"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update a connection",
+          "notes": "<b>Note:</b> if you use the options parameter, the whole options object will be overridden, so ensure that all parameters are present\n",
+          "type": "patch_connections_by_id_response",
+          "nickname": "patch_connections_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the connection to retrieve",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_connections_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "The connection was updated. See <strong>Response Class</strong> below for schema."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "This database contains users. You cannot change \"options.enabledDatabaseCustomization\" setting.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Your account is not allowed to set options.set_user_root_attributes",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "options.set_user_root_attributes can be set only for enterprise connections, social connections or custom database connections (using external users store)",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: update:connections",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The connection does not exist",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 409,
+              "message": "The name/client_id tuple has already been used for another connection",
+              "errorCode": "connection_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:connections"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/connections/{id}/status",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Check connection status",
+          "notes": "Retrieves the status of an ad/ldap connection referenced by its <code>ID</code>. <code>200 OK</code> http status code response is returned  when the connection is online, otherwise a <code>404</code> status code is returned along with an error message",
+          "type": "void",
+          "nickname": "get_status",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the connection to check",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Connection status successfully retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:connections.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "Connection not found." },
+            { "code": 404, "message": "not connected to any node" },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:connections"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/connections/{id}/users",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Delete a connection user",
+          "notes": "Deletes a specified connection user by its email (you cannot delete all users from specific connection). Currently, only Database Connections are supported.\n",
+          "type": "void",
+          "nickname": "delete_users_by_email",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the connection (currently only database connections are supported)",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "email",
+              "description": "The email of the user to delete",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "The user no longer exists." },
+            {
+              "code": 400,
+              "message": "The connection does not exist",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 400,
+              "message": "Connection must be a database connection",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: delete:users",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:users"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_connections_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the connection",
+          "defaultValue": "My connection"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Connection name used in login screen"
+        },
+        "options": { "$ref": "get_connections_response_options" },
+        "id": {
+          "type": "string",
+          "description": "The connection's identifier",
+          "defaultValue": "con_0000000000000001"
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The type of the connection, related to the identity provider",
+          "defaultValue": "auth0"
+        },
+        "realms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "connection-realm",
+            "description": "The realm where this connection belongs"
+          },
+          "maxItems": 10,
+          "description": "Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm"
+        },
+        "is_domain_connection": {
+          "type": "boolean",
+          "description": "True if the connection is domain level"
+        },
+        "metadata": {
+          "$ref": "get_connections_response_metadata",
+          "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_connections_response_options": {
+      "type": "object",
+      "defaultValue": {},
+      "secret": ["client_secret", "twilio_token", "cert", "app_secret"]
+    },
+    "get_connections_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": { "type": ["string", "null"], "maxLength": 255 }
+    },
+    "post_connections_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the connection",
+          "defaultValue": "My connection"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Connection name used in login screen"
+        },
+        "options": { "$ref": "post_connections_response_options" },
+        "id": {
+          "type": "string",
+          "description": "The connection's identifier",
+          "defaultValue": "con_0000000000000001"
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The type of the connection, related to the identity provider",
+          "defaultValue": "auth0"
+        },
+        "realms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "connection-realm",
+            "description": "The realm where this connection belongs"
+          },
+          "maxItems": 10,
+          "description": "Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm"
+        },
+        "enabled_clients": {
+          "x-swagger-docs": true,
+          "type": "array",
+          "description": "The ids of the clients for which the connection is enabled",
+          "items": { "type": "string", "description": "The client id" },
+          "defaultValue": "avUAvH1pgnZGgAGlv8guZLPoaOnjVJsM"
+        },
+        "is_domain_connection": {
+          "type": "boolean",
+          "description": "True if the connection is domain level"
+        },
+        "metadata": {
+          "$ref": "post_connections_response_metadata",
+          "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_connections_response_options": {
+      "type": "object",
+      "defaultValue": {},
+      "secret": ["client_secret", "twilio_token", "cert", "app_secret"]
+    },
+    "post_connections_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": { "type": ["string", "null"], "maxLength": 255 }
+    },
+    "post_connections_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the connection. Must start and end with an alphanumeric character and can only contain alphanumeric characters and '-'. Max length 128",
+          "pattern": "^[a-zA-Z0-9](-[a-zA-Z0-9]|[a-zA-Z0-9])*$",
+          "maxLength": 128
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Connection name used in the new universal login experience",
+          "maxLength": 128
+        },
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "ad",
+            "adfs",
+            "amazon",
+            "apple",
+            "dropbox",
+            "bitbucket",
+            "aol",
+            "auth0-oidc",
+            "auth0",
+            "baidu",
+            "bitly",
+            "box",
+            "custom",
+            "daccount",
+            "dwolla",
+            "email",
+            "evernote-sandbox",
+            "evernote",
+            "exact",
+            "facebook",
+            "fitbit",
+            "flickr",
+            "github",
+            "google-apps",
+            "google-oauth2",
+            "instagram",
+            "ip",
+            "line",
+            "linkedin",
+            "miicard",
+            "oauth1",
+            "oauth2",
+            "office365",
+            "oidc",
+            "okta",
+            "paypal",
+            "paypal-sandbox",
+            "pingfederate",
+            "planningcenter",
+            "renren",
+            "salesforce-community",
+            "salesforce-sandbox",
+            "salesforce",
+            "samlp",
+            "sharepoint",
+            "shopify",
+            "sms",
+            "soundcloud",
+            "thecity-sandbox",
+            "thecity",
+            "thirtysevensignals",
+            "twitter",
+            "untappd",
+            "vkontakte",
+            "waad",
+            "weibo",
+            "windowslive",
+            "wordpress",
+            "yahoo",
+            "yammer",
+            "yandex"
+          ],
+          "description": "The identity provider identifier for the connection"
+        },
+        "options": {
+          "$ref": "post_connections_body_options",
+          "description": "The connection's options (depend on the connection strategy)"
+        },
+        "enabled_clients": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "client-id",
+            "description": "The id of the client to for which the connection is to be enabled. "
+          },
+          "description": "The identifiers of the clients for which the connection is to be enabled. If the array is empty or the property is not specified, no clients are enabled"
+        },
+        "is_domain_connection": {
+          "type": "boolean",
+          "default": false,
+          "documentation": "<code>true</code> promotes to a domain-level connection so that third-party applications can use it. <code>false</code> does not promote the connection, so only first-party applications with the connection enabled can use it. (Defaults to <code>false</code>.)"
+        },
+        "realms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "connection-realm",
+            "description": "The realm where this connection belongs"
+          },
+          "maxItems": 10,
+          "description": "Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm"
+        },
+        "metadata": {
+          "$ref": "post_connections_body_metadata",
+          "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "required": ["name", "strategy"],
+      "additionalProperties": false
+    },
+    "post_connections_body_options": {
+      "type": "object",
+      "description": "The connection's options (depend on the connection strategy)",
+      "properties": {
+        "validation": {
+          "$ref": "post_connections_body_validation",
+          "description": "Options for validation"
+        },
+        "non_persistent_attrs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist)"
+        },
+        "enable_script_context": {
+          "type": "boolean",
+          "describe": "Set to true to inject context into custom DB scripts (warning: cannot be disabled once enabled)"
+        },
+        "enabledDatabaseCustomization": {
+          "type": "boolean",
+          "description": "Set to true to use a legacy user store"
+        },
+        "import_mode": {
+          "type": "boolean",
+          "description": "Enable this if you have a legacy user store and you want to gradually migrate those users to the Auth0 user store"
+        },
+        "customScripts": {
+          "$ref": "post_connections_body_customScripts",
+          "description": "A map of scripts used to integrate with a custom database."
+        },
+        "passwordPolicy": {
+          "type": "string",
+          "description": "Password strength level",
+          "enum": ["none", "low", "fair", "good", "excellent", null]
+        },
+        "password_complexity_options": {
+          "$ref": "post_connections_body_password_complexity_options",
+          "description": "Password complexity options"
+        },
+        "password_history": {
+          "$ref": "post_connections_body_password_history",
+          "description": "Options for password history policy"
+        },
+        "password_no_personal_info": {
+          "$ref": "post_connections_body_password_no_personal_info",
+          "description": "Options for password expiration policy"
+        },
+        "password_dictionary": {
+          "$ref": "post_connections_body_password_dictionary",
+          "description": "Options for password dictionary policy"
+        },
+        "api_enable_users": { "type": "boolean", "default": true },
+        "basic_profile": { "type": "boolean", "default": true },
+        "ext_admin": { "type": "boolean", "default": false },
+        "ext_is_suspended": { "type": "boolean", "default": false },
+        "ext_agreed_terms": { "type": "boolean", "default": false },
+        "ext_groups": { "type": "boolean", "default": false },
+        "ext_assigned_plans": { "type": "boolean", "default": false },
+        "ext_profile": { "type": "boolean", "default": false },
+        "disable_self_service_change_password": {
+          "type": "boolean",
+          "default": false
+        },
+        "upstream_params": {
+          "$ref": "post_connections_body_upstream_params",
+          "description": "Options for adding parameters in the request to the upstream IdP"
+        },
+        "set_user_root_attributes": {
+          "type": "string",
+          "enum": ["on_each_login", "on_first_login"],
+          "description": "Determines whether the 'name', 'given_name', 'family_name', 'nickname', and 'picture' attributes can be independently updated when using an external IdP. Possible values are 'on_each_login' (default value, it configures the connection to automatically update the root attributes from the external IdP with each user login. When this setting is used, root attributes cannot be independently updated), 'on_first_login' (configures the connection to only set the root attributes on first login, allowing them to be independently updated thereafter)",
+          "defaultValue": "on_each_login"
+        },
+        "gateway_authentication": {
+          "$ref": "post_connections_body_gateway_authentication",
+          "description": "Token-based authentication settings to be applied when connection is using an sms strategy."
+        }
+      },
+      "additionalProperties": true
+    },
+    "post_connections_body_validation": {
+      "type": "object",
+      "description": "Options for validation",
+      "properties": {
+        "username": { "$ref": "post_connections_body_username" }
+      },
+      "additionalProperties": false
+    },
+    "post_connections_body_username": {
+      "type": "object",
+      "properties": {
+        "min": { "type": "integer", "minimum": 1, "default": 1 },
+        "max": { "type": "integer", "default": 15, "maximum": 128 }
+      },
+      "required": ["max", "min"],
+      "additionalProperties": false
+    },
+    "post_connections_body_customScripts": {
+      "type": "object",
+      "description": "A map of scripts used to integrate with a custom database.",
+      "properties": {
+        "login": { "type": "string", "minLength": 1 },
+        "get_user": { "type": "string", "minLength": 1 },
+        "delete": { "type": "string", "minLength": 1 },
+        "change_password": { "type": "string", "minLength": 1 },
+        "verify": { "type": "string", "minLength": 1 },
+        "create": { "type": "string", "minLength": 1 }
+      }
+    },
+    "post_connections_body_password_complexity_options": {
+      "x-swagger-docs": true,
+      "type": "object",
+      "description": "Password complexity options",
+      "properties": {
+        "min_length": {
+          "type": "integer",
+          "description": "Minimum password length",
+          "minimum": 1,
+          "maximum": 128
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_connections_body_password_history": {
+      "type": "object",
+      "description": "Options for password history policy",
+      "properties": {
+        "enable": { "type": "boolean", "default": false },
+        "size": { "type": "integer", "minimum": 0, "maximum": 24, "default": 8 }
+      },
+      "required": ["enable"],
+      "additionalProperties": false
+    },
+    "post_connections_body_password_no_personal_info": {
+      "type": "object",
+      "default": null,
+      "description": "Options for password expiration policy",
+      "properties": { "enable": { "type": "boolean", "default": false } },
+      "required": ["enable"],
+      "additionalProperties": false
+    },
+    "post_connections_body_password_dictionary": {
+      "type": "object",
+      "default": null,
+      "description": "Options for password dictionary policy",
+      "properties": {
+        "enable": { "type": "boolean", "default": false },
+        "dictionary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Custom Password Dictionary entry. 50 characters max."
+          },
+          "maxItems": 200,
+          "description": "Custom Password Dictionary. An array of up to 200 entries."
+        }
+      },
+      "required": ["enable"],
+      "additionalProperties": false
+    },
+    "post_connections_body_upstream_params": {
+      "type": "object",
+      "default": null,
+      "description": "Options for adding parameters in the request to the upstream IdP",
+      "additionalProperties": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "alias": {
+                "type": "string",
+                "enum": [
+                  "acr_values",
+                  "audience",
+                  "client_id",
+                  "display",
+                  "id_token_hint",
+                  "login_hint",
+                  "max_age",
+                  "prompt",
+                  "resource",
+                  "response_mode",
+                  "response_type",
+                  "ui_locales"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": { "value": { "type": "string" } },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "post_connections_body_gateway_authentication": {
+      "type": "object",
+      "default": null,
+      "description": "Token-based authentication settings to be applied when connection is using an sms strategy.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The Authorization header type."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject to be added to the JWT payload."
+        },
+        "audience": {
+          "type": "string",
+          "description": "The audience to be added to the JWT payload."
+        },
+        "secret": {
+          "type": "string",
+          "description": "The secret to be used for signing tokens."
+        },
+        "secret_base64_encoded": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to true if the provided secret is base64 encoded."
+        }
+      },
+      "required": ["method", "audience", "secret"],
+      "additionalProperties": true
+    },
+    "post_connections_body_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": { "type": ["string", "null"], "maxLength": 255 }
+    },
+    "get_connections_by_id_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the connection",
+          "defaultValue": "My connection"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Connection name used in login screen"
+        },
+        "options": { "$ref": "get_connections_by_id_response_options" },
+        "id": {
+          "type": "string",
+          "description": "The connection's identifier",
+          "defaultValue": "con_0000000000000001"
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The type of the connection, related to the identity provider",
+          "defaultValue": "auth0"
+        },
+        "realms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "connection-realm",
+            "description": "The realm where this connection belongs"
+          },
+          "maxItems": 10,
+          "description": "Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm"
+        },
+        "enabled_clients": {
+          "x-swagger-docs": true,
+          "type": "array",
+          "description": "The ids of the clients for which the connection is enabled",
+          "items": { "type": "string", "description": "The client id" },
+          "defaultValue": "avUAvH1pgnZGgAGlv8guZLPoaOnjVJsM"
+        },
+        "is_domain_connection": {
+          "type": "boolean",
+          "description": "True if the connection is domain level"
+        },
+        "metadata": {
+          "$ref": "get_connections_by_id_response_metadata",
+          "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_connections_by_id_response_options": {
+      "type": "object",
+      "defaultValue": {},
+      "secret": ["client_secret", "twilio_token", "cert", "app_secret"]
+    },
+    "get_connections_by_id_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": { "type": ["string", "null"], "maxLength": 255 }
+    },
+    "patch_connections_by_id_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the connection",
+          "defaultValue": "My connection"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Connection name used in login screen"
+        },
+        "options": { "$ref": "patch_connections_by_id_response_options" },
+        "id": {
+          "type": "string",
+          "description": "The connection's identifier",
+          "defaultValue": "con_0000000000000001"
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The type of the connection, related to the identity provider",
+          "defaultValue": "auth0"
+        },
+        "realms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "connection-realm",
+            "description": "The realm where this connection belongs"
+          },
+          "maxItems": 10,
+          "description": "Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm"
+        },
+        "enabled_clients": {
+          "x-swagger-docs": true,
+          "type": "array",
+          "description": "The ids of the clients for which the connection is enabled",
+          "items": { "type": "string", "description": "The client id" },
+          "defaultValue": "avUAvH1pgnZGgAGlv8guZLPoaOnjVJsM"
+        },
+        "is_domain_connection": {
+          "type": "boolean",
+          "description": "True if the connection is domain level"
+        },
+        "metadata": {
+          "$ref": "patch_connections_by_id_response_metadata",
+          "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_response_options": {
+      "type": "object",
+      "defaultValue": {},
+      "secret": ["client_secret", "twilio_token", "cert", "app_secret"]
+    },
+    "patch_connections_by_id_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": { "type": ["string", "null"], "maxLength": 255 }
+    },
+    "patch_connections_by_id_body": {
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "description": "Connection name used in the new universal login experience",
+          "maxLength": 128
+        },
+        "options": {
+          "$ref": "patch_connections_by_id_body_options",
+          "description": "The connection's options (depend on the connection strategy)"
+        },
+        "enabled_clients": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "default": [],
+            "format": "client-id",
+            "description": "The client_id of the client to for which the connection is to be enabled"
+          },
+          "description": "The identifiers of the clients for which the connection is to be enabled. If the property is not specified, no clients are enabled. If the array is empty, the connection will be disabled for every client."
+        },
+        "is_domain_connection": {
+          "type": "boolean",
+          "default": false,
+          "documentation": "<code>true</code> promotes to a domain-level connection so that third-party applications can use it. <code>false</code> does not promote the connection, so only first-party applications with the connection enabled can use it. (Defaults to <code>false</code>.)"
+        },
+        "realms": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "connection-realm",
+            "description": "The realm where this connection belongs"
+          },
+          "maxItems": 10,
+          "description": "Defines the realms for which the connection will be used (ie: email domains). If the array is empty or the property is not specified, the connection name will be added as realm"
+        },
+        "metadata": {
+          "$ref": "patch_connections_by_id_body_metadata",
+          "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_options": {
+      "type": "object",
+      "description": "The connection's options (depend on the connection strategy)",
+      "default": {},
+      "properties": {
+        "validation": {
+          "$ref": "patch_connections_by_id_body_validation",
+          "description": "Options for validation"
+        },
+        "non_persistent_attrs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist)"
+        },
+        "enable_script_context": {
+          "type": "boolean",
+          "describe": "Set to true to inject context into custom DB scripts (warning: cannot be disabled once enabled)"
+        },
+        "enabledDatabaseCustomization": {
+          "type": "boolean",
+          "description": "Set to true to use a legacy user store"
+        },
+        "import_mode": {
+          "type": "boolean",
+          "description": "Enable this if you have a legacy user store and you want to gradually migrate those users to the Auth0 user store"
+        },
+        "customScripts": {
+          "$ref": "patch_connections_by_id_body_customScripts",
+          "description": "A map of scripts used to integrate with a custom database."
+        },
+        "passwordPolicy": {
+          "type": "string",
+          "description": "Password strength level",
+          "enum": ["none", "low", "fair", "good", "excellent", null]
+        },
+        "password_complexity_options": {
+          "$ref": "patch_connections_by_id_body_password_complexity_options",
+          "description": "Password complexity options"
+        },
+        "password_history": {
+          "$ref": "patch_connections_by_id_body_password_history",
+          "description": "Options for password history policy"
+        },
+        "password_no_personal_info": {
+          "$ref": "patch_connections_by_id_body_password_no_personal_info",
+          "description": "Options for password expiration policy"
+        },
+        "password_dictionary": {
+          "$ref": "patch_connections_by_id_body_password_dictionary",
+          "description": "Options for password dictionary policy"
+        },
+        "api_enable_users": { "type": "boolean", "default": true },
+        "basic_profile": { "type": "boolean", "default": true },
+        "ext_admin": { "type": "boolean", "default": false },
+        "ext_is_suspended": { "type": "boolean", "default": false },
+        "ext_agreed_terms": { "type": "boolean", "default": false },
+        "ext_groups": { "type": "boolean", "default": false },
+        "ext_assigned_plans": { "type": "boolean", "default": false },
+        "ext_profile": { "type": "boolean", "default": false },
+        "disable_self_service_change_password": {
+          "type": "boolean",
+          "default": false
+        },
+        "upstream_params": {
+          "$ref": "patch_connections_by_id_body_upstream_params",
+          "description": "Options for adding parameters in the request to the upstream IdP"
+        },
+        "set_user_root_attributes": {
+          "type": "string",
+          "enum": ["on_each_login", "on_first_login"],
+          "description": "Determines whether the 'name', 'given_name', 'family_name', 'nickname', and 'picture' attributes can be independently updated when using an external IdP. Possible values are 'on_each_login' (default value, it configures the connection to automatically update the root attributes from the external IdP with each user login. When this setting is used, root attributes cannot be independently updated), 'on_first_login' (configures the connection to only set the root attributes on first login, allowing them to be independently updated thereafter)",
+          "defaultValue": "on_each_login"
+        },
+        "gateway_authentication": {
+          "$ref": "patch_connections_by_id_body_gateway_authentication",
+          "description": "Token-based authentication settings to be applied when connection is using an sms strategy."
+        }
+      },
+      "additionalProperties": true
+    },
+    "patch_connections_by_id_body_validation": {
+      "type": "object",
+      "description": "Options for validation",
+      "properties": {
+        "username": { "$ref": "patch_connections_by_id_body_username" }
+      },
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_username": {
+      "type": "object",
+      "properties": {
+        "min": { "type": "integer", "minimum": 1, "default": 1 },
+        "max": { "type": "integer", "default": 15, "maximum": 128 }
+      },
+      "required": ["max", "min"],
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_customScripts": {
+      "type": "object",
+      "description": "A map of scripts used to integrate with a custom database.",
+      "properties": {
+        "login": { "type": "string", "minLength": 1 },
+        "get_user": { "type": "string", "minLength": 1 },
+        "delete": { "type": "string", "minLength": 1 },
+        "change_password": { "type": "string", "minLength": 1 },
+        "verify": { "type": "string", "minLength": 1 },
+        "create": { "type": "string", "minLength": 1 }
+      }
+    },
+    "patch_connections_by_id_body_password_complexity_options": {
+      "x-swagger-docs": true,
+      "type": "object",
+      "description": "Password complexity options",
+      "properties": {
+        "min_length": {
+          "type": "integer",
+          "description": "Minimum password length",
+          "minimum": 1,
+          "maximum": 128
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_password_history": {
+      "type": "object",
+      "description": "Options for password history policy",
+      "properties": {
+        "enable": { "type": "boolean", "default": false },
+        "size": { "type": "integer", "minimum": 0, "maximum": 24, "default": 8 }
+      },
+      "required": ["enable"],
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_password_no_personal_info": {
+      "type": "object",
+      "default": null,
+      "description": "Options for password expiration policy",
+      "properties": { "enable": { "type": "boolean", "default": false } },
+      "required": ["enable"],
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_password_dictionary": {
+      "type": "object",
+      "default": null,
+      "description": "Options for password dictionary policy",
+      "properties": {
+        "enable": { "type": "boolean", "default": false },
+        "dictionary": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Custom Password Dictionary entry. 50 characters max."
+          },
+          "maxItems": 200,
+          "description": "Custom Password Dictionary. An array of up to 200 entries."
+        }
+      },
+      "required": ["enable"],
+      "additionalProperties": false
+    },
+    "patch_connections_by_id_body_upstream_params": {
+      "type": "object",
+      "default": null,
+      "description": "Options for adding parameters in the request to the upstream IdP",
+      "additionalProperties": {
+        "type": "object",
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "alias": {
+                "type": "string",
+                "enum": [
+                  "acr_values",
+                  "audience",
+                  "client_id",
+                  "display",
+                  "id_token_hint",
+                  "login_hint",
+                  "max_age",
+                  "prompt",
+                  "resource",
+                  "response_mode",
+                  "response_type",
+                  "ui_locales"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": { "value": { "type": "string" } },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "patch_connections_by_id_body_gateway_authentication": {
+      "type": "object",
+      "default": null,
+      "description": "Token-based authentication settings to be applied when connection is using an sms strategy.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The Authorization header type."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject to be added to the JWT payload."
+        },
+        "audience": {
+          "type": "string",
+          "description": "The audience to be added to the JWT payload."
+        },
+        "secret": {
+          "type": "string",
+          "description": "The secret to be used for signing tokens."
+        },
+        "secret_base64_encoded": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to true if the provided secret is base64 encoded."
+        }
+      },
+      "required": ["method", "audience", "secret"],
+      "additionalProperties": true
+    },
+    "patch_connections_by_id_body_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the connection, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": { "type": ["string", "null"], "maxLength": 255 }
+    }
+  }
+}

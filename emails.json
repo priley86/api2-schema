@@ -1,0 +1,600 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Emails",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/emails/provider",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the email provider",
+          "notes": "Retrieve <a href=\"https://auth0.com/docs/email/providers\">email provider</a> details. A list of fields to include or exclude may also be specified.\n",
+          "type": "get_provider_response",
+          "nickname": "get_provider",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include or exclude (dependent upon include_fields) from the result. Leave empty to retrieve `name` and `enabled`. Additional fields available include `credentials`, `default_from_address`, and `settings`.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "Whether specified fields are to be included (true) or excluded (false).",
+              "type": "boolean"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Email provider successfully retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:email_provider.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Email provider has not been configured.",
+              "errorCode": "inexistent_email_provider"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:email_provider"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete the email provider",
+          "notes": "Delete the email provider.\n",
+          "type": "void",
+          "nickname": "delete_provider",
+          "parameters": [],
+          "authorizations": { "jwt": { "scopes": ["delete:email_provider"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update the email provider",
+          "notes": "Update an <a href=\"https://auth0.com/docs/email/providers\">email provider</a>.\nThe <code>credentials</code> object requires different properties depending on the email provider (which is specified using the <code>name</code> property):\n<ul><li><code>mandrill</code> requires <code>api_key</code></li><li><code>sendgrid</code> requires <code>api_key</code></li><li><code>sparkpost</code> requires <code>api_key</code>. Optionally, set <code>region</code> to <code>eu</code> to use the SparkPost service hosted in Western Europe; set to <code>null</code> to use the SparkPost service hosted in North America. <code>eu</code> or <code>null</code> are the only valid values for <code>region</code>.</li><li><code>mailgun</code> requires <code>api_key</code> and <code>domain</code>. Optionally, set <code>region</code> to <code>eu</code> to use the Mailgun service hosted in Europe; set to <code>null</code> otherwise. <code>eu</code> or <code>null</code> are the only valid values for <code>region</code>.</li><li><code>ses</code> requires <code>accessKeyId</code>, <code>secretAccessKey</code>, and <code>region</code></li><li><code>smtp</code> requires <code>smtp_host</code>, <code>smtp_port</code>, <code>smtp_user</code>, and <code>smtp_pass</code></li></ul>Depending on the type of provider it is possible to specify <code>settings</code> object with different configuration options, which will be used when sending an email:\n<ul><li><code>smtp</code> provider, <code>settings</code> may contain <code>headers</code> object. When using AWS SES SMTP host, you may provide a name of configuration set in <code>X-SES-Configuration-Set</code> header. Value must be a string.</li><li>for <code>ses</code> provider, <code>settings</code> may contain <code>message</code> object, where you can provide a name of configuration set in <code>configuration_set_name</code> property. Value must be a string.</li></ul>\n",
+          "type": "patch_provider_response",
+          "nickname": "patch_provider",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_provider_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Email provider successfully updated." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:email_provider.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Email provider has not been configured.",
+              "errorCode": "inexistent_email_provider"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:email_provider"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Configure the email provider",
+          "notes": "Create an <a href=\"https://auth0.com/docs/email/providers\">email provider</a>.\nThe <code>credentials</code> object requires different properties depending on the email provider (which is specified using the <code>name</code> property):\n<ul><li><code>mandrill</code> requires <code>api_key</code></li><li><code>sendgrid</code> requires <code>api_key</code></li><li><code>sparkpost</code> requires <code>api_key</code>. Optionally, set <code>region</code> to <code>eu</code> to use the SparkPost service hosted in Western Europe; set to <code>null</code> to use the SparkPost service hosted in North America. <code>eu</code> or <code>null</code> are the only valid values for <code>region</code>.</li><li><code>mailgun</code> requires <code>api_key</code> and <code>domain</code>. Optionally, set <code>region</code> to <code>eu</code> to use the Mailgun service hosted in Europe; set to <code>null</code> otherwise. <code>eu</code> or <code>null</code> are the only valid values for <code>region</code>.</li><li><code>ses</code> requires <code>accessKeyId</code>, <code>secretAccessKey</code>, and <code>region</code></li><li><code>smtp</code> requires <code>smtp_host</code>, <code>smtp_port</code>, <code>smtp_user</code>, and <code>smtp_pass</code></li></ul>Depending on the type of provider it is possible to specify <code>settings</code> object with different configuration options, which will be used when sending an email:\n<ul><li><code>smtp</code> provider, <code>settings</code> may contain <code>headers</code> object. When using AWS SES SMTP host, you may provide a name of configuration set in <code>X-SES-Configuration-Set</code> header. Value must be a string.</li><li>for <code>ses</code> provider, <code>settings</code> may contain <code>message</code> object, where you can provide a name of configuration set in <code>configuration_set_name</code> property. Value must be a string.</li></ul>\n",
+          "type": "post_provider_response",
+          "nickname": "post_provider",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_provider_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Email provider successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:email_provider.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 409,
+              "message": "Email provider is already configured.",
+              "errorCode": "email_provider_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:email_provider"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_provider_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `ses`, `sparkpost`, or `smtp`.",
+          "defaultValue": "sendgrid"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the provider is enabled (true) or disabled (false).",
+          "defaultValue": true
+        },
+        "default_from_address": {
+          "type": "string",
+          "description": "Email address to use as \"from\" when no other address specified."
+        },
+        "credentials": {
+          "$ref": "get_provider_response_credentials",
+          "description": "Credentials required to use the provider."
+        },
+        "settings": {
+          "$ref": "get_provider_response_settings",
+          "description": "Specific provider setting"
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_provider_response_credentials": {
+      "type": "object",
+      "description": "Credentials required to use the provider.",
+      "properties": {
+        "api_user": { "type": "string", "description": "API User." },
+        "region": {
+          "type": "string",
+          "description": "AWS or SparkPost region."
+        },
+        "smtp_host": { "type": "string", "description": "SMTP host." },
+        "smtp_port": { "type": "integer", "description": "SMTP port." },
+        "smtp_user": { "type": "string", "description": "SMTP username." }
+      },
+      "additionalProperties": false
+    },
+    "get_provider_response_settings": {
+      "type": "object",
+      "description": "Specific provider setting",
+      "additionalProperties": true
+    },
+    "patch_provider_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `ses`, `sparkpost`, or `smtp`.",
+          "defaultValue": "sendgrid"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the provider is enabled (true) or disabled (false).",
+          "defaultValue": true
+        },
+        "default_from_address": {
+          "type": "string",
+          "description": "Email address to use as \"from\" when no other address specified."
+        },
+        "credentials": {
+          "$ref": "patch_provider_response_credentials",
+          "description": "Credentials required to use the provider."
+        },
+        "settings": {
+          "$ref": "patch_provider_response_settings",
+          "description": "Specific provider setting"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_provider_response_credentials": {
+      "type": "object",
+      "description": "Credentials required to use the provider.",
+      "properties": {
+        "api_user": { "type": "string", "description": "API User." },
+        "region": {
+          "type": "string",
+          "description": "AWS or SparkPost region."
+        },
+        "smtp_host": { "type": "string", "description": "SMTP host." },
+        "smtp_port": { "type": "integer", "description": "SMTP port." },
+        "smtp_user": { "type": "string", "description": "SMTP username." }
+      },
+      "additionalProperties": false
+    },
+    "patch_provider_response_settings": {
+      "type": "object",
+      "description": "Specific provider setting",
+      "additionalProperties": true
+    },
+    "patch_provider_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `ses`, `sparkpost`, or `smtp`.",
+          "enum": [
+            "mailgun",
+            "mandrill",
+            "sendgrid",
+            "ses",
+            "sparkpost",
+            "smtp"
+          ]
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the provider is enabled (true) or disabled (false)."
+        },
+        "default_from_address": {
+          "type": "string",
+          "description": "Email address to use as \"from\" when no other address specified."
+        },
+        "credentials": {
+          "$ref": "patch_provider_body_credentials",
+          "description": "Credentials required to use the provider."
+        },
+        "settings": {
+          "$ref": "patch_provider_body_settings",
+          "description": "Specific provider setting"
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "patch_provider_body_credentials": {
+      "type": "object",
+      "description": "Credentials required to use the provider.",
+      "anyOf": [
+        {
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "API Key",
+              "minLength": 1
+            }
+          },
+          "required": ["api_key"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "accessKeyId": {
+              "type": "string",
+              "description": "AWS Access Key ID.",
+              "minLength": 1
+            },
+            "secretAccessKey": {
+              "type": "string",
+              "description": "AWS Secret Access Key.",
+              "minLength": 1
+            },
+            "region": {
+              "type": "string",
+              "description": "AWS region.",
+              "minLength": 1
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "smtp_host": {
+              "type": "string",
+              "description": "SMTP host.",
+              "minLength": 1,
+              "anyOf": [
+                { "format": "hostname-rfc2181" },
+                { "format": "ipv4" },
+                { "format": "ipv6" }
+              ]
+            },
+            "smtp_port": { "type": "integer", "description": "SMTP port." },
+            "smtp_user": {
+              "type": "string",
+              "description": "SMTP username.",
+              "minLength": 1
+            },
+            "smtp_pass": {
+              "type": "string",
+              "description": "SMTP password.",
+              "minLength": 1
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "API Key",
+              "minLength": 1
+            },
+            "region": {
+              "enum": ["eu", null],
+              "description": "Set to <code>eu</code> to use SparkPost service hosted in Western Europe. To use SparkPost hosted in North America, set it to <code>null</code>."
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "API Key",
+              "minLength": 1
+            },
+            "domain": {
+              "type": "string",
+              "description": "Domain",
+              "minLength": 4
+            },
+            "region": {
+              "enum": ["eu", null],
+              "description": "Set to <code>eu</code> if your domain is provisioned to use Mailgun's EU region. Otherwise, set to <code>null</code>."
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      ]
+    },
+    "patch_provider_body_settings": {
+      "type": "object",
+      "description": "Specific provider setting",
+      "additionalProperties": true
+    },
+    "post_provider_response": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `ses`, `sparkpost`, or `smtp`.",
+          "defaultValue": "sendgrid"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the provider is enabled (true) or disabled (false).",
+          "defaultValue": true
+        },
+        "default_from_address": {
+          "type": "string",
+          "description": "Email address to use as \"from\" when no other address specified."
+        },
+        "credentials": {
+          "$ref": "post_provider_response_credentials",
+          "description": "Credentials required to use the provider."
+        },
+        "settings": {
+          "$ref": "post_provider_response_settings",
+          "description": "Specific provider setting"
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_provider_response_credentials": {
+      "type": "object",
+      "description": "Credentials required to use the provider.",
+      "properties": {
+        "api_user": { "type": "string", "description": "API User." },
+        "region": {
+          "type": "string",
+          "description": "AWS or SparkPost region."
+        },
+        "smtp_host": { "type": "string", "description": "SMTP host." },
+        "smtp_port": { "type": "integer", "description": "SMTP port." },
+        "smtp_user": { "type": "string", "description": "SMTP username." }
+      },
+      "additionalProperties": false
+    },
+    "post_provider_response_settings": {
+      "type": "object",
+      "description": "Specific provider setting",
+      "additionalProperties": true
+    },
+    "post_provider_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the email provider. Can be `mailgun`, `mandrill`, `sendgrid`, `ses`, `sparkpost`, or `smtp`.",
+          "enum": [
+            "mailgun",
+            "mandrill",
+            "sendgrid",
+            "ses",
+            "sparkpost",
+            "smtp"
+          ],
+          "defaultValue": "mandrill"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the provider is enabled (true) or disabled (false).",
+          "default": true,
+          "defaultValue": true
+        },
+        "default_from_address": {
+          "type": "string",
+          "description": "Email address to use as \"from\" when no other address specified."
+        },
+        "credentials": {
+          "$ref": "post_provider_body_credentials",
+          "description": "Credentials required to use the provider."
+        },
+        "settings": {
+          "$ref": "post_provider_body_settings",
+          "description": "Specific provider setting"
+        }
+      },
+      "required": ["name", "credentials"],
+      "additionalProperties": false
+    },
+    "post_provider_body_credentials": {
+      "type": "object",
+      "description": "Credentials required to use the provider.",
+      "anyOf": [
+        {
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "API Key",
+              "minLength": 1
+            }
+          },
+          "required": ["api_key"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "accessKeyId": {
+              "type": "string",
+              "description": "AWS Access Key ID.",
+              "minLength": 1
+            },
+            "secretAccessKey": {
+              "type": "string",
+              "description": "AWS Secret Access Key.",
+              "minLength": 1
+            },
+            "region": {
+              "type": "string",
+              "description": "AWS region.",
+              "minLength": 1
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false,
+          "required": ["accessKeyId", "secretAccessKey", "region"]
+        },
+        {
+          "properties": {
+            "smtp_host": {
+              "type": "string",
+              "description": "SMTP host.",
+              "minLength": 1,
+              "anyOf": [
+                { "format": "hostname-rfc2181" },
+                { "format": "ipv4" },
+                { "format": "ipv6" }
+              ]
+            },
+            "smtp_port": { "type": "integer", "description": "SMTP port." },
+            "smtp_user": {
+              "type": "string",
+              "description": "SMTP username.",
+              "minLength": 1
+            },
+            "smtp_pass": {
+              "type": "string",
+              "description": "SMTP password.",
+              "minLength": 1
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false,
+          "required": ["smtp_host", "smtp_port", "smtp_user", "smtp_pass"]
+        },
+        {
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "API Key",
+              "minLength": 1
+            },
+            "region": {
+              "enum": ["eu", null],
+              "description": "Set to <code>eu</code> to use SparkPost service hosted in Western Europe. To use SparkPost hosted in North America, set it to <code>null</code>."
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false,
+          "required": ["api_key"]
+        },
+        {
+          "properties": {
+            "api_key": {
+              "type": "string",
+              "description": "API Key",
+              "minLength": 1
+            },
+            "domain": {
+              "type": "string",
+              "description": "Domain",
+              "minLength": 4
+            },
+            "region": {
+              "enum": ["eu", null],
+              "description": "Set to <code>eu</code> if your domain is provisioned to use Mailgun's EU region. Otherwise, set to <code>null</code>."
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false,
+          "required": ["api_key", "domain"]
+        }
+      ]
+    },
+    "post_provider_body_settings": {
+      "type": "object",
+      "description": "Specific provider setting",
+      "additionalProperties": true
+    }
+  }
+}

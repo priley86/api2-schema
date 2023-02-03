@@ -1,0 +1,742 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Jobs",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/jobs/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a job",
+          "notes": "Retrieves a job. Useful to check its status.",
+          "tags": ["ignore-linter-missing-owners"],
+          "type": "get_jobs_by_id_response",
+          "nickname": "get_jobs_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the job.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Job retrieved successfully." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Job not found.",
+              "errorCode": "inexistent_job"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["create:users", "read:users"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/jobs/{id}/errors",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get job error details",
+          "notes": "Retrieve error details of a failed job.",
+          "tags": ["ignore-linter-missing-owners"],
+          "type": "array",
+          "nickname": "get_errors",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the job.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "items": { "$ref": "get_errors_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Job successfully retrieved." },
+            {
+              "code": 204,
+              "message": "The job was retrieved, but no errors were found."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: create:users",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The job does not exist",
+              "errorCode": "inexistent_job"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["create:users", "read:users"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/jobs/users-exports",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Create export users job",
+          "notes": "Export all users to a file via a long-running job.",
+          "tags": [],
+          "type": "post_users-exports_response",
+          "nickname": "post_users-exports",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_users-exports_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Job created successfully." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The connection does not exist.",
+              "errorCode": "inexistent_connection"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["read:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/jobs/users-imports",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Create import users job",
+          "notes": "Import users from a <a href=\"https://auth0.com/docs/users/references/bulk-import-database-schema-examples\">formatted file</a> into a connection via a long-running job.",
+          "type": "post_users-imports_response",
+          "nickname": "post_users-imports",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "users",
+              "description": "Formatted file containing the users to import.",
+              "type": "file",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "connection_id",
+              "description": "connection_id of the connection to which users will be imported.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "upsert",
+              "description": "Whether to update users if they already exist (true) or to ignore them (false).",
+              "type": "boolean",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "external_id",
+              "description": "Customer-defined ID.",
+              "type": "string",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "send_completion_email",
+              "description": "Whether to send a completion email to all tenant owners when the job is finished (true) or not (false).",
+              "type": "boolean",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            { "code": 202, "message": "Job successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Must provide 'users' file as multipart part.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Payload validation error: 'Invalid multipart payload format'.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Users file must not be empty.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Must provide 'connection_id' as multipart part.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Connection must be a database connection.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Connection must be enabled.",
+              "errorCode": "connection_is_disabled"
+            },
+            {
+              "code": 400,
+              "message": "Payload validation error: 'String does not match pattern ^con_[A-Za-z0-9]{16}$' on property connection_id.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The connection does not exist.",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 400,
+              "message": "Custom Database Connections without import mode are not allowed.",
+              "errorCode": "operation_not_supported"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 413,
+              "error": "Request Entity Too Large",
+              "message": "Payload content length greater than maximum allowed: 512000."
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            { "code": 500, "message": "Internal error." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/jobs/verification-email",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Send an email address verification email",
+          "notes": "Send an email to the specified user that asks them to click a link to <a href=\"https://auth0.com/docs/email/custom#verification-email\">verify their email address</a>.\n\nNote: You must have the `Status` toggle enabled for the verification email template for the email to be sent.",
+          "type": "post_verification-email_response",
+          "nickname": "post_verification-email",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_verification-email_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Job successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request parameters. The message will vary depending on the cause."
+            },
+            {
+              "code": 400,
+              "message": "Connection must be a database connection.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "User does not have an email address.",
+              "errors": "user_missing_email"
+            },
+            {
+              "code": 400,
+              "message": "connection does not exist.",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 400,
+              "message": "Connection must be enabled.",
+              "errorCode": "connection_is_disabled"
+            },
+            {
+              "code": 400,
+              "message": "The organization does not exist",
+              "errorCode": "inexistent_organization"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_jobs_by_id_response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of this job.",
+          "defaultValue": "pending"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of job this is.",
+          "defaultValue": "users_import"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "When this job was created."
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of this job.",
+          "defaultValue": "job_0000000000000001"
+        },
+        "connection_id": {
+          "type": "string",
+          "description": "connection_id of the connection this job uses.",
+          "defaultValue": "con_0000000000000001"
+        },
+        "location": {
+          "type": "string",
+          "description": "URL to download the result of this job."
+        },
+        "percentage_done": {
+          "type": "integer",
+          "description": "Completion percentage of this job."
+        },
+        "time_left_seconds": {
+          "type": "integer",
+          "description": "Estimated time remaining before job completes."
+        },
+        "format": {
+          "type": "string",
+          "description": "Format of the file. Must be `json` or `csv`.",
+          "enum": ["json", "csv"]
+        }
+      },
+      "required": ["id", "type", "status"]
+    },
+    "get_errors_response": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "get_errors_response_user",
+          "description": "User, as provided in the import file"
+        },
+        "errors": {
+          "type": "array",
+          "description": "Errors importing the user.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "description": "Error code." },
+              "message": { "type": "string", "description": "Error message." },
+              "path": { "type": "string", "description": "Error field." }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_errors_response_user": {
+      "type": "object",
+      "description": "User, as provided in the import file"
+    },
+    "post_users-exports_response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of this job.",
+          "defaultValue": "pending"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of job this is.",
+          "defaultValue": "users_export"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "When this job was created."
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of this job.",
+          "defaultValue": "job_0000000000000001"
+        },
+        "connection_id": {
+          "type": "string",
+          "description": "connection_id of the connection from which users will be exported.",
+          "pattern": "^con_[A-Za-z0-9]{16}$",
+          "defaultValue": "con_0000000000000001"
+        },
+        "format": {
+          "type": "string",
+          "description": "Format of the file. Must be `json` or `csv`.",
+          "enum": ["json", "csv"],
+          "defaultValue": "csv"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Limit the number of records.",
+          "defaultValue": 5
+        },
+        "fields": {
+          "type": "array",
+          "description": "List of fields to be included in the CSV. Defaults to a predefined set of fields.",
+          "maxItems": 30,
+          "defaultValue": [
+            { "name": "user_id" },
+            { "name": "name" },
+            { "name": "email" },
+            { "name": "identities[0].connection", "export_as": "provider" },
+            { "name": "user_metadata.some_field" }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100,
+                "description": "Name of the field in the profile."
+              },
+              "export_as": {
+                "type": "string",
+                "maxLength": 100,
+                "description": "Title of the column in the exported CSV."
+              }
+            },
+            "additionalProperties": false,
+            "required": ["name"]
+          }
+        }
+      },
+      "required": ["id", "type", "status", "connection"]
+    },
+    "post_users-exports_body": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "description": "connection_id of the connection from which users will be exported.",
+          "pattern": "^con_[A-Za-z0-9]{16}$",
+          "defaultValue": "con_0000000000000001"
+        },
+        "format": {
+          "type": "string",
+          "description": "Format of the file. Must be `json` or `csv`.",
+          "enum": ["json", "csv"],
+          "defaultValue": "csv"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Limit the number of records.",
+          "defaultValue": 5
+        },
+        "fields": {
+          "type": "array",
+          "description": "List of fields to be included in the CSV. Defaults to a predefined set of fields.",
+          "maxItems": 30,
+          "defaultValue": [
+            { "name": "user_id" },
+            { "name": "name" },
+            { "name": "email" },
+            { "name": "identities[0].connection", "export_as": "provider" },
+            { "name": "user_metadata.some_field" }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100,
+                "description": "Name of the field in the profile."
+              },
+              "export_as": {
+                "type": "string",
+                "maxLength": 100,
+                "description": "Title of the column in the exported CSV."
+              }
+            },
+            "additionalProperties": false,
+            "required": ["name"]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_users-imports_response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of this job.",
+          "defaultValue": "pending"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of job this is.",
+          "defaultValue": "users_import"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "When this job was created."
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of this job.",
+          "defaultValue": "job_0000000000000001"
+        },
+        "connection_id": {
+          "type": "string",
+          "description": "connection_id of the connection to which users will be imported.",
+          "pattern": "^con_[A-Za-z0-9]{16}$",
+          "defaultValue": "con_0000000000000001"
+        },
+        "external_id": {
+          "type": "string",
+          "description": "Customer-defined ID."
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "status",
+        "connection",
+        "connection_id",
+        "created_at"
+      ]
+    },
+    "post_verification-email_response": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of this job.",
+          "defaultValue": "completed"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of job this is.",
+          "defaultValue": "verification_email"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "When this job was created."
+        },
+        "id": {
+          "type": "string",
+          "description": "ID of this job.",
+          "defaultValue": "job_0000000000000001"
+        }
+      },
+      "required": ["id", "type", "status"]
+    },
+    "post_verification-email_body": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "user_id of the user to send the verification email to.",
+          "format": "user-id",
+          "defaultValue": "google-oauth2|1234"
+        },
+        "client_id": {
+          "type": "string",
+          "description": "client_id of the client (application). If no value provided, the global Client ID will be used.",
+          "format": "client-id"
+        },
+        "identity": {
+          "$ref": "post_verification-email_body_identity",
+          "description": "This must be provided to verify primary social, enterprise and passwordless email identities. Also, is needed to verify secondary identities."
+        },
+        "organization_id": {
+          "type": "string",
+          "format": "organization-id",
+          "description": "(Optional) Organization ID – the ID of the Organization. If provided, organization parameters will be made available to the email template and organization branding will be applied to the prompt. In addition, the redirect link in the prompt will include organization_id and organization_name query string parameters.",
+          "defaultValue": "org_2eondWoxcMIpaLQc"
+        }
+      },
+      "required": ["user_id"],
+      "additionalProperties": false
+    },
+    "post_verification-email_body_identity": {
+      "type": "object",
+      "description": "This must be provided to verify primary social, enterprise and passwordless email identities. Also, is needed to verify secondary identities.",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "user_id of the identity to be verified.",
+          "defaultValue": "5457edea1b8f22891a000004"
+        },
+        "provider": {
+          "type": "string",
+          "description": "Identity provider name of the identity (e.g. `google-oauth2`).",
+          "enum": [
+            "ad",
+            "adfs",
+            "amazon",
+            "apple",
+            "dropbox",
+            "bitbucket",
+            "aol",
+            "auth0-oidc",
+            "auth0",
+            "baidu",
+            "bitly",
+            "box",
+            "custom",
+            "daccount",
+            "dwolla",
+            "email",
+            "evernote-sandbox",
+            "evernote",
+            "exact",
+            "facebook",
+            "fitbit",
+            "flickr",
+            "github",
+            "google-apps",
+            "google-oauth2",
+            "instagram",
+            "ip",
+            "line",
+            "linkedin",
+            "miicard",
+            "oauth1",
+            "oauth2",
+            "office365",
+            "oidc",
+            "okta",
+            "paypal",
+            "paypal-sandbox",
+            "pingfederate",
+            "planningcenter",
+            "renren",
+            "salesforce-community",
+            "salesforce-sandbox",
+            "salesforce",
+            "samlp",
+            "sharepoint",
+            "shopify",
+            "sms",
+            "soundcloud",
+            "thecity-sandbox",
+            "thecity",
+            "thirtysevensignals",
+            "twitter",
+            "untappd",
+            "vkontakte",
+            "waad",
+            "weibo",
+            "windowslive",
+            "wordpress",
+            "yahoo",
+            "yammer",
+            "yandex"
+          ],
+          "defaultValue": "google-oauth2"
+        }
+      },
+      "required": ["user_id", "provider"],
+      "additionalProperties": false
+    }
+  }
+}

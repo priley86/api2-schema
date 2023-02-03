@@ -1,0 +1,3871 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Users",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/users",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "List or Search Users",
+          "notes": "Retrieve details of users. It is possible to:\n\n- Specify a search criteria for users\n- Sort the users to be returned\n- Select the fields to be returned\n- Specify the number of users to retrieve per page and the page index\n <!-- only v3 is available -->\nThe <code>q</code> query parameter can be used to get users that match the specified criteria <a href=\"https://auth0.com/docs/users/search/v3/query-syntax\">using query string syntax.</a>\n\n<a href=\"https://auth0.com/docs/users/search/v3\">Learn more about searching for users.</a>\n\nRead about <a href=\"https://auth0.com/docs/users/search/best-practices\">best practices</a> when working with the API endpoints for retrieving users.\n\nAuth0 limits the number of users you can return. If you exceed this threshold, please redefine your search, use the <a href=\"https://auth0.com/docs/api/management/v2#!/Jobs/post_users_exports\">export job</a>, or the <a href=\"https://auth0.com/docs/extensions/user-import-export\">User Import / Export</a> extension.\n",
+          "type": "array",
+          "nickname": "get_users",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "sort",
+              "description": "Field to sort by. Use <code>field:order</code> where order is <code>1</code> for ascending and <code>-1</code> for descending. e.g. <code>created_at:1</code>",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "connection",
+              "description": "Connection filter. Only applies when using <code>search_engine=v1</code>. To filter by connection with <code>search_engine=v2|v3</code>, use <code>q=identities.connection:\"connection_name\"</code>",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "Whether specified fields are to be included (true) or excluded (false).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "q",
+              "description": "Query in <a target='_new' href ='http://www.lucenetutorial.com/lucene-query-syntax.html'>Lucene query string syntax</a>. Some query types cannot be used on metadata fields, for details see <a href='https://auth0.com/docs/users/search/v3/query-syntax#searchable-fields'>Searchable Fields</a>.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "search_engine",
+              "description": "The version of the search engine",
+              "type": "string",
+              "enum": ["v1", "v2", "v3"]
+            }
+          ],
+          "items": { "$ref": "get_users_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Users successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            {
+              "code": 400,
+              "message": "The 'q' parameter is available only if you specify 'search_engine=v2|v3'.",
+              "errorCode": "invalid_query_string"
+            },
+            {
+              "code": 400,
+              "message": "You are not allowed to use search_engine=v1.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "You are not allowed to use search_engine=v2. Use search_engine=v3 instead.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "You are not allowed to use search_engine=v3.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "You can only page through the first 1000 records. See https://auth0.com/docs/users/search/v3/view-search-results-by-page#limitation.",
+              "errorCode": "invalid_paging"
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: read:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 503,
+              "message": "The query exceeded the timeout. Please try refining your search criteria. See https://auth0.com/docs/best-practices/search-best-practices."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:users", "read:user_idp_tokens"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Create a User",
+          "notes": "Create a new user for a given <a href=\"https://auth0.com/docs/connections/database\">database</a> or <a href=\"https://auth0.com/docs/connections/passwordless\">passwordless</a> connection.\n\nNote: <code>connection</code> is required but other parameters such as <code>email</code> and <code>password</code> are dependent upon the type of connection.",
+          "type": "post_users_response",
+          "nickname": "post_users",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_users_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "User successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Connection does not support user creation through the API. It must either be a database or SMS connection.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot set username for connection without requires_username.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Connection does not exist.",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 400,
+              "message": "Connection is disabled.",
+              "errorCode": "connection_is_disabled"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: create:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": "409",
+              "message": "User already exists.",
+              "errorCode": "auth0_idp_error"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a User",
+          "notes": "Retrieve user details. A list of fields to include or exclude may also be specified.",
+          "type": "get_users_by_id_response",
+          "nickname": "get_users_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to retrieve.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "Whether specified fields are to be included (true) or excluded (false).",
+              "type": "boolean"
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "User successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:users, read:user_idp_tokens, read:current_user.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": {
+              "scopes": [
+                "read:users",
+                "read:current_user",
+                "read:user_idp_tokens"
+              ]
+            }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete a User",
+          "notes": "Delete a user.",
+          "type": "void",
+          "nickname": "delete_users_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "User successfully deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:users,delete:current_user.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:users", "delete:current_user"] }
+          }
+        },
+        {
+          "method": "patch",
+          "summary": "Update a User",
+          "notes": "Update a user.\n\nThese are the attributes that can be updated at the root level:\n\n<ul>\n    <li>app_metadata</li>\n    <li>blocked</li>\n    <li>email</li>\n    <li>email_verified</li>\n    <li>family_name</li>\n    <li>given_name</li>\n    <li>name</li>\n    <li>nickname</li>\n    <li>password</li>\n    <li>phone_number</li>\n    <li>phone_verified</li>\n    <li>picture</li>\n    <li>username</li>\n    <li>user_metadata</li>\n    <li>verify_email</li>\n</ul>\n\nSome considerations:\n<ul>\n    <li>The properties of the new object will replace the old ones.</li>\n    <li>The metadata fields are an exception to this rule (<code>user_metadata</code> and <code>app_metadata</code>). These properties are merged instead of being replaced but be careful, the merge only occurs on the first level.</li>\n    <li>If you are updating <code>email</code>, <code>email_verified</code>, <code>phone_number</code>, <code>phone_verified</code>, <code>username</code> or <code>password</code> of a secondary identity, you need to specify the <code>connection</code> property too.</li>\n    <li>If you are updating <code>email</code> or <code>phone_number</code> you can specify, optionally, the <code>client_id</code> property.</li>\n    <li>Updating <code>email_verified</code> is not supported for enterprise and passwordless sms connections.</li>\n    <li>Updating the <code>blocked</code> to <code>false</code> does not affect the user's blocked state from an excessive amount of incorrectly provided credentials. Use the \"Unblock a user\" endpoint from the \"User Blocks\" API to change the user's state.</li>\n</ul>\n\n<h5>Updating a field (non-metadata property)</h5>\nTo mark the email address of a user as verified, the body to send should be:\n<pre><code>{ \"email_verified\": true }</code></pre>\n\n<h5>Updating a user metadata root property</h5>Let's assume that our test user has the following <code>user_metadata</code>:\n<pre><code>{ \"user_metadata\" : { \"profileCode\": 1479 } }</code></pre>\n\nTo add the field <code>addresses</code> the body to send should be:\n<pre><code>{ \"user_metadata\" : { \"addresses\": {\"work_address\": \"100 Industrial Way\"} }}</code></pre>\n\nThe modified object ends up with the following <code>user_metadata</code> property:<pre><code>{\n  \"user_metadata\": {\n    \"profileCode\": 1479,\n    \"addresses\": { \"work_address\": \"100 Industrial Way\" }\n  }\n}</code></pre>\n\n<h5>Updating an inner user metadata property</h5>If there's existing user metadata to which we want to add  <code>\"home_address\": \"742 Evergreen Terrace\"</code> (using the <code>addresses</code> property) we should send the whole <code>addresses</code> object. Since this is a first-level object, the object will be merged in, but its own properties will not be. The body to send should be:\n<pre><code>{\n  \"user_metadata\": {\n    \"addresses\": {\n      \"work_address\": \"100 Industrial Way\",\n      \"home_address\": \"742 Evergreen Terrace\"\n    }\n  }\n}</code></pre>\n\nThe modified object ends up with the following <code>user_metadata</code> property:\n<pre><code>{\n  \"user_metadata\": {\n    \"profileCode\": 1479,\n    \"addresses\": {\n      \"work_address\": \"100 Industrial Way\",\n      \"home_address\": \"742 Evergreen Terrace\"\n    }\n  }\n}</code></pre>\n",
+          "type": "patch_users_by_id_response",
+          "nickname": "patch_users_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to update.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_users_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "User successfully updated." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Connection does not exist.",
+              "errorCode": "inexistent_connection"
+            },
+            {
+              "code": 400,
+              "message": "Connection is not supported for this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot update password and email simultaneously.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot update password and email_verified simultaneously.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot update username and email simultaneously.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot update username and email_verified simultaneously.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot update username and password simultaneously.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot update email for non-database user.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "Cannot change email or password for users in a disabled connection.",
+              "errorCode": "connection_is_disabled"
+            },
+            {
+              "code": 400,
+              "message": "Email verification is not supported for enterprise users.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "The verify_email and email_verified parameters can't be true at same time.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Your account is not allowed to update the following user attributes: family_name, given_name, name, nickname, picture.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "The following user attributes cannot be updated: family_name, given_name, name, nickname, picture. The connection must either be a database connection (using the Auth0 store), a passwordless connection (email or sms) or has disabled 'Sync user profile attributes at each login'.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "The following user attributes cannot be updated: family_name, given_name, name, nickname, picture. The specified connection belongs to a secondary identity.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "The following user attributes cannot be removed: family_name, given_name, name, nickname, picture. The connection (non-federated-conn) must either be a custom database connection with import mode disabled, a social or enterprise connection.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 400,
+              "message": "The following user attributes cannot be removed: foo, bar. The connection (some-connection) should have disabled 'Sync user profile attributes at each login' (see <a href='https://auth0.com/docs/users/configure-connection-sync-with-auth0'>Configuring Connection Sync with Auth0</a>) or defined these attributes in 'options.non_persistent_attrs' array (see <a href='https://auth0.com/docs/security/denylist-user-attributes'>Add User Attributes to DenyList</a>).",
+              "errorCode": "operation_not_supported"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Some fields cannot be read with the permissions granted by the bearer token scopes. The message will vary depending on the fields and the scopes.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:users,update:users_app_metadata,update:current_user_metadata."
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": {
+              "scopes": [
+                "update:users",
+                "update:users_app_metadata",
+                "update:current_user_metadata"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/enrollments",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the First Confirmed Multi-factor Authentication Enrollment",
+          "notes": "Retrieve the first confirmed <a href=\"https://auth0.com/docs/multifactor-authentication/guardian\">Guardian</a> enrollment for a user.",
+          "type": "array",
+          "nickname": "get_enrollments",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to list enrollments for.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "items": { "$ref": "get_enrollments_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Enrollments successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:users,read:current_user.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:users", "read:current_user"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/authentication-methods",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Gets a list of authentication methods",
+          "type": "array",
+          "nickname": "get_authentication-methods",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The ID of the user in question.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0. Default is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Default is 50.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_authentication-methods_response" },
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "The authentication methods for the user were retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: read:authentication_methods",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The user does not exist.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:authentication_methods"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Creates an authentication method for a given user.",
+          "type": "post_authentication-methods_response",
+          "nickname": "post_authentication-methods",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The ID of the user to whom the new authentication method will be assigned.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_authentication-methods_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Authentication method created." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected: create:authentication_methods",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The user does not exist.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 409,
+              "message": "Authentication method already exists.",
+              "errorCode": "authenticator_already_exists"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["create:authentication_methods"] }
+          }
+        },
+        {
+          "method": "put",
+          "summary": "Updates all authentication methods by replacing them with the given ones.",
+          "type": "void",
+          "nickname": "put_authentication-methods",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The ID of the user in question.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_authentication-methods_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "All authentication methods successfully updated."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:authentication_methods",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 409,
+              "message": "Authentication method already exists.",
+              "errorCode": "authenticator_already_exists"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:authentication_methods"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/organizations",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "List user's organizations",
+          "notes": "This endpoint will retrieve all organizations that the specified user is a member of.\n",
+          "type": "array",
+          "nickname": "get_user_organizations",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to retrieve the organizations for.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_user_organizations_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Organizations successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:users, read:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:organizations"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/logs",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get user's log events",
+          "notes": "Retrieve log events for a specific user.\n\nNote: For more information on all possible event types, their respective acronyms and descriptions, see <a href=\"https://auth0.com/docs/logs/log-event-type-codes\">Log Event Type Codes</a>.\n\nFor more information on the list of fields that can be used in `sort`, see <a href=\"https://auth0.com/docs/logs/log-search-query-syntax#searchable-fields\">Searchable Fields</a>.\n\nAuth0 <a href=\"https://auth0.com/docs/logs/retrieve-log-events-using-mgmt-api#limitations\">limits the number of logs</a> you can return by search criteria to 100 logs per request. Furthermore, you may only paginate through up to 1,000 search results. If you exceed this threshold, please redefine your search.",
+          "type": "array",
+          "nickname": "get_logs_by_user",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user of the logs to retrieve",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer"
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "sort",
+              "description": "Field to sort by. Use `fieldname:1` for ascending order and `fieldname:-1` for descending.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_logs_by_user_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Logs successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:logs, read:logs_users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:logs", "read:logs_users"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/roles",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a user's roles",
+          "notes": "List the the roles associated with a user.",
+          "type": "array",
+          "nickname": "get_user_roles",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to list roles for.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_user_roles_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Roles successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected all of: read:users, read:roles.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": {
+              "scopes": ["read:users", "read:roles", "read:role_members"]
+            }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Removes roles from a user",
+          "notes": "Remove roles from a user.",
+          "type": "void",
+          "nickname": "delete_user_roles",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to remove roles from.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "delete_user_roles_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Users roles successfully removed." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:users", "delete:role_members"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Assign roles to a user",
+          "notes": "Associate roles with a user.",
+          "type": "void",
+          "nickname": "post_user_roles",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to associate roles with.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_user_roles_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Roles successfully associated with user."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:roles, update:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": {
+              "scopes": ["read:roles", "update:users", "create:role_members"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/permissions",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a User's Permissions",
+          "notes": "Retrieve all permissions associated with the user.",
+          "type": "array",
+          "nickname": "get_permissions",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to retrieve the permissions for.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_permissions_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Permissions successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: read:users."
+            },
+            { "code": 404, "message": "User not found." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:users"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Remove Permissions from a User",
+          "notes": "Remove permissions from a user.\n",
+          "type": "void",
+          "nickname": "delete_permissions",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to remove permissions from.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "delete_permissions_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "User permissions removed." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:users."
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Assign Permissions to a User",
+          "notes": "Assign permissions to a user.",
+          "nickname": "post_permissions",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to assign permissions to.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_permissions_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Permissions assigned to user." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:users."
+            },
+            {
+              "code": 400,
+              "message": "No more permissions can be assigned to this user."
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/authentication-methods/{authentication_method_id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Gets an authentication method by ID.",
+          "type": "get_authentication-methods_by_authentication_method_id_response",
+          "nickname": "get_authentication-methods_by_authentication_method_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The ID of the user in question.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "authentication_method_id",
+              "description": "The ID of the authentication methods in question.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Authentication method retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected: read:authentication_methods.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The user does not exist.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:authentication_methods"] }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Deletes an authentication method by ID",
+          "type": "void",
+          "nickname": "delete_authentication-methods_by_authentication_method_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The ID of the user in question.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "authentication_method_id",
+              "description": "The ID of the authentication method to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Authentication method successfully deleted."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:authentication_methods",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:authentication_methods"] }
+          }
+        },
+        {
+          "method": "patch",
+          "summary": "Updates an authentication method.",
+          "type": "void",
+          "nickname": "patch_authentication-methods_by_authentication_method_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The ID of the user in question.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "authentication_method_id",
+              "description": "The ID of the authentication method to update.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_authentication-methods_by_authentication_method_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Authentication method updated." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected: update:authentication_methods.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "The user does not exist.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:authentication_methods"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/authenticators",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Delete All Authenticators",
+          "type": "void",
+          "nickname": "delete_authenticators",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "All authenticators successfully deleted."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: remove:authenticators",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:guardian_enrollments"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/multifactor/{provider}",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Delete a User's Multi-factor Provider",
+          "notes": "Delete a <a href=\"https://auth0.com/docs/multifactor-authentication\">multifactor</a> configuration for a user. This forces the user to re-configure the multi-factor provider.",
+          "type": "void",
+          "nickname": "delete_multifactor_by_provider",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to remove a multifactor configuration from.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "provider",
+              "description": "The multi-factor provider. Supported values 'duo' or 'google-authenticator'",
+              "type": "string",
+              "required": true,
+              "enum": ["duo", "google-authenticator"]
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Multi-factor provider successfully deleted for user."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "User not found.",
+              "errorCode": "inexistent_user"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/identities/{provider}/{user_id}",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Unlink a User Identity",
+          "notes": "Unlink an identity from the target user making it a separate user account again.",
+          "type": "array",
+          "nickname": "delete_user_identity_by_user_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the primary user account.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "provider",
+              "description": "Identity provider name of the secondary linked account (e.g. `google-oauth2`).",
+              "type": "string",
+              "required": true,
+              "enum": [
+                "ad",
+                "adfs",
+                "amazon",
+                "apple",
+                "dropbox",
+                "bitbucket",
+                "aol",
+                "auth0-oidc",
+                "auth0",
+                "baidu",
+                "bitly",
+                "box",
+                "custom",
+                "daccount",
+                "dwolla",
+                "email",
+                "evernote-sandbox",
+                "evernote",
+                "exact",
+                "facebook",
+                "fitbit",
+                "flickr",
+                "github",
+                "google-apps",
+                "google-oauth2",
+                "instagram",
+                "ip",
+                "line",
+                "linkedin",
+                "miicard",
+                "oauth1",
+                "oauth2",
+                "office365",
+                "oidc",
+                "okta",
+                "paypal",
+                "paypal-sandbox",
+                "pingfederate",
+                "planningcenter",
+                "renren",
+                "salesforce-community",
+                "salesforce-sandbox",
+                "salesforce",
+                "samlp",
+                "sharepoint",
+                "shopify",
+                "sms",
+                "soundcloud",
+                "thecity-sandbox",
+                "thecity",
+                "thirtysevensignals",
+                "twitter",
+                "untappd",
+                "vkontakte",
+                "waad",
+                "weibo",
+                "windowslive",
+                "wordpress",
+                "yahoo",
+                "yammer",
+                "yandex"
+              ]
+            },
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "description": "ID of the secondary linked account (e.g. `123456789081523216417` part after the `|` in `google-oauth2|123456789081523216417`).",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "items": { "$ref": "delete_user_identity_by_user_id_response" },
+          "responseMessages": [
+            { "code": 200, "message": "User identity successfully unlinked." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Main identity cannot be removed.",
+              "errorCode": "delete_main_user_identity"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:users, update:current_user_identities.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": {
+              "scopes": ["update:users", "update:current_user_identities"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/recovery-code-regeneration",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Generate New Multi-factor Authentication Recovery Code",
+          "notes": "Remove the current <a href=\"https://auth0.com/docs/multifactor-authentication/guardian\">multi-factor authentication</a> recovery code and generate a new one.",
+          "type": "post_recovery-code-regeneration_response",
+          "nickname": "post_recovery-code-regeneration",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to regenerate a multi-factor authentication recovery code for.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "New recovery code successfully generated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:users.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Enrollment not found.",
+              "errorCode": "enrollment_not_found"
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/identities",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Link a User Account",
+          "notes": "Link two user accounts together forming a primary and secondary relationship. On successful linking, the endpoint returns the new array of the primary account identities.\n\nNote: There are two ways of invoking the endpoint:\n\n<ul>\n  <li>With the authenticated primary account's JWT in the Authorization header, which has the <code>update:current_user_identities</code> scope:\n    <pre>\n      POST /api/v2/users/PRIMARY_ACCOUNT_USER_ID/identities\n      Authorization: \"Bearer PRIMARY_ACCOUNT_JWT\"\n      {\n        \"link_with\": \"SECONDARY_ACCOUNT_JWT\"\n      }\n    </pre>\n    In this case, only the <code>link_with</code> param is required in the body, which also contains the JWT obtained upon the secondary account's authentication.\n  </li>\n  <li>With a token generated by the API V2 containing the <code>update:users</code> scope:\n    <pre>\n    POST /api/v2/users/PRIMARY_ACCOUNT_USER_ID/identities\n    Authorization: \"Bearer YOUR_API_V2_TOKEN\"\n    {\n      \"provider\": \"SECONDARY_ACCOUNT_PROVIDER\",\n      \"connection_id\": \"SECONDARY_ACCOUNT_CONNECTION_ID(OPTIONAL)\",\n      \"user_id\": \"SECONDARY_ACCOUNT_USER_ID\"\n    }\n    </pre>\n    In this case you need to send <code>provider</code> and <code>user_id</code> in the body. Optionally you can also send the <code>connection_id</code> param which is suitable for identifying a particular database connection for the 'auth0' provider.\n  </li>\n</ul>",
+          "type": "array",
+          "nickname": "post_identities",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the primary user account to link a second user account to.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_identities_body",
+              "required": true
+            }
+          ],
+          "items": { "$ref": "post_identities_response" },
+          "responseMessages": [
+            { "code": 201, "message": "Identity successfully added." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The provider/connection is not configured."
+            },
+            {
+              "code": 400,
+              "message": "Main identity and the new one are the same."
+            },
+            {
+              "code": 400,
+              "message": "Invalid token (link_with).",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "JWT (link_with) contains an invalid aud claim.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "JWT (link_with) must contains sub claim.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "JWT (link_with) contains an invalid sub claim.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "JWT (link_with) must have an alg of RS256.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "JWT (link_with) must have the same issuer as the calling user.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "JWT (link_with) must have an aud claim that matches that of the calling token's azp.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:users, update:current_user_identities."
+            },
+            {
+              "code": 403,
+              "message": "User to be acted on does not match subject in bearer token.",
+              "errorCode": "unowned_resource"
+            },
+            { "code": 409, "message": "Specified identity already exists." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Linking to an inexistent identity requires a connection.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Linking to an inexistent identity is not allowed.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Unable to link with the secondary account."
+            },
+            { "code": 400, "message": "Provided secondary account not found." }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": {
+              "scopes": ["update:users", "update:current_user_identities"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/users/{id}/multifactor/actions/invalidate-remember-browser",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Invalidate All Remembered Browsers for Multi-factor Authentication",
+          "notes": "Invalidate all remembered browsers across all <a href=\"https://auth0.com/docs/multifactor-authentication\">authentication factors</a> for a user.",
+          "type": "void",
+          "nickname": "post_invalidate-remember-browser",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the user to invalidate all remembered browsers and authentication factors for.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Remembered browsers for MFA invalidated."
+            },
+            { "code": 400, "message": "Invalid input based on schemas." },
+            {
+              "code": 401,
+              "message": "Token has expired or signature is invalid."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:users.",
+              "errorCode": "insufficient_scope"
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["update:users"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_users_response": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "ID of the user which can be used when interacting with other APIs.",
+          "defaultValue": "auth0|507f1f77bcf86cd799439020"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of this user.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false).",
+          "defaultValue": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of this user.",
+          "defaultValue": "johndoe"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this user when using SMS connections. Follows the <a href=\"https://en.wikipedia.org/wiki/E.164\">E.164 recommendation</a>.",
+          "defaultValue": "+199999999999999"
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number has been verified (true) or not (false).",
+          "defaultValue": false
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Date and time when this user was created (ISO_8601 format)."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Date and time when this user was last updated/modified (ISO_8601 format)."
+        },
+        "identities": {
+          "type": "array",
+          "description": "Array of user identity objects when accounts are linked.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "connection": {
+                "type": "string",
+                "description": "Name of the connection containing this identity."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Unique identifier of the user user for this identity."
+              },
+              "provider": {
+                "type": "string",
+                "description": "The type of identity provider"
+              },
+              "isSocial": {
+                "type": "boolean",
+                "description": "Whether this identity is from a social provider (true) or not (false)."
+              },
+              "access_token": {
+                "type": "string",
+                "description": "IDP access token returned only if scope read:user_idp_tokens is defined."
+              },
+              "access_token_secret": {
+                "type": "string",
+                "description": "IDP access token secret returned only if scope read:user_idp_tokens is defined."
+              },
+              "refresh_token": {
+                "type": "string",
+                "description": "IDP refresh token returned only if scope read:user_idp_tokens is defined."
+              },
+              "profileData": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address of this user."
+                  },
+                  "email_verified": {
+                    "type": "boolean",
+                    "description": "Whether this email address is verified (true) or unverified (false)."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of this user."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of this user.",
+                    "defaultValue": "johndoe"
+                  },
+                  "given_name": {
+                    "type": "string",
+                    "description": "Given name/first name/forename of this user."
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Phone number for this user."
+                  },
+                  "phone_verified": {
+                    "type": "boolean",
+                    "description": "Whether this phone number is verified (true) or unverified (false)."
+                  },
+                  "family_name": {
+                    "type": "string",
+                    "description": "Family name/last name/surname of this user."
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          },
+          "defaultValue": {
+            "connection": "Initial-Connection",
+            "user_id": "507f1f77bcf86cd799439020",
+            "provider": "auth0",
+            "isSocial": false
+          }
+        },
+        "app_metadata": {
+          "$ref": "get_users_response_app_metadata",
+          "description": "User metadata to which this user has read-only access."
+        },
+        "user_metadata": {
+          "$ref": "get_users_response_user_metadata",
+          "description": "User metadata to which this user has read/write access."
+        },
+        "picture": {
+          "type": "string",
+          "description": "URL to picture, photo, or avatar of this user."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "nickname": {
+          "type": "string",
+          "description": "Preferred nickname or alias of this user."
+        },
+        "multifactor": {
+          "type": "array",
+          "description": "List of multi-factor authentication providers with which this user has enrolled.",
+          "items": { "type": "string" }
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP address from which this user logged in."
+        },
+        "last_login": {
+          "type": "string",
+          "description": "Last date and time this user logged in (ISO_8601 format)."
+        },
+        "logins_count": {
+          "type": "integer",
+          "description": "Total number of logins this user has performed."
+        },
+        "blocked": {
+          "type": "boolean",
+          "description": "Whether this user was blocked by an administrator (true) or is not (false)."
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user."
+        }
+      },
+      "additionalProperties": true
+    },
+    "get_users_response_app_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read-only access.",
+      "additionalProperties": true
+    },
+    "get_users_response_user_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read/write access.",
+      "additionalProperties": true
+    },
+    "post_users_response": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "ID of the user which can be used when interacting with other APIs.",
+          "defaultValue": "auth0|507f1f77bcf86cd799439020"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of this user.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false).",
+          "defaultValue": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of this user.",
+          "defaultValue": "johndoe"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this user when using SMS connections. Follows the <a href=\"https://en.wikipedia.org/wiki/E.164\">E.164 recommendation</a>.",
+          "defaultValue": "+199999999999999"
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number has been verified (true) or not (false).",
+          "defaultValue": false
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Date and time when this user was created (ISO_8601 format)."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Date and time when this user was last updated/modified (ISO_8601 format)."
+        },
+        "identities": {
+          "type": "array",
+          "description": "Array of user identity objects when accounts are linked.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "connection": {
+                "type": "string",
+                "description": "Name of the connection containing this identity."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Unique identifier of the user user for this identity."
+              },
+              "provider": {
+                "type": "string",
+                "description": "The type of identity provider"
+              },
+              "isSocial": {
+                "type": "boolean",
+                "description": "Whether this identity is from a social provider (true) or not (false)."
+              },
+              "access_token": {
+                "type": "string",
+                "description": "IDP access token returned only if scope read:user_idp_tokens is defined."
+              },
+              "access_token_secret": {
+                "type": "string",
+                "description": "IDP access token secret returned only if scope read:user_idp_tokens is defined."
+              },
+              "refresh_token": {
+                "type": "string",
+                "description": "IDP refresh token returned only if scope read:user_idp_tokens is defined."
+              },
+              "profileData": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address of this user."
+                  },
+                  "email_verified": {
+                    "type": "boolean",
+                    "description": "Whether this email address is verified (true) or unverified (false)."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of this user."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of this user.",
+                    "defaultValue": "johndoe"
+                  },
+                  "given_name": {
+                    "type": "string",
+                    "description": "Given name/first name/forename of this user."
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Phone number for this user."
+                  },
+                  "phone_verified": {
+                    "type": "boolean",
+                    "description": "Whether this phone number is verified (true) or unverified (false)."
+                  },
+                  "family_name": {
+                    "type": "string",
+                    "description": "Family name/last name/surname of this user."
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          },
+          "defaultValue": {
+            "connection": "Initial-Connection",
+            "user_id": "507f1f77bcf86cd799439020",
+            "provider": "auth0",
+            "isSocial": false
+          }
+        },
+        "app_metadata": {
+          "$ref": "post_users_response_app_metadata",
+          "description": "User metadata to which this user has read-only access."
+        },
+        "user_metadata": {
+          "$ref": "post_users_response_user_metadata",
+          "description": "User metadata to which this user has read/write access."
+        },
+        "picture": {
+          "type": "string",
+          "description": "URL to picture, photo, or avatar of this user."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "nickname": {
+          "type": "string",
+          "description": "Preferred nickname or alias of this user."
+        },
+        "multifactor": {
+          "type": "array",
+          "description": "List of multi-factor authentication providers with which this user has enrolled.",
+          "items": { "type": "string" }
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP address from which this user logged in."
+        },
+        "last_login": {
+          "type": "string",
+          "description": "Last date and time this user logged in (ISO_8601 format)."
+        },
+        "logins_count": {
+          "type": "integer",
+          "description": "Total number of logins this user has performed."
+        },
+        "blocked": {
+          "type": "boolean",
+          "description": "Whether this user was blocked by an administrator (true) or is not (false)."
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user."
+        }
+      },
+      "additionalProperties": true
+    },
+    "post_users_response_app_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read-only access.",
+      "additionalProperties": true
+    },
+    "post_users_response_user_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read/write access.",
+      "additionalProperties": true
+    },
+    "post_users_body": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The user's email.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "The user's phone number (following the E.164 recommendation), only valid for users from SMS connections.",
+          "pattern": "^\\+[0-9]{1,15}$",
+          "defaultValue": "+199999999999999"
+        },
+        "user_metadata": {
+          "$ref": "post_users_body_user_metadata",
+          "description": "Data related to the user that does not affect the application's core functionality."
+        },
+        "blocked": {
+          "type": "boolean",
+          "description": "Whether this user was blocked by an administrator (true) or not (false).",
+          "defaultValue": false
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false). User will receive a verification email after creation if `email_verified` is false or not specified",
+          "defaultValue": false
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number has been verified (true) or not (false).",
+          "defaultValue": false
+        },
+        "app_metadata": {
+          "$ref": "post_users_body_app_metadata",
+          "description": "Data related to the user that does affect the application's core functionality."
+        },
+        "given_name": {
+          "type": "string",
+          "description": "The user's given name(s).",
+          "minLength": 1,
+          "maxLength": 150,
+          "defaultValue": "John"
+        },
+        "family_name": {
+          "type": "string",
+          "description": "The user's family name(s).",
+          "minLength": 1,
+          "maxLength": 150,
+          "defaultValue": "Doe"
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's full name.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "John Doe"
+        },
+        "nickname": {
+          "type": "string",
+          "description": "The user's nickname.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "Johnny"
+        },
+        "picture": {
+          "type": "string",
+          "description": "A URI pointing to the user's picture.",
+          "format": "strict-uri",
+          "defaultValue": "https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png"
+        },
+        "user_id": {
+          "type": "string",
+          "description": "The external user's id provided by the identity provider.",
+          "minLength": 0,
+          "maxLength": 255,
+          "pattern": "^\\S*$",
+          "defaultValue": "abc"
+        },
+        "connection": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Name of the connection this user should be created in.",
+          "defaultValue": "Initial-Connection"
+        },
+        "password": {
+          "type": "string",
+          "description": "Initial password for this user (mandatory only for auth0 connection strategy).",
+          "minLength": 1,
+          "defaultValue": "secret"
+        },
+        "verify_email": {
+          "type": "boolean",
+          "description": "Whether the user will receive a verification email after creation (true) or no email (false). Overrides behavior of `email_verified` parameter.",
+          "defaultValue": false
+        },
+        "username": {
+          "type": "string",
+          "description": "The user's username. Only valid if the connection requires a username.",
+          "minLength": 1,
+          "maxLength": 128,
+          "defaultValue": "johndoe"
+        }
+      },
+      "required": ["connection"],
+      "additionalProperties": false
+    },
+    "post_users_body_user_metadata": {
+      "type": "object",
+      "description": "Data related to the user that does not affect the application's core functionality.",
+      "defaultValue": { "hobby": "skydiving" }
+    },
+    "post_users_body_app_metadata": {
+      "id": "app_metadata",
+      "type": "object",
+      "title": "app_metadata",
+      "description": "Data related to the user that does affect the application's core functionality.",
+      "defaultValue": { "plan": "pro" }
+    },
+    "get_users_by_id_response": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "ID of the user which can be used when interacting with other APIs.",
+          "defaultValue": "auth0|507f1f77bcf86cd799439020"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of this user.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false).",
+          "defaultValue": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of this user.",
+          "defaultValue": "johndoe"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this user when using SMS connections. Follows the <a href=\"https://en.wikipedia.org/wiki/E.164\">E.164 recommendation</a>.",
+          "defaultValue": "+199999999999999"
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number has been verified (true) or not (false).",
+          "defaultValue": false
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Date and time when this user was created (ISO_8601 format)."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Date and time when this user was last updated/modified (ISO_8601 format)."
+        },
+        "identities": {
+          "type": "array",
+          "description": "Array of user identity objects when accounts are linked.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "connection": {
+                "type": "string",
+                "description": "Name of the connection containing this identity."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Unique identifier of the user user for this identity."
+              },
+              "provider": {
+                "type": "string",
+                "description": "The type of identity provider"
+              },
+              "isSocial": {
+                "type": "boolean",
+                "description": "Whether this identity is from a social provider (true) or not (false)."
+              },
+              "access_token": {
+                "type": "string",
+                "description": "IDP access token returned only if scope read:user_idp_tokens is defined."
+              },
+              "access_token_secret": {
+                "type": "string",
+                "description": "IDP access token secret returned only if scope read:user_idp_tokens is defined."
+              },
+              "refresh_token": {
+                "type": "string",
+                "description": "IDP refresh token returned only if scope read:user_idp_tokens is defined."
+              },
+              "profileData": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address of this user."
+                  },
+                  "email_verified": {
+                    "type": "boolean",
+                    "description": "Whether this email address is verified (true) or unverified (false)."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of this user."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of this user.",
+                    "defaultValue": "johndoe"
+                  },
+                  "given_name": {
+                    "type": "string",
+                    "description": "Given name/first name/forename of this user."
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Phone number for this user."
+                  },
+                  "phone_verified": {
+                    "type": "boolean",
+                    "description": "Whether this phone number is verified (true) or unverified (false)."
+                  },
+                  "family_name": {
+                    "type": "string",
+                    "description": "Family name/last name/surname of this user."
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          },
+          "defaultValue": {
+            "connection": "Initial-Connection",
+            "user_id": "507f1f77bcf86cd799439020",
+            "provider": "auth0",
+            "isSocial": false
+          }
+        },
+        "app_metadata": {
+          "$ref": "get_users_by_id_response_app_metadata",
+          "description": "User metadata to which this user has read-only access."
+        },
+        "user_metadata": {
+          "$ref": "get_users_by_id_response_user_metadata",
+          "description": "User metadata to which this user has read/write access."
+        },
+        "picture": {
+          "type": "string",
+          "description": "URL to picture, photo, or avatar of this user."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "nickname": {
+          "type": "string",
+          "description": "Preferred nickname or alias of this user."
+        },
+        "multifactor": {
+          "type": "array",
+          "description": "List of multi-factor authentication providers with which this user has enrolled.",
+          "items": { "type": "string" }
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP address from which this user logged in."
+        },
+        "last_login": {
+          "type": "string",
+          "description": "Last date and time this user logged in (ISO_8601 format)."
+        },
+        "logins_count": {
+          "type": "integer",
+          "description": "Total number of logins this user has performed."
+        },
+        "blocked": {
+          "type": "boolean",
+          "description": "Whether this user was blocked by an administrator (true) or is not (false)."
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user."
+        }
+      },
+      "additionalProperties": true
+    },
+    "get_users_by_id_response_app_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read-only access.",
+      "additionalProperties": true
+    },
+    "get_users_by_id_response_user_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read/write access.",
+      "additionalProperties": true
+    },
+    "patch_users_by_id_response": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "ID of the user which can be used when interacting with other APIs.",
+          "defaultValue": "auth0|507f1f77bcf86cd799439020"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of this user.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false).",
+          "defaultValue": false
+        },
+        "username": {
+          "type": "string",
+          "description": "Username of this user.",
+          "defaultValue": "johndoe"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this user when using SMS connections. Follows the <a href=\"https://en.wikipedia.org/wiki/E.164\">E.164 recommendation</a>.",
+          "defaultValue": "+199999999999999"
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number has been verified (true) or not (false).",
+          "defaultValue": false
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Date and time when this user was created (ISO_8601 format)."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Date and time when this user was last updated/modified (ISO_8601 format)."
+        },
+        "identities": {
+          "type": "array",
+          "description": "Array of user identity objects when accounts are linked.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "connection": {
+                "type": "string",
+                "description": "Name of the connection containing this identity."
+              },
+              "user_id": {
+                "type": "string",
+                "description": "Unique identifier of the user user for this identity."
+              },
+              "provider": {
+                "type": "string",
+                "description": "The type of identity provider"
+              },
+              "isSocial": {
+                "type": "boolean",
+                "description": "Whether this identity is from a social provider (true) or not (false)."
+              },
+              "access_token": {
+                "type": "string",
+                "description": "IDP access token returned only if scope read:user_idp_tokens is defined."
+              },
+              "access_token_secret": {
+                "type": "string",
+                "description": "IDP access token secret returned only if scope read:user_idp_tokens is defined."
+              },
+              "refresh_token": {
+                "type": "string",
+                "description": "IDP refresh token returned only if scope read:user_idp_tokens is defined."
+              },
+              "profileData": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email address of this user."
+                  },
+                  "email_verified": {
+                    "type": "boolean",
+                    "description": "Whether this email address is verified (true) or unverified (false)."
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of this user."
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of this user.",
+                    "defaultValue": "johndoe"
+                  },
+                  "given_name": {
+                    "type": "string",
+                    "description": "Given name/first name/forename of this user."
+                  },
+                  "phone_number": {
+                    "type": "string",
+                    "description": "Phone number for this user."
+                  },
+                  "phone_verified": {
+                    "type": "boolean",
+                    "description": "Whether this phone number is verified (true) or unverified (false)."
+                  },
+                  "family_name": {
+                    "type": "string",
+                    "description": "Family name/last name/surname of this user."
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          },
+          "defaultValue": {
+            "connection": "Initial-Connection",
+            "user_id": "507f1f77bcf86cd799439020",
+            "provider": "auth0",
+            "isSocial": false
+          }
+        },
+        "app_metadata": {
+          "$ref": "patch_users_by_id_response_app_metadata",
+          "description": "User metadata to which this user has read-only access."
+        },
+        "user_metadata": {
+          "$ref": "patch_users_by_id_response_user_metadata",
+          "description": "User metadata to which this user has read/write access."
+        },
+        "picture": {
+          "type": "string",
+          "description": "URL to picture, photo, or avatar of this user."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "nickname": {
+          "type": "string",
+          "description": "Preferred nickname or alias of this user."
+        },
+        "multifactor": {
+          "type": "array",
+          "description": "List of multi-factor authentication providers with which this user has enrolled.",
+          "items": { "type": "string" }
+        },
+        "last_ip": {
+          "type": "string",
+          "description": "Last IP address from which this user logged in."
+        },
+        "last_login": {
+          "type": "string",
+          "description": "Last date and time this user logged in (ISO_8601 format)."
+        },
+        "logins_count": {
+          "type": "integer",
+          "description": "Total number of logins this user has performed."
+        },
+        "blocked": {
+          "type": "boolean",
+          "description": "Whether this user was blocked by an administrator (true) or is not (false)."
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user."
+        }
+      },
+      "additionalProperties": true
+    },
+    "patch_users_by_id_response_app_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read-only access.",
+      "additionalProperties": true
+    },
+    "patch_users_by_id_response_user_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read/write access.",
+      "additionalProperties": true
+    },
+    "patch_users_by_id_body": {
+      "title": "patch_user",
+      "type": "object",
+      "properties": {
+        "blocked": {
+          "type": "boolean",
+          "description": "Whether this user was blocked by an administrator (true) or not (false).",
+          "defaultValue": false
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false). If set to false the user will not receive a verification email unless `verify_email` is set to true.",
+          "defaultValue": false
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of this user.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "The user's phone number (following the E.164 recommendation), only valid for users from SMS connections.",
+          "pattern": "^\\+[0-9]{1,15}$",
+          "defaultValue": "+199999999999999"
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number has been verified (true) or not (false).",
+          "defaultValue": false
+        },
+        "user_metadata": {
+          "$ref": "patch_users_by_id_body_user_metadata",
+          "description": "User metadata to which this user has read/write access."
+        },
+        "app_metadata": {
+          "$ref": "patch_users_by_id_body_app_metadata",
+          "description": "User metadata to which this user has read-only access."
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user.",
+          "minLength": 1,
+          "maxLength": 150,
+          "defaultValue": "John"
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user.",
+          "minLength": 1,
+          "maxLength": 150,
+          "defaultValue": "Doe"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this user.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "John Doe"
+        },
+        "nickname": {
+          "type": "string",
+          "description": "Preferred nickname or alias of this user.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "Johnny"
+        },
+        "picture": {
+          "type": "string",
+          "description": "URL to picture, photo, or avatar of this user.",
+          "format": "strict-uri",
+          "defaultValue": "https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png"
+        },
+        "verify_email": {
+          "type": "boolean",
+          "description": "Whether this user will receive a verification email after creation (true) or no email (false). Overrides behavior of `email_verified` parameter.",
+          "defaultValue": false
+        },
+        "verify_phone_number": {
+          "type": "boolean",
+          "description": "Whether this user will receive a text after changing the phone number (true) or no text (false). Only valid when changing phone number.",
+          "defaultValue": false
+        },
+        "password": {
+          "type": "string",
+          "minLength": 1,
+          "description": "New password for this user (mandatory for non-SMS connections).",
+          "defaultValue": "secret"
+        },
+        "connection": {
+          "type": "string",
+          "minLength": 1,
+          "description": "ID of the connection this user should be created in.",
+          "defaultValue": "Initial-Connection"
+        },
+        "client_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Auth0 client ID. Only valid when updating email address.",
+          "defaultValue": "DaM8bokEXBWrTUFCiJjWn50jei6ardyX"
+        },
+        "username": {
+          "type": "string",
+          "description": "The user's username. Only valid if the connection requires a username.",
+          "minLength": 1,
+          "maxLength": 128,
+          "defaultValue": "johndoe"
+        }
+      },
+      "dependencies": {
+        "verify_email": ["email"],
+        "verify_phone_number": ["phone_number"]
+      },
+      "additionalProperties": true
+    },
+    "patch_users_by_id_body_user_metadata": {
+      "type": "object",
+      "description": "User metadata to which this user has read/write access.",
+      "defaultValue": { "hobby": "skydiving" }
+    },
+    "patch_users_by_id_body_app_metadata": {
+      "id": "app_metadata",
+      "type": "object",
+      "title": "app_metadata",
+      "description": "User metadata to which this user has read-only access.",
+      "defaultValue": { "plan": "pro" }
+    },
+    "get_enrollments_response": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID of this enrollment." },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "confirmed"],
+          "description": "Status of this enrollment. Can be `pending` or `confirmed`."
+        },
+        "type": { "type": "string", "description": "Type of enrollment." },
+        "name": {
+          "type": "string",
+          "description": "Name of enrollment (usually phone number).",
+          "maxLength": 20
+        },
+        "identifier": {
+          "type": "string",
+          "description": "Device identifier (usually phone identifier) of this enrollment."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this enrollment."
+        },
+        "auth_method": {
+          "type": "string",
+          "enum": [
+            "authenticator",
+            "guardian",
+            "sms",
+            "webauthn-platform",
+            "webauthn-roaming"
+          ],
+          "description": "Authentication method for this enrollment. Can be `authenticator`, `guardian`, `sms`, `webauthn-roaming`, or `webauthn-platform`."
+        },
+        "enrolled_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start date and time of this enrollment."
+        },
+        "last_auth": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last authentication date and time of this enrollment."
+        }
+      }
+    },
+    "get_authentication-methods_response": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "description": "Enrollment generated id" },
+        "type": {
+          "type": "string",
+          "enum": [
+            "recovery-code",
+            "totp",
+            "push",
+            "guardian",
+            "sms",
+            "phone",
+            "email",
+            "webauthn-roaming",
+            "webauthn-platform"
+          ],
+          "description": "Enrollment type"
+        },
+        "confirmed": { "type": "boolean", "description": "Enrollment status" },
+        "name": {
+          "type": "string",
+          "description": "A human-readable label to identify the authenticator",
+          "maxLength": 20
+        },
+        "link_id": {
+          "type": "string",
+          "description": "Indicates the authenticator is linked to another authenticator"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Applies to phone authenticators only. The destination phone number used to text and call."
+        },
+        "email": {
+          "type": "string",
+          "description": "Applies to email authenticators only. The email address used to send verification messages."
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Applies to webauthn authenticators only. The ID of the generated credential."
+        },
+        "public_key": {
+          "type": "string",
+          "description": "Applies to webauthn authenticators only. The public key."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Authenticator creation date"
+        },
+        "enrolled_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Enrollment date"
+        },
+        "last_auth_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last authentication"
+        }
+      },
+      "required": ["id", "type", "created_at"]
+    },
+    "post_authentication-methods_response": {
+      "type": "object",
+      "description": "The successfully created authentication method.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the newly created authentication method (automatically generated by the application)",
+          "format": "authenticator-id"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["phone", "email", "totp", "webauthn-roaming"]
+        },
+        "name": {
+          "type": "string",
+          "description": "A human-readable label to identify the authentication method."
+        },
+        "totp_secret": {
+          "type": "string",
+          "description": "Base32 encoded secret for TOTP generation"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice.",
+          "minLength": 2,
+          "maxLength": 30
+        },
+        "email": {
+          "type": "string",
+          "description": "Applies to email authentication methods only. The email address used to send verification messages."
+        },
+        "authentication_methods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string", "format": "authenticator-id" },
+              "type": {
+                "type": "string",
+                "enum": ["totp", "push", "sms", "voice"]
+              }
+            }
+          }
+        },
+        "preferred_authentication_method": {
+          "type": "string",
+          "enum": ["voice", "sms"],
+          "description": "Preferred phone authentication method"
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Applies to webauthn authenticators only. The id of the credential."
+        },
+        "public_key": {
+          "type": "string",
+          "description": "Applies to webauthn authenticators only. The public key."
+        },
+        "relying_party_identifier": {
+          "type": "string",
+          "description": "Applies to webauthn authenticators only. The relying party identifier."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Authentication method creation date"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["type"]
+    },
+    "post_authentication-methods_body": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["phone", "email", "totp", "webauthn-roaming"]
+        },
+        "name": {
+          "type": "string",
+          "description": "A human-readable label to identify the authentication method."
+        },
+        "totp_secret": {
+          "type": "string",
+          "description": "Base32 encoded secret for TOTP generation."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice.",
+          "minLength": 2,
+          "maxLength": 30
+        },
+        "email": {
+          "type": "string",
+          "description": "Applies to email authentication methods only. The email address used to send verification messages."
+        },
+        "preferred_authentication_method": {
+          "type": "string",
+          "enum": ["voice", "sms"],
+          "description": "Preferred phone authentication method."
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Applies to email webauthn authenticators only. The id of the credential."
+        },
+        "public_key": {
+          "type": "string",
+          "description": "Applies to email webauthn authenticators only. The public key."
+        },
+        "relying_party_identifier": {
+          "type": "string",
+          "description": "Applies to email webauthn authenticators only. The relying party identifier."
+        }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "put_authentication-methods_body": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["phone", "email", "totp"] },
+        "preferred_authentication_method": {
+          "type": "string",
+          "enum": ["voice", "sms"],
+          "description": "The preferred authentication method for phone authentication method."
+        },
+        "name": {
+          "type": "string",
+          "description": "AA human-readable label to identify the authentication method.",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice.",
+          "minLength": 2,
+          "maxLength": 30
+        },
+        "email": {
+          "type": "string",
+          "description": "Applies to email authentication methods only. The email address used to send verification messages.",
+          "minLength": 1
+        },
+        "totp_secret": {
+          "type": "string",
+          "description": "Applies to totp authentication methods only. The base32 encoded secret for TOTP generation.",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": ["type"]
+    },
+    "get_user_organizations_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "get_user_organizations_response_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "get_user_organizations_response_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      }
+    },
+    "get_user_organizations_response_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "get_user_organizations_response_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "get_user_organizations_response_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "get_user_organizations_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "get_logs_by_user_response": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "Date when the event occurred in ISO 8601 format.",
+          "defaultValue": "2016-02-23T19:57:29.532Z"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of event.",
+          "defaultValue": "sapi"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of this event."
+        },
+        "connection": {
+          "type": "string",
+          "description": "Name of the connection the event relates to."
+        },
+        "connection_id": {
+          "type": "string",
+          "description": "ID of the connection the event relates to."
+        },
+        "client_id": {
+          "type": "string",
+          "description": "ID of the client (application).",
+          "defaultValue": "AaiyAPdpYdesoKnqjj8HJqRn4T5titww"
+        },
+        "client_name": {
+          "type": "string",
+          "description": "Name of the client (application).",
+          "defaultValue": "My application Name"
+        },
+        "ip": {
+          "type": "string",
+          "description": "IP address of the log event source.",
+          "defaultValue": "190.257.209.19"
+        },
+        "hostname": {
+          "type": "string",
+          "description": "Hostname the event applies to.",
+          "defaultValue": "190.257.209.19"
+        },
+        "user_id": {
+          "type": "string",
+          "description": "ID of the user involved in the event.",
+          "defaultValue": "auth0|56c75c4e42b6359e98374bc2"
+        },
+        "user_name": {
+          "type": "string",
+          "description": "Name of the user involved in the event."
+        },
+        "audience": {
+          "type": "string",
+          "description": "API audience the event applies to."
+        },
+        "scope": {
+          "type": "string",
+          "description": "Scope permissions applied to the event.",
+          "defaultValue": ""
+        },
+        "strategy": {
+          "type": "string",
+          "description": "Name of the strategy involved in the event."
+        },
+        "strategy_type": {
+          "type": "string",
+          "description": "Type of strategy involved in the event."
+        },
+        "log_id": {
+          "type": "string",
+          "description": "Unique ID of the event."
+        },
+        "isMobile": {
+          "type": "boolean",
+          "description": "Whether the client was a mobile device (true) or desktop/laptop/server (false)."
+        },
+        "details": {
+          "$ref": "get_logs_by_user_response_details",
+          "description": "Additional useful details about this event (structure is dependent upon event type)."
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "User agent string from the client device that caused the event."
+        },
+        "location_info": {
+          "$ref": "get_logs_by_user_response_location_info",
+          "description": "Information about the location that triggered this event based on the `ip`."
+        }
+      },
+      "additionalProperties": true
+    },
+    "get_logs_by_user_response_details": {
+      "type": "object",
+      "description": "Additional useful details about this event (structure is dependent upon event type).",
+      "additionalProperties": true,
+      "defaultValue": {}
+    },
+    "get_logs_by_user_response_location_info": {
+      "type": "object",
+      "description": "Information about the location that triggered this event based on the `ip`.",
+      "properties": {
+        "country_code": {
+          "type": "string",
+          "description": "Two-letter <a href=\"https://www.iso.org/iso-3166-country-codes.html\">Alpha-2 ISO 3166-1</a> country code.",
+          "minLength": 2,
+          "maxLength": 2
+        },
+        "country_code3": {
+          "type": "string",
+          "description": "Three-letter <a href=\"https://www.iso.org/iso-3166-country-codes.html\">Alpha-3 ISO 3166-1</a> country code.",
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "country_name": {
+          "type": "string",
+          "description": "Full country name in English."
+        },
+        "city_name": {
+          "type": "string",
+          "description": "Full city name in English."
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Global latitude (horizontal) position."
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Global longitude (vertical) position."
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "Time zone name as found in the <a href=\"https://www.iana.org/time-zones\">tz database</a>."
+        },
+        "continent_code": {
+          "type": "string",
+          "description": "Continent the country is located within. Can be `AF` (Africa), `AN` (Antarctica), `AS` (Asia), `EU` (Europe), `NA` (North America), `OC` (Oceania) or `SA` (South America)."
+        }
+      }
+    },
+    "get_user_roles_response": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID for this role." },
+        "name": { "type": "string", "description": "Name of the role." },
+        "description": {
+          "type": "string",
+          "description": "Description of the role."
+        }
+      },
+      "additionalProperties": false
+    },
+    "delete_user_roles_body": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "description": "List of roles IDs to remove from the user.",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["roles"],
+      "additionalProperties": false
+    },
+    "post_user_roles_body": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "description": "List of roles IDs to associated with the user.",
+          "items": {
+            "minLength": 1,
+            "type": "string",
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["roles"],
+      "additionalProperties": false
+    },
+    "get_permissions_response": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "source_type": {
+            "type": "string",
+            "description": "The source type where this permission is coming from."
+          },
+          "source_name": {
+            "type": "string",
+            "description": "The name of the source."
+          },
+          "source_id": { "type": "string", "description": "The source id." }
+        },
+        "resource_server_identifier": {
+          "type": "string",
+          "description": "Resource server (API) identifier that this permission is for."
+        },
+        "permission_name": {
+          "type": "string",
+          "description": "Name of this permission."
+        },
+        "resource_server_name": {
+          "type": "string",
+          "description": "Resource server (API) name this permission is for."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of this permission."
+        }
+      },
+      "additionalProperties": false
+    },
+    "delete_permissions_body": {
+      "title": "delete_user_permissions_assignment",
+      "type": "object",
+      "required": ["permissions"],
+      "additionalProperties": false,
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "description": "List of permissions to remove from this user.",
+          "items": {
+            "type": "object",
+            "required": ["resource_server_identifier", "permission_name"],
+            "properties": {
+              "resource_server_identifier": {
+                "type": "string",
+                "description": "Resource server (API) identifier that this permission is for."
+              },
+              "permission_name": {
+                "type": "string",
+                "description": "Name of this permission."
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 1000
+        }
+      }
+    },
+    "post_permissions_body": {
+      "title": "post_user_permissions_assignment",
+      "type": "object",
+      "required": ["permissions"],
+      "additionalProperties": false,
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "description": "List of permissions to add to this user.",
+          "items": {
+            "type": "object",
+            "required": ["resource_server_identifier", "permission_name"],
+            "properties": {
+              "resource_server_identifier": {
+                "type": "string",
+                "description": "Resource server (API) identifier that this permission is for."
+              },
+              "permission_name": {
+                "type": "string",
+                "description": "Name of this permission."
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      }
+    },
+    "get_authentication-methods_by_authentication_method_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the authentication method (auto generated)"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "recovery-code",
+            "totp",
+            "push",
+            "phone",
+            "email",
+            "email-verification",
+            "webauthn-roaming",
+            "webauthn-platform",
+            "guardian"
+          ]
+        },
+        "confirmed": {
+          "type": "boolean",
+          "description": "The authentication method status"
+        },
+        "name": {
+          "type": "string",
+          "description": "A human-readable label to identify the authentication method",
+          "maxLength": 20
+        },
+        "authentication_methods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["totp", "push", "sms", "voice"]
+              },
+              "id": { "type": "string", "format": "authenticator-id" }
+            }
+          }
+        },
+        "preferred_authentication_method": {
+          "type": "string",
+          "description": "The authentication method preferred for phone authenticators."
+        },
+        "link_id": {
+          "type": "string",
+          "description": "The ID of a linked authentication method. Linked authentication methods will be deleted together."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice."
+        },
+        "email": {
+          "type": "string",
+          "description": "Applies to email and email-verification authentication methods only. The email address used to send verification messages."
+        },
+        "key_id": {
+          "type": "string",
+          "description": "Applies to webauthn authentication methods only. The ID of the generated credential."
+        },
+        "public_key": {
+          "type": "string",
+          "description": "Applies to webauthn authentication methods only. The public key."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Authenticator creation date"
+        },
+        "enrolled_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Enrollment date"
+        },
+        "last_auth_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last authentication"
+        }
+      },
+      "required": ["id", "type", "created_at"],
+      "additionalProperties": false
+    },
+    "patch_authentication-methods_by_authentication_method_id_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A human-readable label to identify the authentication method."
+        },
+        "totp_secret": {
+          "type": "string",
+          "description": "Base32 encoded secret for TOTP generation."
+        },
+        "email": {
+          "type": "string",
+          "description": "Applies to email authentication methods only. The email address used to send verification messages.",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Applies to phone authentication methods only. The destination phone number used to send verification codes via text and voice.",
+          "minLength": 2,
+          "maxLength": 30
+        },
+        "preferred_authentication_method": {
+          "type": "string",
+          "enum": ["voice", "sms"],
+          "description": "Preferred phone authentication method"
+        }
+      },
+      "additionalProperties": false
+    },
+    "delete_user_identity_by_user_id_response": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "type": "string",
+          "description": "The name of the connection for the identity.",
+          "defaultValue": "Initial-Connection"
+        },
+        "user_id": {
+          "type": "string",
+          "description": "The unique identifier for the user for the identity.",
+          "defaultValue": "5457edea1b8f22891a000004"
+        },
+        "provider": {
+          "type": "string",
+          "description": "The type of identity provider.",
+          "defaultValue": "auth0"
+        },
+        "isSocial": {
+          "type": "boolean",
+          "description": "<code>true</code> if the identity provider is a social provider, <code>false</code>s otherwise"
+        },
+        "access_token": {
+          "type": "string",
+          "description": "IDP access token returned only if scope read:user_idp_tokens is defined"
+        },
+        "access_token_secret": {
+          "type": "string",
+          "description": "IDP access token secret returned only if scope read:user_idp_tokens is defined."
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": "IDP refresh token returned only if scope read:user_idp_tokens is defined."
+        },
+        "profileData": {
+          "$ref": "delete_user_identity_by_user_id_response_profileData"
+        }
+      },
+      "additionalProperties": false,
+      "required": ["provider", "user_id", "connection"]
+    },
+    "delete_user_identity_by_user_id_response_profileData": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address of this user."
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false)."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "username": {
+          "type": "string",
+          "description": "Username of this user.",
+          "defaultValue": "johndoe"
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this user."
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number is verified (true) or unverified (false)."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user."
+        }
+      },
+      "additionalProperties": true
+    },
+    "post_recovery-code-regeneration_response": {
+      "type": "object",
+      "properties": {
+        "recovery_code": {
+          "type": "string",
+          "description": "New account recovery code."
+        }
+      }
+    },
+    "post_identities_response": {
+      "type": "object",
+      "properties": {
+        "connection": {
+          "type": "string",
+          "description": "Connection name of this identity.",
+          "defaultValue": "twitter"
+        },
+        "user_id": { "type": "string", "minLength": 1, "defaultValue": "abc" },
+        "provider": {
+          "type": "string",
+          "description": "Type of identity provider.",
+          "defaultValue": "twitter"
+        },
+        "profileData": { "$ref": "post_identities_response_profileData" },
+        "isSocial": {
+          "type": "boolean",
+          "description": "Whether the identity provider is a social provider (true) or not (false)."
+        },
+        "access_token": {
+          "type": "string",
+          "description": "IDP access token returned if scope `read:user_idp_tokens` is defined."
+        },
+        "access_token_secret": {
+          "type": "string",
+          "description": "IDP access token secret returned only if `scope read:user_idp_tokens` is defined."
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": "IDP refresh token returned only if scope `read:user_idp_tokens` is defined."
+        }
+      },
+      "additionalProperties": false,
+      "required": ["provider", "user_id", "connection"]
+    },
+    "post_identities_response_profileData": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address of this user."
+        },
+        "email_verified": {
+          "type": "boolean",
+          "description": "Whether this email address is verified (true) or unverified (false)."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "username": {
+          "type": "string",
+          "description": "Username of this user.",
+          "defaultValue": "johndoe"
+        },
+        "given_name": {
+          "type": "string",
+          "description": "Given name/first name/forename of this user."
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Phone number for this user."
+        },
+        "phone_verified": {
+          "type": "boolean",
+          "description": "Whether this phone number is verified (true) or unverified (false)."
+        },
+        "family_name": {
+          "type": "string",
+          "description": "Family name/last name/surname of this user."
+        }
+      },
+      "additionalProperties": true
+    },
+    "post_identities_body": {
+      "title": "post_user_identity",
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "Identity provider of the secondary user account being linked.",
+          "enum": [
+            "ad",
+            "adfs",
+            "amazon",
+            "apple",
+            "dropbox",
+            "bitbucket",
+            "aol",
+            "auth0-oidc",
+            "auth0",
+            "baidu",
+            "bitly",
+            "box",
+            "custom",
+            "daccount",
+            "dwolla",
+            "email",
+            "evernote-sandbox",
+            "evernote",
+            "exact",
+            "facebook",
+            "fitbit",
+            "flickr",
+            "github",
+            "google-apps",
+            "google-oauth2",
+            "instagram",
+            "ip",
+            "line",
+            "linkedin",
+            "miicard",
+            "oauth1",
+            "oauth2",
+            "office365",
+            "oidc",
+            "okta",
+            "paypal",
+            "paypal-sandbox",
+            "pingfederate",
+            "planningcenter",
+            "renren",
+            "salesforce-community",
+            "salesforce-sandbox",
+            "salesforce",
+            "samlp",
+            "sharepoint",
+            "shopify",
+            "sms",
+            "soundcloud",
+            "thecity-sandbox",
+            "thecity",
+            "thirtysevensignals",
+            "twitter",
+            "untappd",
+            "vkontakte",
+            "waad",
+            "weibo",
+            "windowslive",
+            "wordpress",
+            "yahoo",
+            "yammer",
+            "yandex"
+          ],
+          "defaultValue": "twitter"
+        },
+        "connection_id": {
+          "type": "string",
+          "description": "connection_id of the secondary user account being linked when more than one `auth0` database provider exists.",
+          "pattern": "^con_[A-Za-z0-9]{16}$"
+        },
+        "user_id": { "type": "string", "minLength": 1, "defaultValue": "abc" },
+        "link_with": {
+          "type": "string",
+          "description": "JWT for the secondary account being linked. If sending this parameter, `provider`, `user_id`, and `connection_id` must not be sent.",
+          "defaultValue": "{SECONDARY_ACCOUNT_JWT}"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1,
+      "dependencies": {
+        "provider": {
+          "required": ["user_id"],
+          "properties": { "link_with": { "not": {} } }
+        },
+        "user_id": { "required": ["provider"] },
+        "connection_id": { "required": ["provider", "user_id"] },
+        "link_with": {
+          "properties": {
+            "provider": { "not": {} },
+            "user_id": { "not": {} },
+            "connection": { "not": {} }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Rules Configs",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/rules-configs",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Retrieve config variable keys for rules (get_rules-configs)",
+          "notes": "Retrieve rules config variable keys.\n\n    Note: For security, config variable values cannot be retrieved outside rule execution.",
+          "type": "array",
+          "nickname": "get_rules-configs",
+          "parameters": [],
+          "items": { "$ref": "get_rules-configs_response" },
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Rules config keys successfully retrieved."
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:rules_configs.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:rules_configs"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/rules-configs/{key}",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Delete rules config for a given key",
+          "notes": "Delete a rules config variable identified by its key.",
+          "type": "void",
+          "nickname": "delete_rules-configs_by_key",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "key",
+              "description": "Key of the rules config variable to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Rules config variable successfully removed."
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:rules_configs.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:rules_configs"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Set rules config for a given key",
+          "notes": "Sets a rules config variable.",
+          "type": "put_rules-configs_by_key_response",
+          "nickname": "put_rules-configs_by_key",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "key",
+              "description": "Key of the rules config variable to set (max length: 127 characters).",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_rules-configs_by_key_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Rules config variable successfully set."
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:rules_configs.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:rules_configs"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_rules-configs_response": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "Key for a rules config variable.",
+          "defaultValue": "MY_RULES_CONFIG_KEY",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_\\-@*+:]*$",
+          "minLength": 1,
+          "maxLength": 127
+        }
+      }
+    },
+    "put_rules-configs_by_key_response": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "Key for a rules config variable.",
+          "defaultValue": "MY_RULES_CONFIG_KEY",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_\\-@*+:]*$",
+          "minLength": 1,
+          "maxLength": 127
+        },
+        "value": {
+          "description": "Value for a rules config variable.",
+          "defaultValue": "MY_RULES_CONFIG_VALUE",
+          "type": "string"
+        }
+      },
+      "required": ["key", "value"]
+    },
+    "put_rules-configs_by_key_body": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Value for a rules config variable.",
+          "defaultValue": "MY_RULES_CONFIG_VALUE",
+          "type": "string"
+        }
+      },
+      "required": ["value"],
+      "additionalProperties": false
+    }
+  }
+}

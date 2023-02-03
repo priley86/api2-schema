@@ -1,0 +1,1190 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Tenants",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/tenants/settings",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get tenant settings",
+          "notes": "Retrieve tenant settings. A list of fields to include or exclude may also be specified.",
+          "type": "tenant_settings_route_response",
+          "nickname": "tenant_settings_route",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "Whether specified fields are to be included (true) or excluded (false).",
+              "type": "boolean"
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Tenant settings successfully retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "The specified client cannot perform the requested operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:tenant_settings.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:tenant_settings"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update tenant settings",
+          "notes": "Update settings for a tenant.",
+          "type": "patch_settings_response",
+          "nickname": "patch_settings",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_settings_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Tenant settings successfully updated." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:tenant_settings.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:tenant_settings"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "tenant_settings_route_response": {
+      "type": "object",
+      "properties": {
+        "change_password": {
+          "$ref": "tenant_settings_route_response_change_password",
+          "description": "Change Password page customization."
+        },
+        "guardian_mfa_page": {
+          "$ref": "tenant_settings_route_response_guardian_mfa_page",
+          "description": "Guardian page customization."
+        },
+        "default_audience": {
+          "type": "string",
+          "description": "Default audience for API authorization.",
+          "defaultValue": ""
+        },
+        "default_directory": {
+          "type": "string",
+          "description": "Name of connection used for password grants at the `/token`endpoint. The following connection types are supported: LDAP, AD, Database Connections, Passwordless, Windows Azure Active Directory, ADFS.",
+          "defaultValue": ""
+        },
+        "error_page": {
+          "$ref": "tenant_settings_route_response_error_page",
+          "description": "Error page customization."
+        },
+        "device_flow": {
+          "$ref": "tenant_settings_route_response_device_flow",
+          "description": "Device Flow configuration"
+        },
+        "flags": {
+          "$ref": "tenant_settings_route_response_flags",
+          "description": "Flags used to change the behavior of this tenant."
+        },
+        "friendly_name": {
+          "type": "string",
+          "description": "Friendly name for this tenant.",
+          "defaultValue": "My Company"
+        },
+        "picture_url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "URL of logo to be shown for this tenant (recommended size: 150x150)",
+          "defaultValue": "https://mycompany.org/logo.png"
+        },
+        "support_email": {
+          "type": "string",
+          "format": "email-or-empty",
+          "description": "End-user support email address.",
+          "defaultValue": "support@mycompany.org"
+        },
+        "support_url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "End-user support URL.",
+          "defaultValue": "https://mycompany.org/support"
+        },
+        "allowed_logout_urls": {
+          "type": "array",
+          "items": { "type": "string", "format": "url" },
+          "description": "URLs that are valid to redirect to after logout from Auth0.",
+          "defaultValue": "https://mycompany.org/logoutCallback"
+        },
+        "session_lifetime": {
+          "type": "number",
+          "description": "Number of hours a session will stay valid.",
+          "defaultValue": 168
+        },
+        "idle_session_lifetime": {
+          "type": "number",
+          "description": "Number of hours for which a session can be inactive before the user must log in again.",
+          "defaultValue": 72
+        },
+        "sandbox_version": {
+          "type": "string",
+          "description": "Selected sandbox version for the extensibility environment.",
+          "defaultValue": "16"
+        },
+        "sandbox_versions_available": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Available sandbox versions for the extensibility environment.",
+          "defaultValue": ["16", "12"]
+        },
+        "default_redirection_uri": {
+          "type": "string",
+          "description": "The default absolute redirection uri, must be https"
+        },
+        "enabled_locales": {
+          "type": "array",
+          "description": "Supported locales for the user interface.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ar",
+              "bg",
+              "bs",
+              "cs",
+              "da",
+              "de",
+              "el",
+              "en",
+              "es",
+              "et",
+              "fi",
+              "fr",
+              "fr-CA",
+              "fr-FR",
+              "he",
+              "hi",
+              "hr",
+              "hu",
+              "id",
+              "is",
+              "it",
+              "ja",
+              "ko",
+              "lt",
+              "lv",
+              "nb",
+              "nl",
+              "pl",
+              "pt",
+              "pt-BR",
+              "pt-PT",
+              "ro",
+              "ru",
+              "sk",
+              "sl",
+              "sr",
+              "sv",
+              "th",
+              "tr",
+              "uk",
+              "vi",
+              "zh-CN",
+              "zh-TW"
+            ]
+          }
+        },
+        "session_cookie": {
+          "$ref": "tenant_settings_route_response_session_cookie",
+          "description": "Session cookie configuration"
+        },
+        "sessions": {
+          "$ref": "tenant_settings_route_response_sessions",
+          "description": "Sessions related settings for tenant"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_change_password": {
+      "type": "object",
+      "description": "Change Password page customization.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to use the custom change password HTML (true) or the default Auth0 page (false). Default is to use the Auth0 page.",
+          "defaultValue": false
+        },
+        "html": {
+          "type": "string",
+          "description": "Custom change password HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> supported).",
+          "defaultValue": ""
+        }
+      },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_guardian_mfa_page": {
+      "type": "object",
+      "description": "Guardian page customization.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to use the custom Guardian HTML (true) or the default Auth0 page (false, default)",
+          "defaultValue": false
+        },
+        "html": {
+          "type": "string",
+          "description": " Custom Guardian HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported).",
+          "defaultValue": ""
+        }
+      },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_error_page": {
+      "type": "object",
+      "description": "Error page customization.",
+      "properties": {
+        "html": {
+          "type": "string",
+          "description": "Custom Error HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported).",
+          "defaultValue": ""
+        },
+        "show_log_link": {
+          "type": "boolean",
+          "description": "Whether to show the link to log as part of the default error page (true, default) or not to show the link (false).",
+          "defaultValue": false
+        },
+        "url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "URL to redirect to when an error occurs instead of showing the default error page.",
+          "defaultValue": "https://mycompany.org/error"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_device_flow": {
+      "type": "object",
+      "description": "Device Flow configuration",
+      "properties": {
+        "charset": {
+          "type": "string",
+          "enum": ["base20", "digits"],
+          "description": "Character set used to generate a User Code. Can be `base20` or `digits`.",
+          "defaultValue": "base20"
+        },
+        "mask": {
+          "type": "string",
+          "description": "Mask used to format a generated User Code into a friendly, readable format.",
+          "defaultValue": "****-****",
+          "maxLength": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_flags": {
+      "type": "object",
+      "description": "Flags used to change the behavior of this tenant.",
+      "properties": {
+        "change_pwd_flow_v1": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Whether to use the older v1 change password flow (true, not recommended except for backward compatibility) or the newer safer flow (false, recommended)."
+        },
+        "enable_apis_section": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Whether the APIs section is enabled (true) or disabled (false)."
+        },
+        "disable_impersonation": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Whether the impersonation functionality has been disabled (true) or not (false). Read-only."
+        },
+        "enable_client_connections": {
+          "type": "boolean",
+          "defaultValue": true,
+          "description": "Whether all current connections should be enabled when a new client (application) is created (true, default) or not (false)."
+        },
+        "enable_pipeline2": {
+          "type": "boolean",
+          "defaultValue": true,
+          "description": "Whether advanced API Authorization scenarios are enabled (true) or disabled (false)."
+        },
+        "allow_legacy_delegation_grant_types": {
+          "type": "boolean",
+          "description": "If enabled, clients are able to add legacy delegation grants."
+        },
+        "allow_legacy_ro_grant_types": {
+          "type": "boolean",
+          "description": "If enabled, clients are able to add legacy RO grants."
+        },
+        "allow_legacy_tokeninfo_endpoint": {
+          "type": "boolean",
+          "description": "Whether the legacy `/tokeninfo` endpoint is enabled for your account (true) or unavailable (false)."
+        },
+        "enable_legacy_profile": {
+          "type": "boolean",
+          "description": "Whether ID tokens and the userinfo endpoint includes a complete user profile (true) or only OpenID Connect claims (false)."
+        },
+        "enable_idtoken_api2": {
+          "type": "boolean",
+          "description": "Whether ID tokens can be used to authorize some types of requests to API v2 (true) not not (false)."
+        },
+        "enable_public_signup_user_exists_error": {
+          "type": "boolean",
+          "description": "Whether the public sign up process shows a user_exists error (true) or a generic error (false) if the user already exists."
+        },
+        "enable_sso": {
+          "type": "boolean",
+          "description": "Whether users are prompted to confirm log in before SSO redirection (false) or are not prompted (true)."
+        },
+        "allow_changing_enable_sso": {
+          "type": "boolean",
+          "description": "Whether the `enable_sso` setting can be changed (true) or not (false)."
+        },
+        "disable_clickjack_protection_headers": {
+          "type": "boolean",
+          "description": "Whether classic Universal Login prompts include additional security headers to prevent clickjacking (true) or no safeguard (false)."
+        },
+        "no_disclose_enterprise_connections": {
+          "type": "boolean",
+          "description": "Do not Publish Enterprise Connections Information with IdP domains on the lock configuration file."
+        },
+        "enforce_client_authentication_on_passwordless_start": {
+          "type": "boolean",
+          "description": "Enforce client authentication for passwordless start."
+        },
+        "enable_adfs_waad_email_verification": {
+          "type": "boolean",
+          "description": "Enables the email verification flow during login for Azure AD and ADFS connections"
+        },
+        "revoke_refresh_token_grant": {
+          "type": "boolean",
+          "description": "Delete underlying grant when a Refresh Token is revoked via the Authentication API."
+        },
+        "dashboard_log_streams_next": {
+          "type": "boolean",
+          "description": "Enables beta access to log streaming changes"
+        },
+        "dashboard_insights_view": {
+          "type": "boolean",
+          "description": "Enables new insights activity page view"
+        },
+        "disable_fields_map_fix": {
+          "type": "boolean",
+          "description": "Disables SAML fields map fix for bad mappings with repeated attributes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_claims_mapping": {
+      "type": "object",
+      "description": "Custom configuration for claims in ID tokens",
+      "properties": { "sub": { "$ref": "tenant_settings_route_response_sub" } },
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_sub": {
+      "properties": { "source": { "enum": ["default"] } },
+      "required": ["source"]
+    },
+    "tenant_settings_route_response_session_cookie": {
+      "type": "object",
+      "description": "Session cookie configuration",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Behavior of the session cookie",
+          "enum": ["persistent", "non-persistent"],
+          "defaultValue": "persistent"
+        }
+      },
+      "required": ["mode"],
+      "additionalProperties": false
+    },
+    "tenant_settings_route_response_sessions": {
+      "type": "object",
+      "description": "Sessions related settings for tenant",
+      "properties": {
+        "oidc_logout_prompt_enabled": {
+          "type": "boolean",
+          "description": "Whether to bypass prompting logic (false) when performing OIDC Logout",
+          "defaultValue": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response": {
+      "type": "object",
+      "properties": {
+        "change_password": {
+          "$ref": "patch_settings_response_change_password",
+          "description": "Change Password page customization."
+        },
+        "guardian_mfa_page": {
+          "$ref": "patch_settings_response_guardian_mfa_page",
+          "description": "Guardian page customization."
+        },
+        "default_audience": {
+          "type": "string",
+          "description": "Default audience for API authorization.",
+          "defaultValue": ""
+        },
+        "default_directory": {
+          "type": "string",
+          "description": "Name of connection used for password grants at the `/token`endpoint. The following connection types are supported: LDAP, AD, Database Connections, Passwordless, Windows Azure Active Directory, ADFS.",
+          "defaultValue": ""
+        },
+        "error_page": {
+          "$ref": "patch_settings_response_error_page",
+          "description": "Error page customization."
+        },
+        "device_flow": {
+          "$ref": "patch_settings_response_device_flow",
+          "description": "Device Flow configuration"
+        },
+        "flags": {
+          "$ref": "patch_settings_response_flags",
+          "description": "Flags used to change the behavior of this tenant."
+        },
+        "friendly_name": {
+          "type": "string",
+          "description": "Friendly name for this tenant.",
+          "defaultValue": "My Company"
+        },
+        "picture_url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "URL of logo to be shown for this tenant (recommended size: 150x150)",
+          "defaultValue": "https://mycompany.org/logo.png"
+        },
+        "support_email": {
+          "type": "string",
+          "format": "email-or-empty",
+          "description": "End-user support email address.",
+          "defaultValue": "support@mycompany.org"
+        },
+        "support_url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "End-user support URL.",
+          "defaultValue": "https://mycompany.org/support"
+        },
+        "allowed_logout_urls": {
+          "type": "array",
+          "items": { "type": "string", "format": "url" },
+          "description": "URLs that are valid to redirect to after logout from Auth0.",
+          "defaultValue": "https://mycompany.org/logoutCallback"
+        },
+        "session_lifetime": {
+          "type": "number",
+          "description": "Number of hours a session will stay valid.",
+          "defaultValue": 168
+        },
+        "idle_session_lifetime": {
+          "type": "number",
+          "description": "Number of hours for which a session can be inactive before the user must log in again.",
+          "defaultValue": 72
+        },
+        "sandbox_version": {
+          "type": "string",
+          "description": "Selected sandbox version for the extensibility environment.",
+          "defaultValue": "16"
+        },
+        "sandbox_versions_available": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Available sandbox versions for the extensibility environment.",
+          "defaultValue": ["16", "12"]
+        },
+        "default_redirection_uri": {
+          "type": "string",
+          "description": "The default absolute redirection uri, must be https"
+        },
+        "enabled_locales": {
+          "type": "array",
+          "description": "Supported locales for the user interface.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ar",
+              "bg",
+              "bs",
+              "cs",
+              "da",
+              "de",
+              "el",
+              "en",
+              "es",
+              "et",
+              "fi",
+              "fr",
+              "fr-CA",
+              "fr-FR",
+              "he",
+              "hi",
+              "hr",
+              "hu",
+              "id",
+              "is",
+              "it",
+              "ja",
+              "ko",
+              "lt",
+              "lv",
+              "nb",
+              "nl",
+              "pl",
+              "pt",
+              "pt-BR",
+              "pt-PT",
+              "ro",
+              "ru",
+              "sk",
+              "sl",
+              "sr",
+              "sv",
+              "th",
+              "tr",
+              "uk",
+              "vi",
+              "zh-CN",
+              "zh-TW"
+            ]
+          }
+        },
+        "session_cookie": {
+          "$ref": "patch_settings_response_session_cookie",
+          "description": "Session cookie configuration"
+        },
+        "sessions": {
+          "$ref": "patch_settings_response_sessions",
+          "description": "Sessions related settings for tenant"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response_change_password": {
+      "type": "object",
+      "description": "Change Password page customization.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to use the custom change password HTML (true) or the default Auth0 page (false). Default is to use the Auth0 page.",
+          "defaultValue": false
+        },
+        "html": {
+          "type": "string",
+          "description": "Custom change password HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> supported).",
+          "defaultValue": ""
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response_guardian_mfa_page": {
+      "type": "object",
+      "description": "Guardian page customization.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to use the custom Guardian HTML (true) or the default Auth0 page (false, default)",
+          "defaultValue": false
+        },
+        "html": {
+          "type": "string",
+          "description": " Custom Guardian HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported).",
+          "defaultValue": ""
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response_error_page": {
+      "type": "object",
+      "description": "Error page customization.",
+      "properties": {
+        "html": {
+          "type": "string",
+          "description": "Custom Error HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported).",
+          "defaultValue": ""
+        },
+        "show_log_link": {
+          "type": "boolean",
+          "description": "Whether to show the link to log as part of the default error page (true, default) or not to show the link (false).",
+          "defaultValue": false
+        },
+        "url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "URL to redirect to when an error occurs instead of showing the default error page.",
+          "defaultValue": "https://mycompany.org/error"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response_device_flow": {
+      "type": "object",
+      "description": "Device Flow configuration",
+      "properties": {
+        "charset": {
+          "type": "string",
+          "enum": ["base20", "digits"],
+          "description": "Character set used to generate a User Code. Can be `base20` or `digits`.",
+          "defaultValue": "base20"
+        },
+        "mask": {
+          "type": "string",
+          "description": "Mask used to format a generated User Code into a friendly, readable format.",
+          "defaultValue": "****-****",
+          "maxLength": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response_flags": {
+      "type": "object",
+      "description": "Flags used to change the behavior of this tenant.",
+      "properties": {
+        "change_pwd_flow_v1": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Whether to use the older v1 change password flow (true, not recommended except for backward compatibility) or the newer safer flow (false, recommended)."
+        },
+        "enable_apis_section": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Whether the APIs section is enabled (true) or disabled (false)."
+        },
+        "disable_impersonation": {
+          "type": "boolean",
+          "defaultValue": false,
+          "description": "Whether the impersonation functionality has been disabled (true) or not (false). Read-only."
+        },
+        "enable_client_connections": {
+          "type": "boolean",
+          "defaultValue": true,
+          "description": "Whether all current connections should be enabled when a new client (application) is created (true, default) or not (false)."
+        },
+        "enable_pipeline2": {
+          "type": "boolean",
+          "defaultValue": true,
+          "description": "Whether advanced API Authorization scenarios are enabled (true) or disabled (false)."
+        },
+        "allow_legacy_delegation_grant_types": {
+          "type": "boolean",
+          "description": "If enabled, clients are able to add legacy delegation grants."
+        },
+        "allow_legacy_ro_grant_types": {
+          "type": "boolean",
+          "description": "If enabled, clients are able to add legacy RO grants."
+        },
+        "allow_legacy_tokeninfo_endpoint": {
+          "type": "boolean",
+          "description": "Whether the legacy `/tokeninfo` endpoint is enabled for your account (true) or unavailable (false)."
+        },
+        "enable_legacy_profile": {
+          "type": "boolean",
+          "description": "Whether ID tokens and the userinfo endpoint includes a complete user profile (true) or only OpenID Connect claims (false)."
+        },
+        "enable_idtoken_api2": {
+          "type": "boolean",
+          "description": "Whether ID tokens can be used to authorize some types of requests to API v2 (true) not not (false)."
+        },
+        "enable_public_signup_user_exists_error": {
+          "type": "boolean",
+          "description": "Whether the public sign up process shows a user_exists error (true) or a generic error (false) if the user already exists."
+        },
+        "enable_sso": {
+          "type": "boolean",
+          "description": "Whether users are prompted to confirm log in before SSO redirection (false) or are not prompted (true)."
+        },
+        "allow_changing_enable_sso": {
+          "type": "boolean",
+          "description": "Whether the `enable_sso` setting can be changed (true) or not (false)."
+        },
+        "disable_clickjack_protection_headers": {
+          "type": "boolean",
+          "description": "Whether classic Universal Login prompts include additional security headers to prevent clickjacking (true) or no safeguard (false)."
+        },
+        "no_disclose_enterprise_connections": {
+          "type": "boolean",
+          "description": "Do not Publish Enterprise Connections Information with IdP domains on the lock configuration file."
+        },
+        "enforce_client_authentication_on_passwordless_start": {
+          "type": "boolean",
+          "description": "Enforce client authentication for passwordless start."
+        },
+        "enable_adfs_waad_email_verification": {
+          "type": "boolean",
+          "description": "Enables the email verification flow during login for Azure AD and ADFS connections"
+        },
+        "revoke_refresh_token_grant": {
+          "type": "boolean",
+          "description": "Delete underlying grant when a Refresh Token is revoked via the Authentication API."
+        },
+        "dashboard_log_streams_next": {
+          "type": "boolean",
+          "description": "Enables beta access to log streaming changes"
+        },
+        "dashboard_insights_view": {
+          "type": "boolean",
+          "description": "Enables new insights activity page view"
+        },
+        "disable_fields_map_fix": {
+          "type": "boolean",
+          "description": "Disables SAML fields map fix for bad mappings with repeated attributes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_response_claims_mapping": {
+      "type": "object",
+      "description": "Custom configuration for claims in ID tokens",
+      "properties": { "sub": { "$ref": "patch_settings_response_sub" } },
+      "additionalProperties": false
+    },
+    "patch_settings_response_sub": {
+      "properties": { "source": { "enum": ["default"] } },
+      "required": ["source"]
+    },
+    "patch_settings_response_session_cookie": {
+      "type": "object",
+      "description": "Session cookie configuration",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Behavior of the session cookie",
+          "enum": ["persistent", "non-persistent"],
+          "defaultValue": "persistent"
+        }
+      },
+      "required": ["mode"],
+      "additionalProperties": false
+    },
+    "patch_settings_response_sessions": {
+      "type": "object",
+      "description": "Sessions related settings for tenant",
+      "properties": {
+        "oidc_logout_prompt_enabled": {
+          "type": "boolean",
+          "description": "Whether to bypass prompting logic (false) when performing OIDC Logout",
+          "defaultValue": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_body": {
+      "type": "object",
+      "properties": {
+        "change_password": {
+          "$ref": "patch_settings_body_change_password",
+          "description": "Change Password page customization."
+        },
+        "device_flow": {
+          "$ref": "patch_settings_body_device_flow",
+          "description": "Device Flow configuration."
+        },
+        "guardian_mfa_page": {
+          "$ref": "patch_settings_body_guardian_mfa_page",
+          "description": "Guardian page customization."
+        },
+        "default_audience": {
+          "type": "string",
+          "description": "Default audience for API Authorization.",
+          "defaultValue": ""
+        },
+        "default_directory": {
+          "type": "string",
+          "description": "Name of connection used for password grants at the `/token` endpoint. The following connection types are supported: LDAP, AD, Database Connections, Passwordless, Windows Azure Active Directory, ADFS.",
+          "defaultValue": ""
+        },
+        "error_page": {
+          "$ref": "patch_settings_body_error_page",
+          "description": "Error page customization."
+        },
+        "flags": {
+          "$ref": "patch_settings_body_flags",
+          "description": "Flags used to change the behavior of this tenant."
+        },
+        "friendly_name": {
+          "type": "string",
+          "description": "Friendly name for this tenant.",
+          "defaultValue": "My Company"
+        },
+        "picture_url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "URL of logo to be shown for this tenant (recommended size: 150x150)",
+          "defaultValue": "https://mycompany.org/logo.png"
+        },
+        "support_email": {
+          "type": "string",
+          "format": "email-or-empty",
+          "description": "End-user support email.",
+          "defaultValue": "support@mycompany.org"
+        },
+        "support_url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "End-user support url.",
+          "defaultValue": "https://mycompany.org/support"
+        },
+        "allowed_logout_urls": {
+          "type": "array",
+          "items": { "type": "string", "format": "url" },
+          "description": "URLs that are valid to redirect to after logout from Auth0.",
+          "defaultValue": "https://mycompany.org/logoutCallback",
+          "uniqueItems": true
+        },
+        "session_lifetime": {
+          "type": "integer",
+          "description": "Number of hours a session will stay valid.",
+          "defaultValue": 168,
+          "minimum": 1
+        },
+        "idle_session_lifetime": {
+          "type": "integer",
+          "description": "Number of hours for which a session can be inactive before the user must log in again.",
+          "defaultValue": 72,
+          "minimum": 1
+        },
+        "sandbox_version": {
+          "type": "string",
+          "description": "Selected sandbox version for the extensibility environment",
+          "defaultValue": "16",
+          "maxLength": 8
+        },
+        "default_redirection_uri": {
+          "type": "string",
+          "format": "absolute-https-uri-or-empty",
+          "description": "The default absolute redirection uri, must be https"
+        },
+        "enabled_locales": {
+          "type": "array",
+          "description": "Supported locales for the user interface",
+          "items": {
+            "type": "string",
+            "enum": [
+              "ar",
+              "bg",
+              "bs",
+              "cs",
+              "da",
+              "de",
+              "el",
+              "en",
+              "es",
+              "et",
+              "fi",
+              "fr",
+              "fr-CA",
+              "fr-FR",
+              "he",
+              "hi",
+              "hr",
+              "hu",
+              "id",
+              "is",
+              "it",
+              "ja",
+              "ko",
+              "lt",
+              "lv",
+              "nb",
+              "nl",
+              "pl",
+              "pt",
+              "pt-BR",
+              "pt-PT",
+              "ro",
+              "ru",
+              "sk",
+              "sl",
+              "sr",
+              "sv",
+              "th",
+              "tr",
+              "uk",
+              "vi",
+              "zh-CN",
+              "zh-TW"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "session_cookie": {
+          "$ref": "patch_settings_body_session_cookie",
+          "description": "Session cookie configuration"
+        },
+        "sessions": {
+          "$ref": "patch_settings_body_sessions",
+          "description": "Sessions related settings for tenant"
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "patch_settings_body_change_password": {
+      "type": "object",
+      "description": "Change Password page customization.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to use the custom change password HTML (true) or the default Auth0 page (false). Default is to use the Auth0 page.",
+          "defaultValue": false
+        },
+        "html": {
+          "type": "string",
+          "description": "Custom change password HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> supported).",
+          "defaultValue": ""
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_body_device_flow": {
+      "type": "object",
+      "description": "Device Flow configuration.",
+      "properties": {
+        "charset": {
+          "type": "string",
+          "enum": ["base20", "digits"],
+          "description": "Character set used to generate a User Code. Can be `base20` or `digits`.",
+          "defaultValue": "base20"
+        },
+        "mask": {
+          "type": "string",
+          "description": "Mask used to format a generated User Code into a friendly, readable format.",
+          "defaultValue": "****-****"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_body_guardian_mfa_page": {
+      "type": "object",
+      "description": "Guardian page customization.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to use the custom Guardian HTML (true) or the default Auth0 page (false, default)",
+          "defaultValue": false
+        },
+        "html": {
+          "type": "string",
+          "description": " Custom Guardian HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported).",
+          "defaultValue": ""
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_body_error_page": {
+      "type": "object",
+      "description": "Error page customization.",
+      "properties": {
+        "html": {
+          "type": "string",
+          "description": "Custom Error HTML (<a href='https://github.com/Shopify/liquid/wiki/Liquid-for-Designers'>Liquid syntax</a> is supported).",
+          "defaultValue": ""
+        },
+        "show_log_link": {
+          "type": "boolean",
+          "description": "Whether to show the link to log as part of the default error page (true, default) or not to show the link (false).",
+          "defaultValue": false
+        },
+        "url": {
+          "type": "string",
+          "format": "absolute-uri-or-empty",
+          "description": "URL to redirect to when an error occurs instead of showing the default error page.",
+          "defaultValue": "https://mycompany.org/error"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_settings_body_flags": {
+      "type": "object",
+      "description": "Flags used to change the behavior of this tenant.",
+      "properties": {
+        "change_pwd_flow_v1": {
+          "type": "boolean",
+          "enum": [false],
+          "description": "Whether to use the older v1 change password flow (true, not recommended except for backward compatibility) or the newer safer flow (false, recommended)."
+        },
+        "enable_client_connections": {
+          "type": "boolean",
+          "description": "Whether all current connections should be enabled when a new client (application) is created (true, default) or not (false)."
+        },
+        "enable_apis_section": {
+          "type": "boolean",
+          "description": "Whether the APIs section is enabled (true) or disabled (false)."
+        },
+        "enable_pipeline2": {
+          "type": "boolean",
+          "description": "Whether advanced API Authorization scenarios are enabled (true) or disabled (false)."
+        },
+        "enable_dynamic_client_registration": {
+          "type": "boolean",
+          "description": " Whether third-party developers can <a href='https://auth0.com/docs/api-auth/dynamic-client-registration'>dynamically register</a> applications for your APIs (true) or not (false). This flag enables dynamic client registration."
+        },
+        "enable_custom_domain_in_emails": {
+          "type": "boolean",
+          "description": "Whether emails sent by Auth0 for change password, verification etc. should use your verified custom domain (true) or your auth0.com sub-domain (false).  Affects all emails, links, and URLs. Email will fail if the custom domain is not verified."
+        },
+        "allow_legacy_tokeninfo_endpoint": {
+          "type": "boolean",
+          "description": "Whether the legacy `/tokeninfo` endpoint is enabled for your account (true) or unavailable (false)."
+        },
+        "enable_legacy_profile": {
+          "type": "boolean",
+          "description": "Whether ID tokens and the userinfo endpoint includes a complete user profile (true) or only OpenID Connect claims (false)."
+        },
+        "enable_idtoken_api2": {
+          "type": "boolean",
+          "description": "Whether ID tokens can be used to authorize some types of requests to API v2 (true) not not (false)."
+        },
+        "enable_public_signup_user_exists_error": {
+          "type": "boolean",
+          "description": "Whether the public sign up process shows a user_exists error (true) or a generic error (false) if the user already exists."
+        },
+        "allow_legacy_delegation_grant_types": {
+          "type": "boolean",
+          "description": " Whether the legacy delegation endpoint will be enabled for your account (true) or not available (false)."
+        },
+        "allow_legacy_ro_grant_types": {
+          "type": "boolean",
+          "description": "Whether the legacy `auth/ro` endpoint (used with resource owner password and passwordless features) will be enabled for your account (true) or not available (false)."
+        },
+        "enable_sso": {
+          "type": "boolean",
+          "description": "Whether users are prompted to confirm log in before SSO redirection (false) or are not prompted (true)."
+        },
+        "disable_clickjack_protection_headers": {
+          "type": "boolean",
+          "description": "Whether classic Universal Login prompts include additional security headers to prevent clickjacking (true) or no safeguard (false)."
+        },
+        "no_disclose_enterprise_connections": {
+          "type": "boolean",
+          "description": "Do not Publish Enterprise Connections Information with IdP domains on the lock configuration file."
+        },
+        "disable_management_api_sms_obfuscation": {
+          "type": "boolean",
+          "description": "If true, SMS phone numbers will not be obfuscated in Management API GET calls."
+        },
+        "enforce_client_authentication_on_passwordless_start": {
+          "type": "boolean",
+          "description": "Enforce client authentication for passwordless start."
+        },
+        "trust_azure_adfs_email_verified_connection_property": {
+          "type": "boolean",
+          "description": "Changes email_verified behavior for Azure AD/ADFS connections when enabled. Sets email_verified to false otherwise."
+        },
+        "enable_adfs_waad_email_verification": {
+          "type": "boolean",
+          "description": "Enables the email verification flow during login for Azure AD and ADFS connections."
+        },
+        "revoke_refresh_token_grant": {
+          "type": "boolean",
+          "description": "Delete underlying grant when a Refresh Token is revoked via the Authentication API."
+        },
+        "dashboard_log_streams_next": {
+          "type": "boolean",
+          "description": "Enables beta access to log streaming changes."
+        },
+        "dashboard_insights_view": {
+          "type": "boolean",
+          "description": "Enables new insights activity page view."
+        },
+        "disable_fields_map_fix": {
+          "type": "boolean",
+          "description": "Disables SAML fields map fix for bad mappings with repeated attributes."
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "patch_settings_body_claims_mapping": {
+      "type": "object",
+      "description": "Custom configuration for claims in ID tokens",
+      "properties": { "sub": { "$ref": "patch_settings_body_sub" } },
+      "additionalProperties": false
+    },
+    "patch_settings_body_sub": {
+      "properties": { "source": { "enum": ["default"] } },
+      "required": ["source"]
+    },
+    "patch_settings_body_session_cookie": {
+      "type": "object",
+      "description": "Session cookie configuration",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Behavior of the session cookie",
+          "enum": ["persistent", "non-persistent"],
+          "defaultValue": "persistent"
+        }
+      },
+      "required": ["mode"],
+      "additionalProperties": false
+    },
+    "patch_settings_body_sessions": {
+      "type": "object",
+      "description": "Sessions related settings for tenant",
+      "properties": {
+        "oidc_logout_prompt_enabled": {
+          "type": "boolean",
+          "description": "Whether to bypass prompting logic (false) when performing OIDC Logout",
+          "defaultValue": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

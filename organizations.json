@@ -1,0 +1,2519 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Organizations",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/organizations",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get organizations",
+          "notes": "List available organizations. This endpoint supports two types of pagination:\n- Offset pagination\n- Checkpoint pagination\n\nCheckpoint pagination must be used if you need to retrieve more than 1000 organizations.\n\n<h2>Checkpoint Pagination</h2>\n\nTo search by checkpoint, use the following parameters:\n- from: Optional id from which to start selection.\n- take: The total amount of entries to retrieve when using the from parameter. Defaults to 50.\n\nNote: The first time you call this endpoint using Checkpoint Pagination, you should omit the <code>from</code> parameter. If there are more results, a <code>next</code> value will be included in the response. You can use this for subsequent API calls. When <code>next</code> is no longer included in the response, this indicates there are no more pages remaining.\n",
+          "type": "array",
+          "nickname": "get_organizations",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "from",
+              "description": "Optional Id from which to start selection.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "take",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "sort",
+              "description": "Field to sort by. Use &lt;code&gt;field:order&lt;/code&gt; where order is &lt;code&gt;1&lt;/code&gt; for ascending and &lt;code&gt;-1&lt;/code&gt; for descending. e.g. &lt;code&gt;created_at:1&lt;/code&gt;. We currently support sorting by the following fields: &lt;code&gt;name&lt;/code&gt;, &lt;code&gt;display_name&lt;/code&gt; and &lt;code&gt;created_at&lt;/code&gt;.",
+              "type": "string"
+            }
+          ],
+          "items": { "$ref": "get_organizations_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Organizations successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            {
+              "code": 400,
+              "message": "Invalid query string paging options. The message will vary depending on the cause",
+              "errorCode": "invalid_paging"
+            }
+          ],
+          "authorizations": {
+            "jwt": {
+              "scopes": ["read:organizations", "read:organizations_summary"]
+            }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Create an Organization",
+          "notes": "Create an organization\n",
+          "type": "post_organizations_response",
+          "nickname": "post_organizations",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_organizations_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Organization successfully created." },
+            {
+              "code": 409,
+              "message": "An organization with this name already exists.",
+              "errorCode": "organization_conflict"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": {
+              "scopes": [
+                "create:organizations",
+                "create:organization_connections"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get organization",
+          "notes": "Get a specific organization\n",
+          "type": "get_organizations_by_id_response",
+          "nickname": "get_organizations_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the organization to retrieve.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Organization successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            }
+          ],
+          "authorizations": {
+            "jwt": {
+              "scopes": ["read:organizations", "read:organizations_summary"]
+            }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete organization",
+          "notes": "Delete a specific organization\n",
+          "type": "void",
+          "nickname": "delete_organizations_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "The organization was deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "The organization does not exist." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:organizations"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Modify an Organization",
+          "notes": "Modify an organization\n",
+          "type": "patch_organizations_by_id_response",
+          "nickname": "patch_organizations_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the organization to update.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_organizations_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Organization successfully updated." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:organizations"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/name/{name}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get organization by name",
+          "notes": "Get a specific organization by name\n",
+          "type": "get_name_by_name_response",
+          "nickname": "get_name_by_name",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "name",
+              "description": "name of the organization to retrieve.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Organization successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organizations.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:organizations"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}/members",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get members who belong to an organization",
+          "notes": "List organization members. This endpoint supports two types of pagination:\n- Offset pagination\n- Checkpoint pagination\n\nCheckpoint pagination must be used if you need to retrieve more than 1000 organization members.\n\n<h2>Checkpoint Pagination</h2>\n\nTo search by checkpoint, use the following parameters:\n- from: Optional id from which to start selection.\n- take: The total amount of entries to retrieve when using the from parameter. Defaults to 50.\n\nNote: The first time you call this endpoint using Checkpoint Pagination, you should omit the <code>from</code> parameter. If there are more results, a <code>next</code> value will be included in the response. You can use this for subsequent API calls. When <code>next</code> is no longer included in the response, this indicates there are no more pages remaining.\n",
+          "type": "array",
+          "nickname": "get_members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "from",
+              "description": "Optional Id from which to start selection.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "take",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          ],
+          "items": { "$ref": "get_members_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Members successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organization_members.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            {
+              "code": 400,
+              "message": "Invalid query string paging options. The message will vary depending on the cause",
+              "errorCode": "invalid_paging"
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:organization_members"] }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete members from an organization",
+          "type": "void",
+          "nickname": "delete_members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "delete_members_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Users successfully removed from organization."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:organization_members.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:organization_members"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Add members to an organization",
+          "type": "void",
+          "nickname": "post_members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_members_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Members successfully added to organization."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:organization_members.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["create:organization_members"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}/invitations",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get invitations to organization",
+          "type": "array",
+          "nickname": "get_invitations",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "When true, return results inside an object that also contains the start and limit.  When false (default), a direct array of results is returned.  We do not yet support returning the total invitations count.",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "Whether specified fields are to be included (true) or excluded (false). Defaults to true.",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "sort",
+              "description": "Field to sort by. Use field:order where order is 1 for ascending and -1 for descending Defaults to created_at:-1.",
+              "type": "string"
+            }
+          ],
+          "items": { "$ref": "get_invitations_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Invitations successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            {
+              "code": 400,
+              "message": "Requesting page exceeds the allowed maximum of 1000 records",
+              "errorCode": "invalid_paging"
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organization_invitations.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "No organization found by that id." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:organization_invitations"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Create invitations to organization",
+          "type": "post_invitations_response",
+          "nickname": "post_invitations",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_invitations_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Invitation successfully created." },
+            {
+              "code": 400,
+              "message": "A default login route is required to generate the invitation url. For more information, see https://auth0.com/docs/universal-login/configure-default-login-routes",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "One or more of the specified roles do not exist: rol_0000000000000001, rol_0000000000000002",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Passwordless connections are not supported.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The specified client_id does not allow organizations.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The specified client_id does not exist.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The specified connection (con_0000000000000001) is not enabled for the organization",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "The specified connection does not exist.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:organization_invitations.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "No organization found by that id." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["create:organization_invitations"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}/enabled_connections",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get connections enabled for an organization",
+          "type": "array",
+          "nickname": "get_enabled_connections",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_enabled_connections_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Connections successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organization_connections.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:organization_connections"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Add connections to an organization",
+          "type": "post_enabled_connections_response",
+          "nickname": "post_enabled_connections",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_enabled_connections_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "message": "Organization connection successfully added."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:organization_connections.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["create:organization_connections"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}/enabled_connections/{connectionId}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get an enabled connection for an organization",
+          "type": "get_enabled_connections_by_connectionId_response",
+          "nickname": "get_enabled_connections_by_connectionId",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "connectionId",
+              "description": "Connection identifier",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Connection successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organization_connections.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:organization_connections"] }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete connections from an organization",
+          "type": "void",
+          "nickname": "delete_enabled_connections_by_connectionId",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "connectionId",
+              "description": "Connection identifier",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Connection successfully removed from organization."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:organization_connections.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:organization_connections"] }
+          }
+        },
+        {
+          "method": "patch",
+          "summary": "Modify an Organizations Connection",
+          "notes": "Modify an enabled_connection belonging to an Organization.\n",
+          "type": "patch_enabled_connections_by_connectionId_response",
+          "nickname": "patch_enabled_connections_by_connectionId",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "connectionId",
+              "description": "Connection identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_enabled_connections_by_connectionId_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Organization connection successfully updated."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:organization_connections.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["update:organization_connections"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}/invitations/{invitation_id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get an invitation to organization",
+          "type": "get_invitations_by_invitation_id_response",
+          "nickname": "get_invitations_by_invitation_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "invitation_id",
+              "description": "The id of the user invitation.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "include_fields",
+              "description": "Whether specified fields are to be included (true) or excluded (false). Defaults to true.",
+              "type": "boolean"
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Invitation successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organization_invitations.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "No organization found by that id." },
+            {
+              "code": 404,
+              "message": "The invitation does not exist.",
+              "errorCode": "inexistent_invitation"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:organization_invitations"] }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete an invitation to organization",
+          "type": "void",
+          "nickname": "delete_invitations_by_invitation_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "invitation_id",
+              "description": "The id of the user invitation.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Invitation successfully deleted." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:organization_invitations.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "No organization found by that id." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:organization_invitations"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/organizations/{id}/members/{user_id}/roles",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get the roles assigned to an organization member",
+          "type": "array",
+          "nickname": "get_organization_member_roles",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "description": "ID of the user to associate roles with.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Defaults to 50.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            }
+          ],
+          "items": { "$ref": "get_organization_member_roles_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Roles successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:organization_member_roles.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            {
+              "code": 400,
+              "message": "Invalid query string paging options. The message will vary depending on the cause",
+              "errorCode": "invalid_paging"
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["read:organization_member_roles"] }
+          }
+        },
+        {
+          "method": "delete",
+          "summary": "Remove one or more roles from a given user in the context of the provided organization",
+          "type": "void",
+          "nickname": "delete_organization_member_roles",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "description": "User ID of the organization member to remove roles from.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "delete_organization_member_roles_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Roles successfully removed from organization member."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:organization_member_roles.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["delete:organization_member_roles"] }
+          }
+        },
+        {
+          "method": "post",
+          "summary": "Assign one or more roles to a given user that will be applied in the context of the provided organization",
+          "type": "void",
+          "nickname": "post_organization_member_roles",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "Organization identifier",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "description": "ID of the user to associate roles with.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_organization_member_roles_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "Roles successfully associated with user."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:organization_member_roles.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 409,
+              "message": "No more roles can be assigned to this organization member."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": {
+            "jwt": { "scopes": ["create:organization_member_roles"] }
+          }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_organizations_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "get_organizations_response_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "get_organizations_response_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      }
+    },
+    "get_organizations_response_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "get_organizations_response_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "get_organizations_response_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "get_organizations_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "post_organizations_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "post_organizations_response_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "post_organizations_response_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      }
+    },
+    "post_organizations_response_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "post_organizations_response_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "post_organizations_response_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "post_organizations_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "post_organizations_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "post_organizations_body_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "post_organizations_body_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        },
+        "enabled_connections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "connection_id": {
+                "type": "string",
+                "description": "ID of the connection."
+              },
+              "assign_membership_on_login": {
+                "type": "boolean",
+                "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection.",
+                "default": false
+              }
+            },
+            "required": ["connection_id"],
+            "additionalProperties": false,
+            "description": "Connection to be added to the organization."
+          },
+          "description": "Connections that will be enabled for this organization. See POST enabled_connections endpoint for the object format. (Max of 10 connections allowed)",
+          "maxItems": 10
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "post_organizations_body_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "post_organizations_body_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "post_organizations_body_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "post_organizations_body_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "get_organizations_by_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "get_organizations_by_id_response_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "get_organizations_by_id_response_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      }
+    },
+    "get_organizations_by_id_response_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "get_organizations_by_id_response_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "get_organizations_by_id_response_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "get_organizations_by_id_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "patch_organizations_by_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "patch_organizations_by_id_response_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "patch_organizations_by_id_response_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      }
+    },
+    "patch_organizations_by_id_response_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "patch_organizations_by_id_response_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "patch_organizations_by_id_response_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "patch_organizations_by_id_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "patch_organizations_by_id_body": {
+      "type": "object",
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "branding": {
+          "$ref": "patch_organizations_by_id_body_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "patch_organizations_by_id_body_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_organizations_by_id_body_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "patch_organizations_by_id_body_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "patch_organizations_by_id_body_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "patch_organizations_by_id_body_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "get_name_by_name_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this organization.",
+          "format": "organization-name",
+          "defaultValue": "organization-1",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Friendly name of this organization.",
+          "defaultValue": "Acme Users",
+          "minLength": 3,
+          "maxLength": 255
+        },
+        "branding": {
+          "$ref": "get_name_by_name_response_branding",
+          "description": "Theme defines how to style the login pages"
+        },
+        "metadata": {
+          "$ref": "get_name_by_name_response_metadata",
+          "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
+        }
+      }
+    },
+    "get_name_by_name_response_branding": {
+      "type": "object",
+      "properties": {
+        "logo_url": {
+          "type": "string",
+          "description": "URL of logo to display on login page",
+          "format": "strict-https-uri-or-null"
+        },
+        "colors": {
+          "$ref": "get_name_by_name_response_colors",
+          "description": "Color scheme used to customize the login pages"
+        }
+      },
+      "description": "Theme defines how to style the login pages",
+      "additionalProperties": false
+    },
+    "get_name_by_name_response_colors": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for primary elements"
+        },
+        "page_background": {
+          "type": "string",
+          "format": "html-color",
+          "description": "HEX Color for background"
+        }
+      },
+      "description": "Color scheme used to customize the login pages",
+      "required": ["primary", "page_background"],
+      "additionalProperties": false
+    },
+    "get_name_by_name_response_metadata": {
+      "type": "object",
+      "description": "Metadata associated with the organization, in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed.",
+      "maxProperties": 10,
+      "additionalProperties": {
+        "type": ["string", "null"],
+        "maxProperties": 10,
+        "maxLength": 255,
+        "maxKeyLength": 50,
+        "keyPattern": {}
+      }
+    },
+    "get_members_response": {
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string", "description": "ID of this user." },
+        "picture": {
+          "type": "string",
+          "description": "URL to a picture for this user."
+        },
+        "name": { "type": "string", "description": "Name of this user." },
+        "email": {
+          "type": "string",
+          "description": "Email address of this user.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        }
+      },
+      "additionalProperties": false
+    },
+    "delete_members_body": {
+      "type": "object",
+      "properties": {
+        "members": {
+          "type": "array",
+          "description": "List of user IDs to remove from the organization.",
+          "items": { "format": "user-id-with-max-length", "type": "string" },
+          "minItems": 1,
+          "maxItems": 10
+        }
+      },
+      "required": ["members"]
+    },
+    "post_members_body": {
+      "type": "object",
+      "properties": {
+        "members": {
+          "type": "array",
+          "description": "List of user IDs to add to the organization as members.",
+          "items": { "format": "user-id-with-max-length" },
+          "minItems": 1,
+          "maxItems": 10
+        }
+      },
+      "required": ["members"]
+    },
+    "get_invitations_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "user-invitation-id",
+          "description": "The id of the user invitation.",
+          "defaultValue": "uinv_0000000000000001"
+        },
+        "organization_id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "inviter": { "$ref": "get_invitations_response_inviter" },
+        "invitee": { "$ref": "get_invitations_response_invitee" },
+        "invitation_url": {
+          "type": "string",
+          "format": "strict-https-uri",
+          "description": "The invitation url to be send to the invitee.",
+          "defaultValue": "https://mycompany.org/login?invitation=f81dWWYW6gzGGicxT8Ha0txBkGNcAcYr&organization=org_0000000000000001&organization_name=acme"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 formatted timestamp representing the creation time of the invitation.",
+          "defaultValue": "2020-08-20T19:10:06.299Z"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 formatted timestamp representing the expiration time of the invitation.",
+          "defaultValue": "2020-08-27T19:10:06.299Z"
+        },
+        "client_id": {
+          "type": "string",
+          "format": "client-id",
+          "description": "Auth0 client ID. Used to resolve the application's login initiation endpoint.",
+          "defaultValue": "AaiyAPdpYdesoKnqjj8HJqRn4T5titww"
+        },
+        "connection_id": {
+          "type": "string",
+          "format": "connection-id",
+          "description": "The id of the connection to force invitee to authenticate with.",
+          "defaultValue": "con_0000000000000001"
+        },
+        "app_metadata": {
+          "$ref": "get_invitations_response_app_metadata",
+          "description": "Data related to the user that does affect the application's core functionality."
+        },
+        "user_metadata": {
+          "$ref": "get_invitations_response_user_metadata",
+          "description": "Data related to the user that does not affect the application's core functionality."
+        },
+        "roles": {
+          "type": "array",
+          "items": { "type": "string", "format": "role-id" },
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true,
+          "description": "List of roles IDs to associated with the user.",
+          "defaultValue": ["rol_0000000000000001", "rol_0000000000000002"]
+        },
+        "ticket_id": {
+          "type": "string",
+          "format": "ticket-id",
+          "description": "The id of the invitation ticket"
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_invitations_response_inviter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The inviter's name.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "Jane Doe"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "get_invitations_response_invitee": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The invitee's email.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        }
+      },
+      "required": ["email"],
+      "additionalProperties": false
+    },
+    "get_invitations_response_app_metadata": {
+      "id": "app_metadata",
+      "type": "object",
+      "title": "app_metadata",
+      "description": "Data related to the user that does affect the application's core functionality.",
+      "defaultValue": { "plan": "pro" }
+    },
+    "get_invitations_response_user_metadata": {
+      "type": "object",
+      "description": "Data related to the user that does not affect the application's core functionality.",
+      "defaultValue": { "hobby": "skydiving" }
+    },
+    "post_invitations_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "user-invitation-id",
+          "description": "The id of the user invitation.",
+          "defaultValue": "uinv_0000000000000001"
+        },
+        "organization_id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "inviter": { "$ref": "post_invitations_response_inviter" },
+        "invitee": { "$ref": "post_invitations_response_invitee" },
+        "invitation_url": {
+          "type": "string",
+          "format": "strict-https-uri",
+          "description": "The invitation url to be send to the invitee.",
+          "defaultValue": "https://mycompany.org/login?invitation=f81dWWYW6gzGGicxT8Ha0txBkGNcAcYr&organization=org_0000000000000001&organization_name=acme"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 formatted timestamp representing the creation time of the invitation.",
+          "defaultValue": "2020-08-20T19:10:06.299Z"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 formatted timestamp representing the expiration time of the invitation.",
+          "defaultValue": "2020-08-27T19:10:06.299Z"
+        },
+        "client_id": {
+          "type": "string",
+          "format": "client-id",
+          "description": "Auth0 client ID. Used to resolve the application's login initiation endpoint.",
+          "defaultValue": "AaiyAPdpYdesoKnqjj8HJqRn4T5titww"
+        },
+        "connection_id": {
+          "type": "string",
+          "format": "connection-id",
+          "description": "The id of the connection to force invitee to authenticate with.",
+          "defaultValue": "con_0000000000000001"
+        },
+        "app_metadata": {
+          "$ref": "post_invitations_response_app_metadata",
+          "description": "Data related to the user that does affect the application's core functionality."
+        },
+        "user_metadata": {
+          "$ref": "post_invitations_response_user_metadata",
+          "description": "Data related to the user that does not affect the application's core functionality."
+        },
+        "roles": {
+          "type": "array",
+          "items": { "type": "string", "format": "role-id" },
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true,
+          "description": "List of roles IDs to associated with the user.",
+          "defaultValue": ["rol_0000000000000001", "rol_0000000000000002"]
+        },
+        "ticket_id": {
+          "type": "string",
+          "format": "ticket-id",
+          "description": "The id of the invitation ticket"
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_invitations_response_inviter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The inviter's name.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "Jane Doe"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "post_invitations_response_invitee": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The invitee's email.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        }
+      },
+      "required": ["email"],
+      "additionalProperties": false
+    },
+    "post_invitations_response_app_metadata": {
+      "id": "app_metadata",
+      "type": "object",
+      "title": "app_metadata",
+      "description": "Data related to the user that does affect the application's core functionality.",
+      "defaultValue": { "plan": "pro" }
+    },
+    "post_invitations_response_user_metadata": {
+      "type": "object",
+      "description": "Data related to the user that does not affect the application's core functionality.",
+      "defaultValue": { "hobby": "skydiving" }
+    },
+    "post_invitations_body": {
+      "type": "object",
+      "properties": {
+        "inviter": { "$ref": "post_invitations_body_inviter" },
+        "invitee": { "$ref": "post_invitations_body_invitee" },
+        "client_id": {
+          "type": "string",
+          "format": "client-id",
+          "description": "Auth0 client ID. Used to resolve the application's login initiation endpoint.",
+          "defaultValue": "AaiyAPdpYdesoKnqjj8HJqRn4T5titww"
+        },
+        "connection_id": {
+          "type": "string",
+          "format": "connection-id",
+          "description": "The id of the connection to force invitee to authenticate with.",
+          "defaultValue": "con_0000000000000001"
+        },
+        "app_metadata": {
+          "$ref": "post_invitations_body_app_metadata",
+          "description": "Data related to the user that does affect the application's core functionality."
+        },
+        "user_metadata": {
+          "$ref": "post_invitations_body_user_metadata",
+          "description": "Data related to the user that does not affect the application's core functionality."
+        },
+        "ttl_sec": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2592000,
+          "default": 604800,
+          "description": "Number of seconds for which the invitation is valid before expiration. If unspecified or set to 0, this value defaults to 604800 seconds (7 days). Max value: 2592000 seconds (30 days)."
+        },
+        "roles": {
+          "type": "array",
+          "items": { "type": "string", "format": "role-id" },
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true,
+          "description": "List of roles IDs to associated with the user.",
+          "defaultValue": ["rol_0000000000000001", "rol_0000000000000002"]
+        },
+        "send_invitation_email": {
+          "type": "boolean",
+          "description": "Whether the user will receive an invitation email (true) or no email (false), true by default",
+          "defaultValue": true
+        }
+      },
+      "required": ["inviter", "invitee", "client_id"],
+      "additionalProperties": false
+    },
+    "post_invitations_body_inviter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The inviter's name.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "Jane Doe"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "post_invitations_body_invitee": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The invitee's email.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        }
+      },
+      "required": ["email"],
+      "additionalProperties": false
+    },
+    "post_invitations_body_app_metadata": {
+      "id": "app_metadata",
+      "type": "object",
+      "title": "app_metadata",
+      "description": "Data related to the user that does affect the application's core functionality.",
+      "defaultValue": { "plan": "pro" }
+    },
+    "post_invitations_body_user_metadata": {
+      "type": "object",
+      "description": "Data related to the user that does not affect the application's core functionality.",
+      "defaultValue": { "hobby": "skydiving" }
+    },
+    "get_enabled_connections_response": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "description": "ID of the connection."
+        },
+        "assign_membership_on_login": {
+          "type": "boolean",
+          "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection.",
+          "default": false
+        },
+        "connection": { "$ref": "get_enabled_connections_response_connection" }
+      },
+      "additionalProperties": false
+    },
+    "get_enabled_connections_response_connection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the enabled connection."
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The strategy of the enabled connection."
+        }
+      }
+    },
+    "post_enabled_connections_response": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "description": "ID of the connection."
+        },
+        "assign_membership_on_login": {
+          "type": "boolean",
+          "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection.",
+          "default": false
+        },
+        "connection": { "$ref": "post_enabled_connections_response_connection" }
+      },
+      "additionalProperties": false
+    },
+    "post_enabled_connections_response_connection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the enabled connection."
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The strategy of the enabled connection."
+        }
+      }
+    },
+    "post_enabled_connections_body": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "description": "Single connection ID to add to the organization.",
+          "format": "connection-id"
+        },
+        "assign_membership_on_login": {
+          "type": "boolean",
+          "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection."
+        }
+      },
+      "required": ["connection_id"],
+      "additionalProperties": false
+    },
+    "get_enabled_connections_by_connectionId_response": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "description": "ID of the connection."
+        },
+        "assign_membership_on_login": {
+          "type": "boolean",
+          "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection.",
+          "default": false
+        },
+        "connection": {
+          "$ref": "get_enabled_connections_by_connectionId_response_connection"
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_enabled_connections_by_connectionId_response_connection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the enabled connection."
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The strategy of the enabled connection."
+        }
+      }
+    },
+    "patch_enabled_connections_by_connectionId_response": {
+      "type": "object",
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "description": "ID of the connection."
+        },
+        "assign_membership_on_login": {
+          "type": "boolean",
+          "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection.",
+          "default": false
+        },
+        "connection": {
+          "$ref": "patch_enabled_connections_by_connectionId_response_connection"
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_enabled_connections_by_connectionId_response_connection": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the enabled connection."
+        },
+        "strategy": {
+          "type": "string",
+          "description": "The strategy of the enabled connection."
+        }
+      }
+    },
+    "patch_enabled_connections_by_connectionId_body": {
+      "type": "object",
+      "properties": {
+        "assign_membership_on_login": {
+          "type": "boolean",
+          "description": "When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection."
+        }
+      },
+      "required": ["assign_membership_on_login"],
+      "additionalProperties": false
+    },
+    "get_invitations_by_invitation_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "user-invitation-id",
+          "description": "The id of the user invitation.",
+          "defaultValue": "uinv_0000000000000001"
+        },
+        "organization_id": {
+          "type": "string",
+          "description": "Organization identifier",
+          "format": "organization-id"
+        },
+        "inviter": {
+          "$ref": "get_invitations_by_invitation_id_response_inviter"
+        },
+        "invitee": {
+          "$ref": "get_invitations_by_invitation_id_response_invitee"
+        },
+        "invitation_url": {
+          "type": "string",
+          "format": "strict-https-uri",
+          "description": "The invitation url to be send to the invitee.",
+          "defaultValue": "https://mycompany.org/login?invitation=f81dWWYW6gzGGicxT8Ha0txBkGNcAcYr&organization=org_0000000000000001&organization_name=acme"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 formatted timestamp representing the creation time of the invitation.",
+          "defaultValue": "2020-08-20T19:10:06.299Z"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 formatted timestamp representing the expiration time of the invitation.",
+          "defaultValue": "2020-08-27T19:10:06.299Z"
+        },
+        "client_id": {
+          "type": "string",
+          "format": "client-id",
+          "description": "Auth0 client ID. Used to resolve the application's login initiation endpoint.",
+          "defaultValue": "AaiyAPdpYdesoKnqjj8HJqRn4T5titww"
+        },
+        "connection_id": {
+          "type": "string",
+          "format": "connection-id",
+          "description": "The id of the connection to force invitee to authenticate with.",
+          "defaultValue": "con_0000000000000001"
+        },
+        "app_metadata": {
+          "$ref": "get_invitations_by_invitation_id_response_app_metadata",
+          "description": "Data related to the user that does affect the application's core functionality."
+        },
+        "user_metadata": {
+          "$ref": "get_invitations_by_invitation_id_response_user_metadata",
+          "description": "Data related to the user that does not affect the application's core functionality."
+        },
+        "roles": {
+          "type": "array",
+          "items": { "type": "string", "format": "role-id" },
+          "minItems": 1,
+          "maxItems": 50,
+          "uniqueItems": true,
+          "description": "List of roles IDs to associated with the user.",
+          "defaultValue": ["rol_0000000000000001", "rol_0000000000000002"]
+        },
+        "ticket_id": {
+          "type": "string",
+          "format": "ticket-id",
+          "description": "The id of the invitation ticket"
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_invitations_by_invitation_id_response_inviter": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The inviter's name.",
+          "minLength": 1,
+          "maxLength": 300,
+          "defaultValue": "Jane Doe"
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "get_invitations_by_invitation_id_response_invitee": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The invitee's email.",
+          "format": "email",
+          "defaultValue": "john.doe@gmail.com"
+        }
+      },
+      "required": ["email"],
+      "additionalProperties": false
+    },
+    "get_invitations_by_invitation_id_response_app_metadata": {
+      "id": "app_metadata",
+      "type": "object",
+      "title": "app_metadata",
+      "description": "Data related to the user that does affect the application's core functionality.",
+      "defaultValue": { "plan": "pro" }
+    },
+    "get_invitations_by_invitation_id_response_user_metadata": {
+      "type": "object",
+      "description": "Data related to the user that does not affect the application's core functionality.",
+      "defaultValue": { "hobby": "skydiving" }
+    },
+    "get_organization_member_roles_response": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID for this role." },
+        "name": { "type": "string", "description": "Name of the role." },
+        "description": {
+          "type": "string",
+          "description": "Description of the role."
+        }
+      },
+      "additionalProperties": false
+    },
+    "delete_organization_member_roles_body": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": { "type": "string", "format": "role-id" },
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "description": "List of roles IDs associated with the organization member to remove."
+        }
+      },
+      "required": ["roles"],
+      "additionalProperties": false
+    },
+    "post_organization_member_roles_body": {
+      "type": "object",
+      "properties": {
+        "roles": {
+          "type": "array",
+          "items": { "type": "string", "format": "role-id" },
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "description": "List of roles IDs to associated with the user."
+        }
+      },
+      "required": ["roles"],
+      "additionalProperties": false
+    }
+  }
+}

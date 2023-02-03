@@ -1,0 +1,426 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Prompts",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/prompts",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get prompts settings",
+          "notes": "Retrieve prompts settings.",
+          "type": "get_prompts_response",
+          "nickname": "get_prompts",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Prompt settings successfully retrieved."
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "The specified client cannot perform the requested operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:prompts.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:prompts"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update prompts settings",
+          "notes": "Update prompts settings.",
+          "type": "patch_prompts_response",
+          "nickname": "patch_prompts",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Prompts settings",
+              "type": "patch_prompts_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Prompts settings successfully updated."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:prompts.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:prompts"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/prompts/{prompt}/custom-text/{language}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get custom text for a prompt",
+          "notes": "Retrieve custom text for a specific prompt and language.",
+          "type": "get_custom-text_by_language_response",
+          "nickname": "get_custom-text_by_language",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "prompt",
+              "description": "Name of the prompt.",
+              "type": "string",
+              "required": true,
+              "enum": [
+                "login",
+                "login-id",
+                "login-password",
+                "login-passwordless",
+                "login-email-verification",
+                "signup",
+                "signup-id",
+                "signup-password",
+                "reset-password",
+                "consent",
+                "logout",
+                "mfa-push",
+                "mfa-otp",
+                "mfa-voice",
+                "mfa-phone",
+                "mfa-webauthn",
+                "mfa-sms",
+                "mfa-email",
+                "mfa-recovery-code",
+                "mfa",
+                "status",
+                "device-flow",
+                "email-verification",
+                "email-otp-challenge",
+                "organizations",
+                "invitation",
+                "common"
+              ]
+            },
+            {
+              "paramType": "path",
+              "name": "language",
+              "description": "Language to update.",
+              "type": "string",
+              "required": true,
+              "enum": [
+                "ar",
+                "bg",
+                "bs",
+                "cs",
+                "da",
+                "de",
+                "el",
+                "en",
+                "es",
+                "et",
+                "fi",
+                "fr",
+                "fr-CA",
+                "fr-FR",
+                "he",
+                "hi",
+                "hr",
+                "hu",
+                "id",
+                "is",
+                "it",
+                "ja",
+                "ko",
+                "lt",
+                "lv",
+                "nb",
+                "nl",
+                "pl",
+                "pt",
+                "pt-BR",
+                "pt-PT",
+                "ro",
+                "ru",
+                "sk",
+                "sl",
+                "sr",
+                "sv",
+                "th",
+                "tr",
+                "uk",
+                "vi",
+                "zh-CN",
+                "zh-TW"
+              ]
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Prompt dictionaries successfully retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:prompts."
+            },
+            { "code": 404, "message": "The prompt does not exist." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:prompts"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Set custom text for a specific prompt",
+          "notes": "Set custom text for a specific prompt. Existing texts will be overwritten.",
+          "type": "void",
+          "nickname": "put_custom-text_by_language",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "prompt",
+              "description": "Name of the prompt.",
+              "type": "string",
+              "required": true,
+              "enum": [
+                "login",
+                "login-id",
+                "login-password",
+                "login-passwordless",
+                "login-email-verification",
+                "signup",
+                "signup-id",
+                "signup-password",
+                "reset-password",
+                "consent",
+                "logout",
+                "mfa-push",
+                "mfa-otp",
+                "mfa-voice",
+                "mfa-phone",
+                "mfa-webauthn",
+                "mfa-sms",
+                "mfa-email",
+                "mfa-recovery-code",
+                "mfa",
+                "status",
+                "device-flow",
+                "email-verification",
+                "email-otp-challenge",
+                "organizations",
+                "invitation",
+                "common"
+              ]
+            },
+            {
+              "paramType": "path",
+              "name": "language",
+              "description": "Language to update.",
+              "type": "string",
+              "required": true,
+              "enum": [
+                "ar",
+                "bg",
+                "bs",
+                "cs",
+                "da",
+                "de",
+                "el",
+                "en",
+                "es",
+                "et",
+                "fi",
+                "fr",
+                "fr-CA",
+                "fr-FR",
+                "he",
+                "hi",
+                "hr",
+                "hu",
+                "id",
+                "is",
+                "it",
+                "ja",
+                "ko",
+                "lt",
+                "lv",
+                "nb",
+                "nl",
+                "pl",
+                "pt",
+                "pt-BR",
+                "pt-PT",
+                "ro",
+                "ru",
+                "sk",
+                "sl",
+                "sr",
+                "sv",
+                "th",
+                "tr",
+                "uk",
+                "vi",
+                "zh-CN",
+                "zh-TW"
+              ]
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "An object containing custom dictionaries for a group of screens.",
+              "type": "put_custom-text_by_language_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Prompt dictionaries successfully updated."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:prompts.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:prompts"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_prompts_response": {
+      "type": "object",
+      "properties": {
+        "universal_login_experience": {
+          "type": "string",
+          "description": "Which login experience to use. Can be `new` or `classic`.",
+          "enum": ["new", "classic"]
+        },
+        "identifier_first": {
+          "type": "boolean",
+          "description": "Whether identifier first is enabled or not"
+        },
+        "webauthn_platform_first_factor": {
+          "type": "boolean",
+          "description": "Use WebAuthn with Device Biometrics as the first authentication factor"
+        }
+      }
+    },
+    "patch_prompts_response": {
+      "type": "object",
+      "properties": {
+        "universal_login_experience": {
+          "type": "string",
+          "description": "Which login experience to use. Can be `new` or `classic`.",
+          "enum": ["new", "classic"]
+        },
+        "identifier_first": {
+          "type": "boolean",
+          "description": "Whether identifier first is enabled or not"
+        },
+        "webauthn_platform_first_factor": {
+          "type": "boolean",
+          "description": "Use WebAuthn with Device Biometrics as the first authentication factor"
+        }
+      }
+    },
+    "patch_prompts_body": {
+      "type": "object",
+      "description": "Prompts settings",
+      "properties": {
+        "universal_login_experience": {
+          "type": "string",
+          "description": "Which login experience to use. Can be `new` or `classic`.",
+          "enum": ["new", "classic"]
+        },
+        "identifier_first": {
+          "type": "null",
+          "description": "Whether identifier first is enabled or not"
+        },
+        "webauthn_platform_first_factor": {
+          "type": "null",
+          "description": "Use WebAuthn with Device Biometrics as the first authentication factor"
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "get_custom-text_by_language_response": {
+      "type": "object",
+      "description": "An object containing custom dictionaries for a group of screens."
+    },
+    "put_custom-text_by_language_body": {
+      "type": "object",
+      "description": "An object containing custom dictionaries for a group of screens."
+    }
+  }
+}

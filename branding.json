@@ -1,0 +1,3170 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Branding",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/branding",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get branding settings",
+          "notes": "Retrieve branding settings.",
+          "type": "get_branding_response",
+          "nickname": "get_branding",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Branding settings successfully retrieved."
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "The specified client cannot perform the requested operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:branding"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update branding settings",
+          "notes": "Update branding settings.",
+          "type": "patch_branding_response",
+          "nickname": "patch_branding",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Branding settings",
+              "type": "patch_branding_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Branding settings successfully updated."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:branding"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/branding/templates/universal-login",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get template for New Universal Login Experience",
+          "type": "get_universal-login_response",
+          "nickname": "get_universal-login",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 200, "message": "Template successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: read:branding",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Template does not exist.",
+              "errorCode": "inexistent_templates_universal_login"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:branding"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete template for New Universal Login Experience",
+          "type": "void",
+          "nickname": "delete_universal-login",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 204, "message": "Template successfully deleted." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: delete:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:branding"] } }
+        },
+        {
+          "method": "put",
+          "summary": "Set template for New Universal Login Experience",
+          "notes": "Update the Universal Login branding template.\n\n<p>When <code>content-type</code> header is set to <code>application/json</code>, the expected body must be JSON:</p>\n<pre>\n{\n  \"template\": \"&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;{%- auth0:head -%}&lt;/head&gt;&lt;body&gt;{%- auth0:widget -%}&lt;/body&gt;&lt;/html&gt;\"\n}\n</pre>\n\n<p>\n  When <code>content-type</code> header is set to <code>text/html</code>, the expected body must be the HTML template:\n</p>\n<pre>\n&lt!DOCTYPE html&gt;\n&lt;code&gt;\n  &lt;html&gt;\n    &lt;head&gt;\n     {%- auth0:head -%}\n    &lt;/head&gt;\n    &lt;body&gt;\n      {%- auth0:widget -%}\n    &lt;/body&gt;\n  &lt;/html&gt;\n&lt;/code&gt;\n</pre>\n",
+          "type": "void",
+          "nickname": "put_universal-login",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "put_universal-login_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Template successfully created." },
+            { "code": 204, "message": "Template successfully updated." },
+            {
+              "code": 400,
+              "message": "Payload content length greater than maximum allowed: 102400."
+            },
+            {
+              "code": 400,
+              "message": "Payload content missing required Liquid tags (auth0:head and auth0:widget)."
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected: update:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 409,
+              "message": "Template update conflict.",
+              "errorCode": "templates_universal_login_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:branding"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/branding/themes/default",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get default branding theme",
+          "notes": "Retrieve default branding theme.",
+          "type": "get_default_branding_theme_response",
+          "nickname": "get_default_branding_theme",
+          "parameters": [],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Branding theme successfully retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Your account does not have universal login customizations enabled"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "The specified client cannot perform the requested operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "There was an error retrieving branding settings: invalid theme ID"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:branding"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/branding/themes/{themeId}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get branding theme",
+          "notes": "Retrieve branding theme.",
+          "type": "get_branding_theme_response",
+          "nickname": "get_branding_theme",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "themeId",
+              "description": "The ID of the theme",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Branding theme successfully retrieved."
+            },
+            {
+              "code": 400,
+              "message": "Your account does not have universal login customizations enabled"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "The specified client cannot perform the requested operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "There was an error retrieving branding settings: invalid theme ID"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:branding"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete branding theme",
+          "notes": "Delete branding theme.",
+          "type": "void",
+          "nickname": "delete_branding_theme",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "themeId",
+              "description": "The ID of the theme",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Branding theme successfully deleted." },
+            {
+              "code": 400,
+              "message": "Your account does not have universal login customizations enabled"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "The specified client cannot perform the requested operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "There was an error deleting branding settings: invalid theme ID"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:branding"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update branding theme",
+          "notes": "Update branding theme.",
+          "type": "patch_branding_theme_response",
+          "nickname": "patch_branding_theme",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "themeId",
+              "description": "The ID of the theme",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Branding theme",
+              "type": "patch_branding_theme_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Branding settings successfully updated."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Your account does not have universal login customizations enabled"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "There was an error updating branding settings: invalid theme ID"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:branding"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/branding/themes",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Create branding theme",
+          "notes": "Create branding theme.",
+          "type": "post_branding_theme_response",
+          "nickname": "post_branding_theme",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Branding theme",
+              "type": "post_branding_theme_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "message": "Branding settings successfully updated."
+            },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            {
+              "code": 400,
+              "message": "Your account does not have universal login customizations enabled"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:branding.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 409,
+              "message": "There was an error updating branding settings: The theme already exists"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:branding"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_branding_response": {
+      "type": "object",
+      "properties": {
+        "colors": {
+          "$ref": "get_branding_response_colors",
+          "description": "Custom color settings."
+        },
+        "favicon_url": {
+          "type": "string",
+          "description": "URL for the favicon. Must use HTTPS.",
+          "format": "strict-https-uri"
+        },
+        "logo_url": {
+          "type": "string",
+          "description": "URL for the logo. Must use HTTPS.",
+          "format": "strict-https-uri"
+        },
+        "font": {
+          "$ref": "get_branding_response_font",
+          "description": "Custom font settings."
+        }
+      }
+    },
+    "get_branding_response_colors": {
+      "type": "object",
+      "description": "Custom color settings.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "Accent color."
+        },
+        "page_background": {
+          "$ref": "get_branding_response_page_background",
+          "description": "Page Background Color or Gradient.\nProperty contains either <code>null</code> to unset, a solid color as a string value <code>#FFFFFF</code>, or a gradient as an object.\n\n<code>\n{\n  type: 'linear-gradient',\n  start: '#FFFFFF',\n  end: '#000000',\n  angle_deg: 35\n}\n</code>\n"
+        }
+      }
+    },
+    "get_branding_response_page_background": {
+      "description": "Page Background Color or Gradient.\nProperty contains either <code>null</code> to unset, a solid color as a string value <code>#FFFFFF</code>, or a gradient as an object.\n\n<code>\n{\n  type: 'linear-gradient',\n  start: '#FFFFFF',\n  end: '#000000',\n  angle_deg: 35\n}\n</code>\n",
+      "type": "string"
+    },
+    "get_branding_response_font": {
+      "type": "object",
+      "description": "Custom font settings.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL for the custom font. The URL must point to a font file and not a stylesheet. Must use HTTPS.",
+          "format": "strict-https-uri"
+        }
+      }
+    },
+    "patch_branding_response": {
+      "type": "object",
+      "properties": {
+        "colors": {
+          "$ref": "patch_branding_response_colors",
+          "description": "Custom color settings."
+        },
+        "favicon_url": {
+          "type": "string",
+          "description": "URL for the favicon. Must use HTTPS.",
+          "format": "strict-https-uri"
+        },
+        "logo_url": {
+          "type": "string",
+          "description": "URL for the logo. Must use HTTPS.",
+          "format": "strict-https-uri"
+        },
+        "font": {
+          "$ref": "patch_branding_response_font",
+          "description": "Custom font settings."
+        }
+      }
+    },
+    "patch_branding_response_colors": {
+      "type": "object",
+      "description": "Custom color settings.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color",
+          "description": "Accent color."
+        },
+        "page_background": {
+          "$ref": "patch_branding_response_page_background",
+          "description": "Page Background Color or Gradient.\nProperty contains either <code>null</code> to unset, a solid color as a string value <code>#FFFFFF</code>, or a gradient as an object.\n\n<code>\n{\n  type: 'linear-gradient',\n  start: '#FFFFFF',\n  end: '#000000',\n  angle_deg: 35\n}\n</code>\n"
+        }
+      }
+    },
+    "patch_branding_response_page_background": {
+      "description": "Page Background Color or Gradient.\nProperty contains either <code>null</code> to unset, a solid color as a string value <code>#FFFFFF</code>, or a gradient as an object.\n\n<code>\n{\n  type: 'linear-gradient',\n  start: '#FFFFFF',\n  end: '#000000',\n  angle_deg: 35\n}\n</code>\n",
+      "type": "string"
+    },
+    "patch_branding_response_font": {
+      "type": "object",
+      "description": "Custom font settings.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL for the custom font. The URL must point to a font file and not a stylesheet. Must use HTTPS.",
+          "format": "strict-https-uri"
+        }
+      }
+    },
+    "patch_branding_body": {
+      "type": "object",
+      "description": "Branding settings",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "colors": {
+          "$ref": "patch_branding_body_colors",
+          "description": "Custom color settings."
+        },
+        "favicon_url": {
+          "type": "string",
+          "description": "URL for the favicon. Must use HTTPS.",
+          "format": "strict-https-uri-or-null"
+        },
+        "logo_url": {
+          "type": "string",
+          "description": "URL for the logo. Must use HTTPS.",
+          "format": "strict-https-uri-or-null"
+        },
+        "font": {
+          "$ref": "patch_branding_body_font",
+          "description": "Custom font settings."
+        }
+      }
+    },
+    "patch_branding_body_colors": {
+      "type": "object",
+      "description": "Custom color settings.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "primary": {
+          "type": "string",
+          "format": "html-color-or-null",
+          "description": "Accent color."
+        },
+        "page_background": {
+          "$ref": "patch_branding_body_page_background",
+          "description": "Page Background Color or Gradient.\nProperty contains either <code>null</code> to unset, a solid color as a string value <code>#FFFFFF</code>, or a gradient as an object.\n\n<code>\n{\n  type: 'linear-gradient',\n  start: '#FFFFFF',\n  end: '#000000',\n  angle_deg: 35\n}\n</code>\n"
+        }
+      }
+    },
+    "patch_branding_body_page_background": {
+      "description": "Page Background Color or Gradient.\nProperty contains either <code>null</code> to unset, a solid color as a string value <code>#FFFFFF</code>, or a gradient as an object.\n\n<code>\n{\n  type: 'linear-gradient',\n  start: '#FFFFFF',\n  end: '#000000',\n  angle_deg: 35\n}\n</code>\n",
+      "type": "string"
+    },
+    "patch_branding_body_font": {
+      "type": "object",
+      "description": "Custom font settings.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL for the custom font. The URL must point to a font file and not a stylesheet. Must use HTTPS.",
+          "format": "strict-https-uri-or-null"
+        }
+      }
+    },
+    "get_universal-login_response": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "The custom page template for the New Universal Login Experience"
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_default_branding_theme_response": {
+      "additionalProperties": false,
+      "properties": {
+        "borders": { "$ref": "get_default_branding_theme_response_borders" },
+        "colors": { "$ref": "get_default_branding_theme_response_colors" },
+        "displayName": {
+          "description": "Display Name",
+          "maxLength": 2048,
+          "pattern": "^[^<>]*$",
+          "type": "string"
+        },
+        "fonts": { "$ref": "get_default_branding_theme_response_fonts" },
+        "page_background": {
+          "$ref": "get_default_branding_theme_response_page_background"
+        },
+        "themeId": {
+          "description": "Theme Id",
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9]{32}$",
+          "type": "string"
+        },
+        "widget": { "$ref": "get_default_branding_theme_response_widget" }
+      },
+      "required": [
+        "borders",
+        "colors",
+        "displayName",
+        "fonts",
+        "page_background",
+        "themeId",
+        "widget"
+      ],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_borders": {
+      "additionalProperties": false,
+      "properties": {
+        "button_border_radius": {
+          "description": "Button border radius",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "button_border_weight": {
+          "description": "Button border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "buttons_style": {
+          "description": "Buttons style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "input_border_radius": {
+          "description": "Input border radius",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "input_border_weight": {
+          "description": "Input border weight",
+          "maximum": 3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputs_style": {
+          "description": "Inputs style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "show_widget_shadow": {
+          "description": "Show widget shadow",
+          "type": "boolean"
+        },
+        "widget_border_weight": {
+          "description": "Widget border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "widget_corner_radius": {
+          "description": "Widget corner radius",
+          "maximum": 50,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "button_border_radius",
+        "button_border_weight",
+        "buttons_style",
+        "input_border_radius",
+        "input_border_weight",
+        "inputs_style",
+        "show_widget_shadow",
+        "widget_border_weight",
+        "widget_corner_radius"
+      ],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_colors": {
+      "additionalProperties": false,
+      "properties": {
+        "base_focus_color": {
+          "description": "Base Focus Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "base_hover_color": {
+          "description": "Base Hover Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "body_text": {
+          "description": "Body text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "header": {
+          "description": "Header",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Icons",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_background": {
+          "description": "Input background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_border": {
+          "description": "Input border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_filled_text": {
+          "description": "Input filled text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_labels_placeholders": {
+          "description": "Input labels & placeholders",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "links_focused_components": {
+          "description": "Links & focused components",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button": {
+          "description": "Primary button",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button_label": {
+          "description": "Primary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_border": {
+          "description": "Secondary button border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_label": {
+          "description": "Secondary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "success": {
+          "description": "Success",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_background": {
+          "description": "Widget background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_border": {
+          "description": "Widget border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_text",
+        "error",
+        "header",
+        "icons",
+        "input_background",
+        "input_border",
+        "input_filled_text",
+        "input_labels_placeholders",
+        "links_focused_components",
+        "primary_button",
+        "primary_button_label",
+        "secondary_button_border",
+        "secondary_button_label",
+        "success",
+        "widget_background",
+        "widget_border"
+      ],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_fonts": {
+      "additionalProperties": false,
+      "properties": {
+        "body_text": {
+          "$ref": "get_default_branding_theme_response_body_text",
+          "description": "Body text"
+        },
+        "buttons_text": {
+          "$ref": "get_default_branding_theme_response_buttons_text",
+          "description": "Buttons text"
+        },
+        "font_url": {
+          "description": "Font URL",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "input_labels": {
+          "$ref": "get_default_branding_theme_response_input_labels",
+          "description": "Input Labels"
+        },
+        "links": {
+          "$ref": "get_default_branding_theme_response_links",
+          "description": "Links"
+        },
+        "links_style": {
+          "description": "Links style",
+          "enum": ["normal", "underlined"],
+          "type": "string"
+        },
+        "reference_text_size": {
+          "description": "Reference text size",
+          "maximum": 24,
+          "minimum": 12,
+          "type": "number"
+        },
+        "subtitle": {
+          "$ref": "get_default_branding_theme_response_subtitle",
+          "description": "Subtitle"
+        },
+        "title": {
+          "$ref": "get_default_branding_theme_response_title",
+          "description": "Title"
+        }
+      },
+      "required": [
+        "body_text",
+        "buttons_text",
+        "font_url",
+        "input_labels",
+        "links",
+        "links_style",
+        "reference_text_size",
+        "subtitle",
+        "title"
+      ],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_body_text": {
+      "additionalProperties": false,
+      "description": "Body text",
+      "properties": {
+        "bold": { "description": "Body text bold", "type": "boolean" },
+        "size": {
+          "description": "Body text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_buttons_text": {
+      "additionalProperties": false,
+      "description": "Buttons text",
+      "properties": {
+        "bold": { "description": "Buttons text bold", "type": "boolean" },
+        "size": {
+          "description": "Buttons text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_input_labels": {
+      "additionalProperties": false,
+      "description": "Input Labels",
+      "properties": {
+        "bold": { "description": "Input Labels bold", "type": "boolean" },
+        "size": {
+          "description": "Input Labels size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_links": {
+      "additionalProperties": false,
+      "description": "Links",
+      "properties": {
+        "bold": { "description": "Links bold", "type": "boolean" },
+        "size": {
+          "description": "Links size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_subtitle": {
+      "additionalProperties": false,
+      "description": "Subtitle",
+      "properties": {
+        "bold": { "description": "Subtitle bold", "type": "boolean" },
+        "size": {
+          "description": "Subtitle size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_title": {
+      "additionalProperties": false,
+      "description": "Title",
+      "properties": {
+        "bold": { "description": "Title bold", "type": "boolean" },
+        "size": {
+          "description": "Title size",
+          "maximum": 150,
+          "minimum": 75,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_page_background": {
+      "additionalProperties": false,
+      "properties": {
+        "background_color": {
+          "description": "Background color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "background_image_url": {
+          "description": "Background image url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "page_layout": {
+          "description": "Page Layout",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        }
+      },
+      "required": ["background_color", "background_image_url", "page_layout"],
+      "type": "object"
+    },
+    "get_default_branding_theme_response_widget": {
+      "additionalProperties": false,
+      "properties": {
+        "header_text_alignment": {
+          "description": "Header text alignment",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        },
+        "logo_height": {
+          "description": "Logo height",
+          "maximum": 100,
+          "minimum": 1,
+          "type": "number"
+        },
+        "logo_position": {
+          "description": "Logo position",
+          "enum": ["center", "left", "none", "right"],
+          "type": "string"
+        },
+        "logo_url": {
+          "description": "Logo url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "social_buttons_layout": {
+          "description": "Social buttons layout",
+          "enum": ["bottom", "top"],
+          "type": "string"
+        }
+      },
+      "required": [
+        "header_text_alignment",
+        "logo_height",
+        "logo_position",
+        "logo_url",
+        "social_buttons_layout"
+      ],
+      "type": "object"
+    },
+    "get_branding_theme_response": {
+      "additionalProperties": false,
+      "properties": {
+        "borders": { "$ref": "get_branding_theme_response_borders" },
+        "colors": { "$ref": "get_branding_theme_response_colors" },
+        "displayName": {
+          "description": "Display Name",
+          "maxLength": 2048,
+          "pattern": "^[^<>]*$",
+          "type": "string"
+        },
+        "fonts": { "$ref": "get_branding_theme_response_fonts" },
+        "page_background": {
+          "$ref": "get_branding_theme_response_page_background"
+        },
+        "themeId": {
+          "description": "Theme Id",
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9]{32}$",
+          "type": "string"
+        },
+        "widget": { "$ref": "get_branding_theme_response_widget" }
+      },
+      "required": [
+        "borders",
+        "colors",
+        "displayName",
+        "fonts",
+        "page_background",
+        "themeId",
+        "widget"
+      ],
+      "type": "object"
+    },
+    "get_branding_theme_response_borders": {
+      "additionalProperties": false,
+      "properties": {
+        "button_border_radius": {
+          "description": "Button border radius",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "button_border_weight": {
+          "description": "Button border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "buttons_style": {
+          "description": "Buttons style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "input_border_radius": {
+          "description": "Input border radius",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "input_border_weight": {
+          "description": "Input border weight",
+          "maximum": 3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputs_style": {
+          "description": "Inputs style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "show_widget_shadow": {
+          "description": "Show widget shadow",
+          "type": "boolean"
+        },
+        "widget_border_weight": {
+          "description": "Widget border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "widget_corner_radius": {
+          "description": "Widget corner radius",
+          "maximum": 50,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "button_border_radius",
+        "button_border_weight",
+        "buttons_style",
+        "input_border_radius",
+        "input_border_weight",
+        "inputs_style",
+        "show_widget_shadow",
+        "widget_border_weight",
+        "widget_corner_radius"
+      ],
+      "type": "object"
+    },
+    "get_branding_theme_response_colors": {
+      "additionalProperties": false,
+      "properties": {
+        "base_focus_color": {
+          "description": "Base Focus Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "base_hover_color": {
+          "description": "Base Hover Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "body_text": {
+          "description": "Body text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "header": {
+          "description": "Header",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Icons",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_background": {
+          "description": "Input background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_border": {
+          "description": "Input border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_filled_text": {
+          "description": "Input filled text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_labels_placeholders": {
+          "description": "Input labels & placeholders",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "links_focused_components": {
+          "description": "Links & focused components",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button": {
+          "description": "Primary button",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button_label": {
+          "description": "Primary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_border": {
+          "description": "Secondary button border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_label": {
+          "description": "Secondary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "success": {
+          "description": "Success",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_background": {
+          "description": "Widget background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_border": {
+          "description": "Widget border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_text",
+        "error",
+        "header",
+        "icons",
+        "input_background",
+        "input_border",
+        "input_filled_text",
+        "input_labels_placeholders",
+        "links_focused_components",
+        "primary_button",
+        "primary_button_label",
+        "secondary_button_border",
+        "secondary_button_label",
+        "success",
+        "widget_background",
+        "widget_border"
+      ],
+      "type": "object"
+    },
+    "get_branding_theme_response_fonts": {
+      "additionalProperties": false,
+      "properties": {
+        "body_text": {
+          "$ref": "get_branding_theme_response_body_text",
+          "description": "Body text"
+        },
+        "buttons_text": {
+          "$ref": "get_branding_theme_response_buttons_text",
+          "description": "Buttons text"
+        },
+        "font_url": {
+          "description": "Font URL",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "input_labels": {
+          "$ref": "get_branding_theme_response_input_labels",
+          "description": "Input Labels"
+        },
+        "links": {
+          "$ref": "get_branding_theme_response_links",
+          "description": "Links"
+        },
+        "links_style": {
+          "description": "Links style",
+          "enum": ["normal", "underlined"],
+          "type": "string"
+        },
+        "reference_text_size": {
+          "description": "Reference text size",
+          "maximum": 24,
+          "minimum": 12,
+          "type": "number"
+        },
+        "subtitle": {
+          "$ref": "get_branding_theme_response_subtitle",
+          "description": "Subtitle"
+        },
+        "title": {
+          "$ref": "get_branding_theme_response_title",
+          "description": "Title"
+        }
+      },
+      "required": [
+        "body_text",
+        "buttons_text",
+        "font_url",
+        "input_labels",
+        "links",
+        "links_style",
+        "reference_text_size",
+        "subtitle",
+        "title"
+      ],
+      "type": "object"
+    },
+    "get_branding_theme_response_body_text": {
+      "additionalProperties": false,
+      "description": "Body text",
+      "properties": {
+        "bold": { "description": "Body text bold", "type": "boolean" },
+        "size": {
+          "description": "Body text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_branding_theme_response_buttons_text": {
+      "additionalProperties": false,
+      "description": "Buttons text",
+      "properties": {
+        "bold": { "description": "Buttons text bold", "type": "boolean" },
+        "size": {
+          "description": "Buttons text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_branding_theme_response_input_labels": {
+      "additionalProperties": false,
+      "description": "Input Labels",
+      "properties": {
+        "bold": { "description": "Input Labels bold", "type": "boolean" },
+        "size": {
+          "description": "Input Labels size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_branding_theme_response_links": {
+      "additionalProperties": false,
+      "description": "Links",
+      "properties": {
+        "bold": { "description": "Links bold", "type": "boolean" },
+        "size": {
+          "description": "Links size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_branding_theme_response_subtitle": {
+      "additionalProperties": false,
+      "description": "Subtitle",
+      "properties": {
+        "bold": { "description": "Subtitle bold", "type": "boolean" },
+        "size": {
+          "description": "Subtitle size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_branding_theme_response_title": {
+      "additionalProperties": false,
+      "description": "Title",
+      "properties": {
+        "bold": { "description": "Title bold", "type": "boolean" },
+        "size": {
+          "description": "Title size",
+          "maximum": 150,
+          "minimum": 75,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "get_branding_theme_response_page_background": {
+      "additionalProperties": false,
+      "properties": {
+        "background_color": {
+          "description": "Background color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "background_image_url": {
+          "description": "Background image url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "page_layout": {
+          "description": "Page Layout",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        }
+      },
+      "required": ["background_color", "background_image_url", "page_layout"],
+      "type": "object"
+    },
+    "get_branding_theme_response_widget": {
+      "additionalProperties": false,
+      "properties": {
+        "header_text_alignment": {
+          "description": "Header text alignment",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        },
+        "logo_height": {
+          "description": "Logo height",
+          "maximum": 100,
+          "minimum": 1,
+          "type": "number"
+        },
+        "logo_position": {
+          "description": "Logo position",
+          "enum": ["center", "left", "none", "right"],
+          "type": "string"
+        },
+        "logo_url": {
+          "description": "Logo url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "social_buttons_layout": {
+          "description": "Social buttons layout",
+          "enum": ["bottom", "top"],
+          "type": "string"
+        }
+      },
+      "required": [
+        "header_text_alignment",
+        "logo_height",
+        "logo_position",
+        "logo_url",
+        "social_buttons_layout"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_response": {
+      "additionalProperties": false,
+      "properties": {
+        "borders": { "$ref": "patch_branding_theme_response_borders" },
+        "colors": { "$ref": "patch_branding_theme_response_colors" },
+        "displayName": {
+          "description": "Display Name",
+          "maxLength": 2048,
+          "pattern": "^[^<>]*$",
+          "type": "string"
+        },
+        "fonts": { "$ref": "patch_branding_theme_response_fonts" },
+        "page_background": {
+          "$ref": "patch_branding_theme_response_page_background"
+        },
+        "themeId": {
+          "description": "Theme Id",
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9]{32}$",
+          "type": "string"
+        },
+        "widget": { "$ref": "patch_branding_theme_response_widget" }
+      },
+      "required": [
+        "borders",
+        "colors",
+        "displayName",
+        "fonts",
+        "page_background",
+        "themeId",
+        "widget"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_response_borders": {
+      "additionalProperties": false,
+      "properties": {
+        "button_border_radius": {
+          "description": "Button border radius",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "button_border_weight": {
+          "description": "Button border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "buttons_style": {
+          "description": "Buttons style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "input_border_radius": {
+          "description": "Input border radius",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "input_border_weight": {
+          "description": "Input border weight",
+          "maximum": 3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputs_style": {
+          "description": "Inputs style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "show_widget_shadow": {
+          "description": "Show widget shadow",
+          "type": "boolean"
+        },
+        "widget_border_weight": {
+          "description": "Widget border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "widget_corner_radius": {
+          "description": "Widget corner radius",
+          "maximum": 50,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "button_border_radius",
+        "button_border_weight",
+        "buttons_style",
+        "input_border_radius",
+        "input_border_weight",
+        "inputs_style",
+        "show_widget_shadow",
+        "widget_border_weight",
+        "widget_corner_radius"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_response_colors": {
+      "additionalProperties": false,
+      "properties": {
+        "base_focus_color": {
+          "description": "Base Focus Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "base_hover_color": {
+          "description": "Base Hover Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "body_text": {
+          "description": "Body text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "header": {
+          "description": "Header",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Icons",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_background": {
+          "description": "Input background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_border": {
+          "description": "Input border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_filled_text": {
+          "description": "Input filled text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_labels_placeholders": {
+          "description": "Input labels & placeholders",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "links_focused_components": {
+          "description": "Links & focused components",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button": {
+          "description": "Primary button",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button_label": {
+          "description": "Primary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_border": {
+          "description": "Secondary button border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_label": {
+          "description": "Secondary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "success": {
+          "description": "Success",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_background": {
+          "description": "Widget background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_border": {
+          "description": "Widget border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_text",
+        "error",
+        "header",
+        "icons",
+        "input_background",
+        "input_border",
+        "input_filled_text",
+        "input_labels_placeholders",
+        "links_focused_components",
+        "primary_button",
+        "primary_button_label",
+        "secondary_button_border",
+        "secondary_button_label",
+        "success",
+        "widget_background",
+        "widget_border"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_response_fonts": {
+      "additionalProperties": false,
+      "properties": {
+        "body_text": {
+          "$ref": "patch_branding_theme_response_body_text",
+          "description": "Body text"
+        },
+        "buttons_text": {
+          "$ref": "patch_branding_theme_response_buttons_text",
+          "description": "Buttons text"
+        },
+        "font_url": {
+          "description": "Font URL",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "input_labels": {
+          "$ref": "patch_branding_theme_response_input_labels",
+          "description": "Input Labels"
+        },
+        "links": {
+          "$ref": "patch_branding_theme_response_links",
+          "description": "Links"
+        },
+        "links_style": {
+          "description": "Links style",
+          "enum": ["normal", "underlined"],
+          "type": "string"
+        },
+        "reference_text_size": {
+          "description": "Reference text size",
+          "maximum": 24,
+          "minimum": 12,
+          "type": "number"
+        },
+        "subtitle": {
+          "$ref": "patch_branding_theme_response_subtitle",
+          "description": "Subtitle"
+        },
+        "title": {
+          "$ref": "patch_branding_theme_response_title",
+          "description": "Title"
+        }
+      },
+      "required": [
+        "body_text",
+        "buttons_text",
+        "font_url",
+        "input_labels",
+        "links",
+        "links_style",
+        "reference_text_size",
+        "subtitle",
+        "title"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_response_body_text": {
+      "additionalProperties": false,
+      "description": "Body text",
+      "properties": {
+        "bold": { "description": "Body text bold", "type": "boolean" },
+        "size": {
+          "description": "Body text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_buttons_text": {
+      "additionalProperties": false,
+      "description": "Buttons text",
+      "properties": {
+        "bold": { "description": "Buttons text bold", "type": "boolean" },
+        "size": {
+          "description": "Buttons text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_input_labels": {
+      "additionalProperties": false,
+      "description": "Input Labels",
+      "properties": {
+        "bold": { "description": "Input Labels bold", "type": "boolean" },
+        "size": {
+          "description": "Input Labels size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_links": {
+      "additionalProperties": false,
+      "description": "Links",
+      "properties": {
+        "bold": { "description": "Links bold", "type": "boolean" },
+        "size": {
+          "description": "Links size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_subtitle": {
+      "additionalProperties": false,
+      "description": "Subtitle",
+      "properties": {
+        "bold": { "description": "Subtitle bold", "type": "boolean" },
+        "size": {
+          "description": "Subtitle size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_title": {
+      "additionalProperties": false,
+      "description": "Title",
+      "properties": {
+        "bold": { "description": "Title bold", "type": "boolean" },
+        "size": {
+          "description": "Title size",
+          "maximum": 150,
+          "minimum": 75,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_page_background": {
+      "additionalProperties": false,
+      "properties": {
+        "background_color": {
+          "description": "Background color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "background_image_url": {
+          "description": "Background image url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "page_layout": {
+          "description": "Page Layout",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        }
+      },
+      "required": ["background_color", "background_image_url", "page_layout"],
+      "type": "object"
+    },
+    "patch_branding_theme_response_widget": {
+      "additionalProperties": false,
+      "properties": {
+        "header_text_alignment": {
+          "description": "Header text alignment",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        },
+        "logo_height": {
+          "description": "Logo height",
+          "maximum": 100,
+          "minimum": 1,
+          "type": "number"
+        },
+        "logo_position": {
+          "description": "Logo position",
+          "enum": ["center", "left", "none", "right"],
+          "type": "string"
+        },
+        "logo_url": {
+          "description": "Logo url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "social_buttons_layout": {
+          "description": "Social buttons layout",
+          "enum": ["bottom", "top"],
+          "type": "string"
+        }
+      },
+      "required": [
+        "header_text_alignment",
+        "logo_height",
+        "logo_position",
+        "logo_url",
+        "social_buttons_layout"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_body": {
+      "description": "Branding theme",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "borders": { "$ref": "patch_branding_theme_body_borders" },
+        "colors": { "$ref": "patch_branding_theme_body_colors" },
+        "displayName": {
+          "description": "Display Name",
+          "maxLength": 2048,
+          "pattern": "^[^<>]*$",
+          "type": "string"
+        },
+        "fonts": { "$ref": "patch_branding_theme_body_fonts" },
+        "page_background": {
+          "$ref": "patch_branding_theme_body_page_background"
+        },
+        "widget": { "$ref": "patch_branding_theme_body_widget" }
+      },
+      "required": ["borders", "colors", "fonts", "page_background", "widget"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_borders": {
+      "additionalProperties": false,
+      "properties": {
+        "button_border_radius": {
+          "description": "Button border radius",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "button_border_weight": {
+          "description": "Button border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "buttons_style": {
+          "description": "Buttons style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "input_border_radius": {
+          "description": "Input border radius",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "input_border_weight": {
+          "description": "Input border weight",
+          "maximum": 3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputs_style": {
+          "description": "Inputs style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "show_widget_shadow": {
+          "description": "Show widget shadow",
+          "type": "boolean"
+        },
+        "widget_border_weight": {
+          "description": "Widget border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "widget_corner_radius": {
+          "description": "Widget corner radius",
+          "maximum": 50,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "button_border_radius",
+        "button_border_weight",
+        "buttons_style",
+        "input_border_radius",
+        "input_border_weight",
+        "inputs_style",
+        "show_widget_shadow",
+        "widget_border_weight",
+        "widget_corner_radius"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_body_colors": {
+      "additionalProperties": false,
+      "properties": {
+        "base_focus_color": {
+          "description": "Base Focus Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "base_hover_color": {
+          "description": "Base Hover Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "body_text": {
+          "description": "Body text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "header": {
+          "description": "Header",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Icons",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_background": {
+          "description": "Input background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_border": {
+          "description": "Input border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_filled_text": {
+          "description": "Input filled text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_labels_placeholders": {
+          "description": "Input labels & placeholders",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "links_focused_components": {
+          "description": "Links & focused components",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button": {
+          "description": "Primary button",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button_label": {
+          "description": "Primary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_border": {
+          "description": "Secondary button border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_label": {
+          "description": "Secondary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "success": {
+          "description": "Success",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_background": {
+          "description": "Widget background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_border": {
+          "description": "Widget border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_text",
+        "error",
+        "header",
+        "icons",
+        "input_background",
+        "input_border",
+        "input_filled_text",
+        "input_labels_placeholders",
+        "links_focused_components",
+        "primary_button",
+        "primary_button_label",
+        "secondary_button_border",
+        "secondary_button_label",
+        "success",
+        "widget_background",
+        "widget_border"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_body_fonts": {
+      "additionalProperties": false,
+      "properties": {
+        "body_text": {
+          "$ref": "patch_branding_theme_body_body_text",
+          "description": "Body text"
+        },
+        "buttons_text": {
+          "$ref": "patch_branding_theme_body_buttons_text",
+          "description": "Buttons text"
+        },
+        "font_url": {
+          "description": "Font URL",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "input_labels": {
+          "$ref": "patch_branding_theme_body_input_labels",
+          "description": "Input Labels"
+        },
+        "links": {
+          "$ref": "patch_branding_theme_body_links",
+          "description": "Links"
+        },
+        "links_style": {
+          "description": "Links style",
+          "enum": ["normal", "underlined"],
+          "type": "string"
+        },
+        "reference_text_size": {
+          "description": "Reference text size",
+          "maximum": 24,
+          "minimum": 12,
+          "type": "number"
+        },
+        "subtitle": {
+          "$ref": "patch_branding_theme_body_subtitle",
+          "description": "Subtitle"
+        },
+        "title": {
+          "$ref": "patch_branding_theme_body_title",
+          "description": "Title"
+        }
+      },
+      "required": [
+        "body_text",
+        "buttons_text",
+        "font_url",
+        "input_labels",
+        "links",
+        "links_style",
+        "reference_text_size",
+        "subtitle",
+        "title"
+      ],
+      "type": "object"
+    },
+    "patch_branding_theme_body_body_text": {
+      "additionalProperties": false,
+      "description": "Body text",
+      "properties": {
+        "bold": { "description": "Body text bold", "type": "boolean" },
+        "size": {
+          "description": "Body text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_buttons_text": {
+      "additionalProperties": false,
+      "description": "Buttons text",
+      "properties": {
+        "bold": { "description": "Buttons text bold", "type": "boolean" },
+        "size": {
+          "description": "Buttons text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_input_labels": {
+      "additionalProperties": false,
+      "description": "Input Labels",
+      "properties": {
+        "bold": { "description": "Input Labels bold", "type": "boolean" },
+        "size": {
+          "description": "Input Labels size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_links": {
+      "additionalProperties": false,
+      "description": "Links",
+      "properties": {
+        "bold": { "description": "Links bold", "type": "boolean" },
+        "size": {
+          "description": "Links size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_subtitle": {
+      "additionalProperties": false,
+      "description": "Subtitle",
+      "properties": {
+        "bold": { "description": "Subtitle bold", "type": "boolean" },
+        "size": {
+          "description": "Subtitle size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_title": {
+      "additionalProperties": false,
+      "description": "Title",
+      "properties": {
+        "bold": { "description": "Title bold", "type": "boolean" },
+        "size": {
+          "description": "Title size",
+          "maximum": 150,
+          "minimum": 75,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_page_background": {
+      "additionalProperties": false,
+      "properties": {
+        "background_color": {
+          "description": "Background color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "background_image_url": {
+          "description": "Background image url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "page_layout": {
+          "description": "Page Layout",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        }
+      },
+      "required": ["background_color", "background_image_url", "page_layout"],
+      "type": "object"
+    },
+    "patch_branding_theme_body_widget": {
+      "additionalProperties": false,
+      "properties": {
+        "header_text_alignment": {
+          "description": "Header text alignment",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        },
+        "logo_height": {
+          "description": "Logo height",
+          "maximum": 100,
+          "minimum": 1,
+          "type": "number"
+        },
+        "logo_position": {
+          "description": "Logo position",
+          "enum": ["center", "left", "none", "right"],
+          "type": "string"
+        },
+        "logo_url": {
+          "description": "Logo url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "social_buttons_layout": {
+          "description": "Social buttons layout",
+          "enum": ["bottom", "top"],
+          "type": "string"
+        }
+      },
+      "required": [
+        "header_text_alignment",
+        "logo_height",
+        "logo_position",
+        "logo_url",
+        "social_buttons_layout"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_response": {
+      "additionalProperties": false,
+      "properties": {
+        "borders": { "$ref": "post_branding_theme_response_borders" },
+        "colors": { "$ref": "post_branding_theme_response_colors" },
+        "displayName": {
+          "description": "Display Name",
+          "maxLength": 2048,
+          "pattern": "^[^<>]*$",
+          "type": "string"
+        },
+        "fonts": { "$ref": "post_branding_theme_response_fonts" },
+        "page_background": {
+          "$ref": "post_branding_theme_response_page_background"
+        },
+        "themeId": {
+          "description": "Theme Id",
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9]{32}$",
+          "type": "string"
+        },
+        "widget": { "$ref": "post_branding_theme_response_widget" }
+      },
+      "required": [
+        "borders",
+        "colors",
+        "displayName",
+        "fonts",
+        "page_background",
+        "themeId",
+        "widget"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_response_borders": {
+      "additionalProperties": false,
+      "properties": {
+        "button_border_radius": {
+          "description": "Button border radius",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "button_border_weight": {
+          "description": "Button border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "buttons_style": {
+          "description": "Buttons style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "input_border_radius": {
+          "description": "Input border radius",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "input_border_weight": {
+          "description": "Input border weight",
+          "maximum": 3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputs_style": {
+          "description": "Inputs style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "show_widget_shadow": {
+          "description": "Show widget shadow",
+          "type": "boolean"
+        },
+        "widget_border_weight": {
+          "description": "Widget border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "widget_corner_radius": {
+          "description": "Widget corner radius",
+          "maximum": 50,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "button_border_radius",
+        "button_border_weight",
+        "buttons_style",
+        "input_border_radius",
+        "input_border_weight",
+        "inputs_style",
+        "show_widget_shadow",
+        "widget_border_weight",
+        "widget_corner_radius"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_response_colors": {
+      "additionalProperties": false,
+      "properties": {
+        "base_focus_color": {
+          "description": "Base Focus Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "base_hover_color": {
+          "description": "Base Hover Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "body_text": {
+          "description": "Body text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "header": {
+          "description": "Header",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Icons",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_background": {
+          "description": "Input background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_border": {
+          "description": "Input border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_filled_text": {
+          "description": "Input filled text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_labels_placeholders": {
+          "description": "Input labels & placeholders",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "links_focused_components": {
+          "description": "Links & focused components",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button": {
+          "description": "Primary button",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button_label": {
+          "description": "Primary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_border": {
+          "description": "Secondary button border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_label": {
+          "description": "Secondary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "success": {
+          "description": "Success",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_background": {
+          "description": "Widget background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_border": {
+          "description": "Widget border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_text",
+        "error",
+        "header",
+        "icons",
+        "input_background",
+        "input_border",
+        "input_filled_text",
+        "input_labels_placeholders",
+        "links_focused_components",
+        "primary_button",
+        "primary_button_label",
+        "secondary_button_border",
+        "secondary_button_label",
+        "success",
+        "widget_background",
+        "widget_border"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_response_fonts": {
+      "additionalProperties": false,
+      "properties": {
+        "body_text": {
+          "$ref": "post_branding_theme_response_body_text",
+          "description": "Body text"
+        },
+        "buttons_text": {
+          "$ref": "post_branding_theme_response_buttons_text",
+          "description": "Buttons text"
+        },
+        "font_url": {
+          "description": "Font URL",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "input_labels": {
+          "$ref": "post_branding_theme_response_input_labels",
+          "description": "Input Labels"
+        },
+        "links": {
+          "$ref": "post_branding_theme_response_links",
+          "description": "Links"
+        },
+        "links_style": {
+          "description": "Links style",
+          "enum": ["normal", "underlined"],
+          "type": "string"
+        },
+        "reference_text_size": {
+          "description": "Reference text size",
+          "maximum": 24,
+          "minimum": 12,
+          "type": "number"
+        },
+        "subtitle": {
+          "$ref": "post_branding_theme_response_subtitle",
+          "description": "Subtitle"
+        },
+        "title": {
+          "$ref": "post_branding_theme_response_title",
+          "description": "Title"
+        }
+      },
+      "required": [
+        "body_text",
+        "buttons_text",
+        "font_url",
+        "input_labels",
+        "links",
+        "links_style",
+        "reference_text_size",
+        "subtitle",
+        "title"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_response_body_text": {
+      "additionalProperties": false,
+      "description": "Body text",
+      "properties": {
+        "bold": { "description": "Body text bold", "type": "boolean" },
+        "size": {
+          "description": "Body text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_response_buttons_text": {
+      "additionalProperties": false,
+      "description": "Buttons text",
+      "properties": {
+        "bold": { "description": "Buttons text bold", "type": "boolean" },
+        "size": {
+          "description": "Buttons text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_response_input_labels": {
+      "additionalProperties": false,
+      "description": "Input Labels",
+      "properties": {
+        "bold": { "description": "Input Labels bold", "type": "boolean" },
+        "size": {
+          "description": "Input Labels size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_response_links": {
+      "additionalProperties": false,
+      "description": "Links",
+      "properties": {
+        "bold": { "description": "Links bold", "type": "boolean" },
+        "size": {
+          "description": "Links size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_response_subtitle": {
+      "additionalProperties": false,
+      "description": "Subtitle",
+      "properties": {
+        "bold": { "description": "Subtitle bold", "type": "boolean" },
+        "size": {
+          "description": "Subtitle size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_response_title": {
+      "additionalProperties": false,
+      "description": "Title",
+      "properties": {
+        "bold": { "description": "Title bold", "type": "boolean" },
+        "size": {
+          "description": "Title size",
+          "maximum": 150,
+          "minimum": 75,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_response_page_background": {
+      "additionalProperties": false,
+      "properties": {
+        "background_color": {
+          "description": "Background color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "background_image_url": {
+          "description": "Background image url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "page_layout": {
+          "description": "Page Layout",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        }
+      },
+      "required": ["background_color", "background_image_url", "page_layout"],
+      "type": "object"
+    },
+    "post_branding_theme_response_widget": {
+      "additionalProperties": false,
+      "properties": {
+        "header_text_alignment": {
+          "description": "Header text alignment",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        },
+        "logo_height": {
+          "description": "Logo height",
+          "maximum": 100,
+          "minimum": 1,
+          "type": "number"
+        },
+        "logo_position": {
+          "description": "Logo position",
+          "enum": ["center", "left", "none", "right"],
+          "type": "string"
+        },
+        "logo_url": {
+          "description": "Logo url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "social_buttons_layout": {
+          "description": "Social buttons layout",
+          "enum": ["bottom", "top"],
+          "type": "string"
+        }
+      },
+      "required": [
+        "header_text_alignment",
+        "logo_height",
+        "logo_position",
+        "logo_url",
+        "social_buttons_layout"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_body": {
+      "description": "Branding theme",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "borders": { "$ref": "post_branding_theme_body_borders" },
+        "colors": { "$ref": "post_branding_theme_body_colors" },
+        "displayName": {
+          "description": "Display Name",
+          "maxLength": 2048,
+          "pattern": "^[^<>]*$",
+          "type": "string"
+        },
+        "fonts": { "$ref": "post_branding_theme_body_fonts" },
+        "page_background": {
+          "$ref": "post_branding_theme_body_page_background"
+        },
+        "widget": { "$ref": "post_branding_theme_body_widget" }
+      },
+      "required": ["borders", "colors", "fonts", "page_background", "widget"],
+      "type": "object"
+    },
+    "post_branding_theme_body_borders": {
+      "additionalProperties": false,
+      "properties": {
+        "button_border_radius": {
+          "description": "Button border radius",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "button_border_weight": {
+          "description": "Button border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "buttons_style": {
+          "description": "Buttons style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "input_border_radius": {
+          "description": "Input border radius",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "input_border_weight": {
+          "description": "Input border weight",
+          "maximum": 3,
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputs_style": {
+          "description": "Inputs style",
+          "enum": ["pill", "rounded", "sharp"],
+          "type": "string"
+        },
+        "show_widget_shadow": {
+          "description": "Show widget shadow",
+          "type": "boolean"
+        },
+        "widget_border_weight": {
+          "description": "Widget border weight",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "number"
+        },
+        "widget_corner_radius": {
+          "description": "Widget corner radius",
+          "maximum": 50,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": [
+        "button_border_radius",
+        "button_border_weight",
+        "buttons_style",
+        "input_border_radius",
+        "input_border_weight",
+        "inputs_style",
+        "show_widget_shadow",
+        "widget_border_weight",
+        "widget_corner_radius"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_body_colors": {
+      "additionalProperties": false,
+      "properties": {
+        "base_focus_color": {
+          "description": "Base Focus Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "base_hover_color": {
+          "description": "Base Hover Color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "body_text": {
+          "description": "Body text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "header": {
+          "description": "Header",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "icons": {
+          "description": "Icons",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_background": {
+          "description": "Input background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_border": {
+          "description": "Input border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_filled_text": {
+          "description": "Input filled text",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "input_labels_placeholders": {
+          "description": "Input labels & placeholders",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "links_focused_components": {
+          "description": "Links & focused components",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button": {
+          "description": "Primary button",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "primary_button_label": {
+          "description": "Primary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_border": {
+          "description": "Secondary button border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "secondary_button_label": {
+          "description": "Secondary button label",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "success": {
+          "description": "Success",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_background": {
+          "description": "Widget background",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "widget_border": {
+          "description": "Widget border",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "body_text",
+        "error",
+        "header",
+        "icons",
+        "input_background",
+        "input_border",
+        "input_filled_text",
+        "input_labels_placeholders",
+        "links_focused_components",
+        "primary_button",
+        "primary_button_label",
+        "secondary_button_border",
+        "secondary_button_label",
+        "success",
+        "widget_background",
+        "widget_border"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_body_fonts": {
+      "additionalProperties": false,
+      "properties": {
+        "body_text": {
+          "$ref": "post_branding_theme_body_body_text",
+          "description": "Body text"
+        },
+        "buttons_text": {
+          "$ref": "post_branding_theme_body_buttons_text",
+          "description": "Buttons text"
+        },
+        "font_url": {
+          "description": "Font URL",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "input_labels": {
+          "$ref": "post_branding_theme_body_input_labels",
+          "description": "Input Labels"
+        },
+        "links": {
+          "$ref": "post_branding_theme_body_links",
+          "description": "Links"
+        },
+        "links_style": {
+          "description": "Links style",
+          "enum": ["normal", "underlined"],
+          "type": "string"
+        },
+        "reference_text_size": {
+          "description": "Reference text size",
+          "maximum": 24,
+          "minimum": 12,
+          "type": "number"
+        },
+        "subtitle": {
+          "$ref": "post_branding_theme_body_subtitle",
+          "description": "Subtitle"
+        },
+        "title": {
+          "$ref": "post_branding_theme_body_title",
+          "description": "Title"
+        }
+      },
+      "required": [
+        "body_text",
+        "buttons_text",
+        "font_url",
+        "input_labels",
+        "links",
+        "links_style",
+        "reference_text_size",
+        "subtitle",
+        "title"
+      ],
+      "type": "object"
+    },
+    "post_branding_theme_body_body_text": {
+      "additionalProperties": false,
+      "description": "Body text",
+      "properties": {
+        "bold": { "description": "Body text bold", "type": "boolean" },
+        "size": {
+          "description": "Body text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_body_buttons_text": {
+      "additionalProperties": false,
+      "description": "Buttons text",
+      "properties": {
+        "bold": { "description": "Buttons text bold", "type": "boolean" },
+        "size": {
+          "description": "Buttons text size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_body_input_labels": {
+      "additionalProperties": false,
+      "description": "Input Labels",
+      "properties": {
+        "bold": { "description": "Input Labels bold", "type": "boolean" },
+        "size": {
+          "description": "Input Labels size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_body_links": {
+      "additionalProperties": false,
+      "description": "Links",
+      "properties": {
+        "bold": { "description": "Links bold", "type": "boolean" },
+        "size": {
+          "description": "Links size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_body_subtitle": {
+      "additionalProperties": false,
+      "description": "Subtitle",
+      "properties": {
+        "bold": { "description": "Subtitle bold", "type": "boolean" },
+        "size": {
+          "description": "Subtitle size",
+          "maximum": 150,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_body_title": {
+      "additionalProperties": false,
+      "description": "Title",
+      "properties": {
+        "bold": { "description": "Title bold", "type": "boolean" },
+        "size": {
+          "description": "Title size",
+          "maximum": 150,
+          "minimum": 75,
+          "type": "number"
+        }
+      },
+      "required": ["bold", "size"],
+      "type": "object"
+    },
+    "post_branding_theme_body_page_background": {
+      "additionalProperties": false,
+      "properties": {
+        "background_color": {
+          "description": "Background color",
+          "pattern": "^#(([0-9a-fA-F]{3}){1,2}|([0-9a-fA-F]{4}){1,2})$",
+          "type": "string"
+        },
+        "background_image_url": {
+          "description": "Background image url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "page_layout": {
+          "description": "Page Layout",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        }
+      },
+      "required": ["background_color", "background_image_url", "page_layout"],
+      "type": "object"
+    },
+    "post_branding_theme_body_widget": {
+      "additionalProperties": false,
+      "properties": {
+        "header_text_alignment": {
+          "description": "Header text alignment",
+          "enum": ["center", "left", "right"],
+          "type": "string"
+        },
+        "logo_height": {
+          "description": "Logo height",
+          "maximum": 100,
+          "minimum": 1,
+          "type": "number"
+        },
+        "logo_position": {
+          "description": "Logo position",
+          "enum": ["center", "left", "none", "right"],
+          "type": "string"
+        },
+        "logo_url": {
+          "description": "Logo url",
+          "pattern": "^$|^(?=.)(?!https?:\\/(?:$|[^/]))(?!https?:\\/\\/\\/)(?!https?:[^/])(?:(?:https):(?:(?:\\/\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:]*@)?(?:\\[(?:(?:(?:[\\dA-Fa-f]{1,4}:){6}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|::(?:[\\dA-Fa-f]{1,4}:){5}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){4}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,1}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){3}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,2}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:){2}(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,3}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}:(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,4}[\\dA-Fa-f]{1,4})?::(?:[\\dA-Fa-f]{1,4}:[\\dA-Fa-f]{1,4}|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]))|(?:(?:[\\dA-Fa-f]{1,4}:){0,5}[\\dA-Fa-f]{1,4})?::[\\dA-Fa-f]{1,4}|(?:(?:[\\dA-Fa-f]{1,4}:){0,6}[\\dA-Fa-f]{1,4})?::)|v[\\dA-Fa-f]+\\.[\\w-\\.~!\\$&'\\(\\)\\*\\+,;=:]+)\\]|(?:(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:0{0,2}\\d|0?[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=]{1,255})(?::\\d*)?(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)|\\/(?:[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)?|[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]+(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*|(?:\\/\\/\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*(?:\\/[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@]*)*)))(?:\\?[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*(?=#|$))?(?:#[\\w-\\.~%\\dA-Fa-f!\\$&'\\(\\)\\*\\+,;=:@\\/\\?]*)?$",
+          "type": "string"
+        },
+        "social_buttons_layout": {
+          "description": "Social buttons layout",
+          "enum": ["bottom", "top"],
+          "type": "string"
+        }
+      },
+      "required": [
+        "header_text_alignment",
+        "logo_height",
+        "logo_position",
+        "logo_url",
+        "social_buttons_layout"
+      ],
+      "type": "object"
+    }
+  }
+}

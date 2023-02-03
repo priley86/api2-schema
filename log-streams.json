@@ -1,0 +1,1436 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Log Streams",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/log-streams",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get log streams",
+          "notes": "Retrieve details on <a href=\"https://auth0.com/docs/logs/streams\">log streams</a>.\n<h5>Sample Response</h5><pre><code>[{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"eventbridge\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"awsAccountId\": \"string\",\n\t\t\"awsRegion\": \"string\",\n\t\t\"awsPartnerEventSource\": \"string\"\n\t}\n}, {\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"http\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"httpContentFormat\": \"JSONLINES|JSONARRAY\",\n\t\t\"httpContentType\": \"string\",\n\t\t\"httpEndpoint\": \"string\",\n\t\t\"httpAuthorization\": \"string\"\n\t}\n},\n{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"eventgrid\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"azureSubscriptionId\": \"string\",\n\t\t\"azureResourceGroup\": \"string\",\n\t\t\"azureRegion\": \"string\",\n\t\t\"azurePartnerTopic\": \"string\"\n\t}\n},\n{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"splunk\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"splunkDomain\": \"string\",\n\t\t\"splunkToken\": \"string\",\n\t\t\"splunkPort\": \"string\",\n\t\t\"splunkSecure\": \"boolean\"\n\t}\n},\n{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"sumo\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"sumoSourceAddress\": \"string\",\n\t}\n},\n{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"datadog\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"datadogRegion\": \"string\",\n\t\t\"datadogApiKey\": \"string\"\n\t}\n}]</code></pre>\n",
+          "type": "array",
+          "nickname": "get_log-streams",
+          "parameters": [],
+          "items": { "$ref": "get_log-streams_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Returning log streams" },
+            { "code": 404, "message": "The log stream does not exist." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:log_streams.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:log_streams"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Create a log stream",
+          "notes": "Create a log stream.\n<h5>Log Stream Types</h5> The <code>type</code> of log stream being created determines the properties required in the <code>sink</code> payload.\n<h5>HTTP Stream</h5> For an <code>http</code> Stream, the <code>sink</code> properties are listed in the payload below\nRequest: <pre><code>{\n\t\"name\": \"string\",\n\t\"type\": \"http\",\n\t\"sink\": {\n\t\t\"httpEndpoint\": \"string\",\n\t\t\"httpContentType\": \"string\",\n\t\t\"httpContentFormat\": \"JSONLINES|JSONARRAY\",\n\t\t\"httpAuthorization\": \"string\"\n\t}\n}</code></pre>\nResponse: <pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"http\",\n\t\"status\": \"active\",\n\t\"sink\": {\n\t\t\"httpEndpoint\": \"string\",\n\t\t\"httpContentType\": \"string\",\n\t\t\"httpContentFormat\": \"JSONLINES|JSONARRAY\",\n\t\t\"httpAuthorization\": \"string\"\n\t}\n}</code></pre>\n<h5>Amazon EventBridge Stream</h5> For an <code>eventbridge</code> Stream, the <code>sink</code> properties are listed in the payload below\nRequest: <pre><code>{\n\t\"name\": \"string\",\n\t\"type\": \"eventbridge\",\n\t\"sink\": {\n\t\t\"awsRegion\": \"string\",\n\t\t\"awsAccountId\": \"string\"\n\t}\n}</code></pre>\nThe response will include an additional field <code>awsPartnerEventSource</code> in the <code>sink</code>: <pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"eventbridge\",\n\t\"status\": \"active\",\n\t\"sink\": {\n\t\t\"awsAccountId\": \"string\",\n\t\t\"awsRegion\": \"string\",\n\t\t\"awsPartnerEventSource\": \"string\"\n\t}\n}</code></pre>\n<h5>Azure Event Grid Stream</h5> For an <code>Azure Event Grid</code> Stream, the <code>sink</code> properties are listed in the payload below\nRequest: <pre><code>{\n\t\"name\": \"string\",\n\t\"type\": \"eventgrid\",\n\t\"sink\": {\n\t\t\"azureSubscriptionId\": \"string\",\n\t\t\"azureResourceGroup\": \"string\",\n\t\t\"azureRegion\": \"string\"\n\t}\n}</code></pre>\nResponse: <pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"http\",\n\t\"status\": \"active\",\n\t\"sink\": {\n\t\t\"azureSubscriptionId\": \"string\",\n\t\t\"azureResourceGroup\": \"string\",\n\t\t\"azureRegion\": \"string\",\n\t\t\"azurePartnerTopic\": \"string\"\n\t}\n}</code></pre>\n<h5>Datadog Stream</h5> For a <code>Datadog</code> Stream, the <code>sink</code> properties are listed in the payload below\nRequest: <pre><code>{\n\t\"name\": \"string\",\n\t\"type\": \"datadog\",\n\t\"sink\": {\n\t\t\"datadogRegion\": \"string\",\n\t\t\"datadogApiKey\": \"string\"\n\t}\n}</code></pre>\nResponse: <pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"datadog\",\n\t\"status\": \"active\",\n\t\"sink\": {\n\t\t\"datadogRegion\": \"string\",\n\t\t\"datadogApiKey\": \"string\"\n\t}\n}</code></pre>\n<h5>Splunk Stream</h5> For a <code>Splunk</code> Stream, the <code>sink</code> properties are listed in the payload below\nRequest: <pre><code>{\n\t\"name\": \"string\",\n\t\"type\": \"splunk\",\n\t\"sink\": {\n\t\t\"splunkDomain\": \"string\",\n\t\t\"splunkToken\": \"string\",\n\t\t\"splunkPort\": \"string\",\n\t\t\"splunkSecure\": \"boolean\"\n\t}\n}</code></pre>\nResponse: <pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"splunk\",\n\t\"status\": \"active\",\n\t\"sink\": {\n\t\t\"splunkDomain\": \"string\",\n\t\t\"splunkToken\": \"string\",\n\t\t\"splunkPort\": \"string\",\n\t\t\"splunkSecure\": \"boolean\"\n\t}\n}</code></pre>\n<h5>Sumo Logic Stream</h5> For a <code>Sumo Logic</code> Stream, the <code>sink</code> properties are listed in the payload below\nRequest: <pre><code>{\n\t\"name\": \"string\",\n\t\"type\": \"sumo\",\n\t\"sink\": {\n\t\t\"sumoSourceAddress\": \"string\",\n\t}\n}</code></pre>\nResponse: <pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"sumo\",\n\t\"status\": \"active\",\n\t\"sink\": {\n\t\t\"sumoSourceAddress\": \"string\",\n\t}\n}</code></pre>\n",
+          "type": "post_log-streams_response",
+          "nickname": "post_log-streams",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_log-streams_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Log stream created" },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:log_streams.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 409,
+              "message": "You have reached the maximum number of log streams for your account.",
+              "errorCode": "log_stream_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:log_streams"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/log-streams/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get log stream by ID",
+          "notes": "Retrieve a log stream configuration and status.\n<h5>Sample responses</h5><h5>Amazon EventBridge Log Stream</h5><pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"eventbridge\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"awsAccountId\": \"string\",\n\t\t\"awsRegion\": \"string\",\n\t\t\"awsPartnerEventSource\": \"string\"\n\t}\n}</code></pre> <h5>HTTP Log Stream</h5><pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"http\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"httpContentFormat\": \"JSONLINES|JSONARRAY\",\n\t\t\"httpContentType\": \"string\",\n\t\t\"httpEndpoint\": \"string\",\n\t\t\"httpAuthorization\": \"string\"\n\t}\n}</code></pre> <h5>Datadog Log Stream</h5><pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"datadog\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"datadogRegion\": \"string\",\n\t\t\"datadogApiKey\": \"string\"\n\t}\n}</code></pre> <h5>Splunk Log Stream</h5><pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"splunk\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"splunkDomain\": \"string\",\n\t\t\"splunkToken\": \"string\",\n\t\t\"splunkPort\": \"string\",\n\t\t\"splunkSecure\": \"boolean\"\n\t}\n}</code></pre> <h5>Sumo Logic Log Stream</h5><pre><code>{\n\t\"id\": \"string\",\n\t\"name\": \"string\",\n\t\"type\": \"sumo\",\n\t\"status\": \"active|paused|suspended\",\n\t\"sink\": {\n\t\t\"sumoSourceAddress\": \"string\",\n\t}\n}</code></pre> <h5>Status</h5> The <code>status</code> of a log stream maybe any of the following:\n1. <code>active</code> - Stream is currently enabled.\n2. <code>paused</code> - Stream is currently user disabled and will not attempt log delivery.\n3. <code>suspended</code> - Stream is currently disabled because of errors and will not attempt log delivery.\n",
+          "type": "get_log-streams_by_id_response",
+          "nickname": "get_log-streams_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the log stream to get",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Returning log stream." },
+            { "code": 404, "message": "The log stream does not exist." },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:log_streams.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:log_streams"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete log stream",
+          "notes": "Delete a log stream.\n",
+          "type": "void",
+          "nickname": "delete_log-streams_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the log stream to delete",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "The log stream was deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected: delete:log_streams."
+            },
+            { "code": 404, "message": "The log stream does not exist." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:log_streams"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update a log stream",
+          "notes": "Update a log stream.\n<h4>Examples of how to use the PATCH endpoint.</h4> The following fields may be updated in a PATCH operation: <ul><li>name</li><li>status</li><li>sink</li></ul> Note: For log streams of type <code>eventbridge</code> and <code>eventgrid</code>, updating the <code>sink</code> is not permitted.\n<h5>Update the status of a log stream</h5><pre><code>{\n\t\"status\": \"active|paused\"\n}</code></pre>\n<h5>Update the name of a log stream</h5><pre><code>{\n\t\"name\": \"string\"\n}</code></pre>\n<h5>Update the sink properties of a stream of type <code>http</code></h5><pre><code>{\n  \"sink\": {\n    \"httpEndpoint\": \"string\",\n    \"httpContentType\": \"string\",\n    \"httpContentFormat\": \"JSONARRAY|JSONLINES\",\n    \"httpAuthorization\": \"string\"\n  }\n}</code></pre>\n<h5>Update the sink properties of a stream of type <code>datadog</code></h5><pre><code>{\n  \"sink\": {\n\t\t\"datadogRegion\": \"string\",\n\t\t\"datadogApiKey\": \"string\"\n  }\n}</code></pre>\n<h5>Update the sink properties of a stream of type <code>splunk</code></h5><pre><code>{\n  \"sink\": {\n    \"splunkDomain\": \"string\",\n    \"splunkToken\": \"string\",\n    \"splunkPort\": \"string\",\n    \"splunkSecure\": \"boolean\"\n  }\n}</code></pre>\n<h5>Update the sink properties of a stream of type <code>sumo</code></h5><pre><code>{\n  \"sink\": {\n    \"sumoSourceAddress\": \"string\"\n  }\n}</code></pre> ",
+          "type": "patch_log-streams_by_id_response",
+          "nickname": "patch_log-streams_by_id",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_log-streams_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Log stream updated" },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:log_streams.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "The account is not allowed to perform this operation.",
+              "errorCode": "operation_not_supported"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:log_streams"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_log-streams_response": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["http"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "httpAuthorization": {
+                  "type": "string",
+                  "description": "HTTP Authorization header"
+                },
+                "httpContentFormat": {
+                  "type": "string",
+                  "description": "HTTP JSON format",
+                  "enum": ["JSONARRAY", "JSONLINES", "JSONOBJECT"]
+                },
+                "httpContentType": {
+                  "type": "string",
+                  "description": "HTTP Content-Type header"
+                },
+                "httpEndpoint": {
+                  "type": "string",
+                  "description": "HTTP endpoint",
+                  "pattern": "^https://.*"
+                },
+                "httpCustomHeaders": {
+                  "description": "custom HTTP headers",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "header": {
+                        "type": "string",
+                        "description": "HTTP header name"
+                      },
+                      "value": {
+                        "type": "string",
+                        "description": "HTTP header value"
+                      }
+                    }
+                  },
+                  "required": ["header", "value"],
+                  "additionalProperties": false
+                }
+              },
+              "required": ["httpEndpoint"],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["eventbridge"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "awsAccountId": {
+                  "type": "string",
+                  "description": "AWS account ID",
+                  "pattern": "^\\d{12}$"
+                },
+                "awsRegion": {
+                  "type": "string",
+                  "enum": [
+                    "ap-east-1",
+                    "ap-northeast-1",
+                    "ap-northeast-2",
+                    "ap-northeast-3",
+                    "ap-south-1",
+                    "ap-southeast-1",
+                    "ap-southeast-2",
+                    "ca-central-1",
+                    "cn-north-1",
+                    "cn-northwest-1",
+                    "eu-central-1",
+                    "eu-north-1",
+                    "eu-west-1",
+                    "eu-west-2",
+                    "eu-west-3",
+                    "me-south-1",
+                    "sa-east-1",
+                    "us-gov-east-1",
+                    "us-gov-west-1",
+                    "us-east-1",
+                    "us-east-2",
+                    "us-west-1",
+                    "us-west-2"
+                  ],
+                  "description": "The region in which the EventBridge event source will be created"
+                },
+                "awsPartnerEventSource": {
+                  "type": "string",
+                  "description": "AWS EventBridge partner event source"
+                }
+              },
+              "required": ["awsAccountId", "awsRegion"],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["eventgrid"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "azureSubscriptionId": {
+                  "type": "string",
+                  "description": "Subscription ID",
+                  "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+                },
+                "azureRegion": {
+                  "type": "string",
+                  "description": "Azure Region Name",
+                  "enum": [
+                    "australiacentral",
+                    "australiaeast",
+                    "australiasoutheast",
+                    "brazilsouth",
+                    "canadacentral",
+                    "canadaeast",
+                    "centralindia",
+                    "centralus",
+                    "eastasia",
+                    "eastus",
+                    "eastus2",
+                    "francecentral",
+                    "germanywestcentral",
+                    "japaneast",
+                    "japanwest",
+                    "koreacentral",
+                    "koreasouth",
+                    "northcentralus",
+                    "northeurope",
+                    "norwayeast",
+                    "southafricanorth",
+                    "southcentralus",
+                    "southeastasia",
+                    "southindia",
+                    "switzerlandnorth",
+                    "uaenorth",
+                    "uksouth",
+                    "ukwest",
+                    "westcentralus",
+                    "westeurope",
+                    "westindia",
+                    "westus",
+                    "westus2"
+                  ]
+                },
+                "azureResourceGroup": {
+                  "type": "string",
+                  "description": "Resource Group"
+                },
+                "azurePartnerTopic": {
+                  "type": "string",
+                  "description": "Partner Topic"
+                }
+              },
+              "required": [
+                "azureSubscriptionId",
+                "azureRegion",
+                "azureResourceGroup"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["datadog"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "datadogApiKey": {
+                  "type": "string",
+                  "description": "Datadog API Key"
+                },
+                "datadogRegion": {
+                  "type": "string",
+                  "description": "Datadog region",
+                  "enum": ["us", "eu", "us3", "us5"]
+                }
+              },
+              "required": ["datadogApiKey", "datadogRegion"],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["splunk"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "splunkDomain": {
+                  "type": "string",
+                  "description": "Splunk URL Endpoint"
+                },
+                "splunkPort": {
+                  "type": "string",
+                  "description": "Port",
+                  "pattern": "^[0-9]*$"
+                },
+                "splunkToken": {
+                  "type": "string",
+                  "description": "Splunk token"
+                },
+                "splunkSecure": {
+                  "type": "boolean",
+                  "description": "Verify TLS certificate"
+                }
+              },
+              "required": [
+                "splunkDomain",
+                "splunkToken",
+                "splunkPort",
+                "splunkSecure"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["sumo"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "sumoSourceAddress": {
+                  "type": "string",
+                  "description": "HTTP Source Address"
+                }
+              },
+              "required": ["sumoSourceAddress"],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["segment"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "segmentWriteKey": {
+                  "type": "string",
+                  "description": "Segment write key"
+                }
+              },
+              "required": ["segmentWriteKey"],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "log-stream-id",
+              "description": "The id of the log stream"
+            },
+            "name": { "type": "string", "description": "log stream name" },
+            "status": {
+              "type": "string",
+              "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+              "enum": ["active", "paused", "suspended"]
+            },
+            "type": { "type": "string", "enum": ["mixpanel"] },
+            "filters": {
+              "type": "array",
+              "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Filter type. Currently `category` is the only valid type.",
+                    "enum": ["category"]
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Category group name",
+                    "enum": [
+                      "auth.ancillary.fail",
+                      "auth.ancillary.success",
+                      "auth.login.fail",
+                      "auth.login.notification",
+                      "auth.login.success",
+                      "auth.logout.fail",
+                      "auth.logout.success",
+                      "auth.signup.fail",
+                      "auth.signup.success",
+                      "auth.silent_auth.fail",
+                      "auth.silent_auth.success",
+                      "auth.token_exchange.fail",
+                      "auth.token_exchange.success",
+                      "management.fail",
+                      "management.success",
+                      "system.notification",
+                      "user.fail",
+                      "user.notification",
+                      "user.success",
+                      "other"
+                    ]
+                  }
+                }
+              },
+              "required": ["type", "name"],
+              "additionalProperties": false
+            },
+            "sink": {
+              "type": "object",
+              "properties": {
+                "mixpanelRegion": {
+                  "type": "string",
+                  "description": "Mixpanel Region",
+                  "enum": ["us", "eu"]
+                },
+                "mixpanelProjectId": {
+                  "type": "string",
+                  "description": "Mixpanel Project Id",
+                  "pattern": "^\\d+$"
+                },
+                "mixpanelServiceAccountUsername": {
+                  "type": "string",
+                  "description": "Mixpanel Service Account Username",
+                  "pattern": "^[^:]+$"
+                },
+                "mixpanelServiceAccountPassword": {
+                  "type": "string",
+                  "description": "Mixpanel Service Account Password",
+                  "pattern": "^[^:]+$"
+                }
+              },
+              "required": [
+                "mixpanelRegion",
+                "mixpanelProjectId",
+                "mixpanelServiceAccountUsername",
+                "mixpanelServiceAccountPassword"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      ]
+    },
+    "post_log-streams_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "log-stream-id",
+          "description": "The id of the log stream"
+        },
+        "name": { "type": "string", "description": "log stream name" },
+        "status": {
+          "type": "string",
+          "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+          "enum": ["active", "paused", "suspended"]
+        },
+        "type": { "type": "string", "enum": ["http"] },
+        "filters": {
+          "type": "array",
+          "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Filter type. Currently `category` is the only valid type.",
+                "enum": ["category"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Category group name",
+                "enum": [
+                  "auth.ancillary.fail",
+                  "auth.ancillary.success",
+                  "auth.login.fail",
+                  "auth.login.notification",
+                  "auth.login.success",
+                  "auth.logout.fail",
+                  "auth.logout.success",
+                  "auth.signup.fail",
+                  "auth.signup.success",
+                  "auth.silent_auth.fail",
+                  "auth.silent_auth.success",
+                  "auth.token_exchange.fail",
+                  "auth.token_exchange.success",
+                  "management.fail",
+                  "management.success",
+                  "system.notification",
+                  "user.fail",
+                  "user.notification",
+                  "user.success",
+                  "other"
+                ]
+              }
+            }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        "sink": { "$ref": "post_log-streams_response_sink" }
+      }
+    },
+    "post_log-streams_response_sink": {
+      "type": "object",
+      "properties": {
+        "httpAuthorization": {
+          "type": "string",
+          "description": "HTTP Authorization header"
+        },
+        "httpContentFormat": {
+          "type": "string",
+          "description": "HTTP JSON format",
+          "enum": ["JSONARRAY", "JSONLINES", "JSONOBJECT"]
+        },
+        "httpContentType": {
+          "type": "string",
+          "description": "HTTP Content-Type header"
+        },
+        "httpEndpoint": {
+          "type": "string",
+          "description": "HTTP endpoint",
+          "pattern": "^https://.*"
+        },
+        "httpCustomHeaders": {
+          "description": "custom HTTP headers",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "header": { "type": "string", "description": "HTTP header name" },
+              "value": { "type": "string", "description": "HTTP header value" }
+            }
+          },
+          "required": ["header", "value"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["httpEndpoint"],
+      "additionalProperties": false
+    },
+    "post_log-streams_body": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "log stream name" },
+        "type": { "type": "string", "enum": ["http"] },
+        "filters": {
+          "type": "array",
+          "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Filter type. Currently `category` is the only valid type.",
+                "enum": ["category"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Category group name",
+                "enum": [
+                  "auth.ancillary.fail",
+                  "auth.ancillary.success",
+                  "auth.login.fail",
+                  "auth.login.notification",
+                  "auth.login.success",
+                  "auth.logout.fail",
+                  "auth.logout.success",
+                  "auth.signup.fail",
+                  "auth.signup.success",
+                  "auth.silent_auth.fail",
+                  "auth.silent_auth.success",
+                  "auth.token_exchange.fail",
+                  "auth.token_exchange.success",
+                  "management.fail",
+                  "management.success",
+                  "system.notification",
+                  "user.fail",
+                  "user.notification",
+                  "user.success",
+                  "other"
+                ]
+              }
+            }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        "sink": { "$ref": "post_log-streams_body_sink" },
+        "startFrom": {
+          "type": "string",
+          "description": "The optional datetime (ISO 8601) to start streaming logs from",
+          "defaultValue": "2021-03-01T19:57:29.532Z"
+        }
+      },
+      "required": ["type", "sink"],
+      "additionalProperties": false
+    },
+    "post_log-streams_body_sink": {
+      "type": "object",
+      "properties": {
+        "httpAuthorization": {
+          "type": "string",
+          "description": "HTTP Authorization header"
+        },
+        "httpContentFormat": {
+          "type": "string",
+          "description": "HTTP JSON format",
+          "enum": ["JSONARRAY", "JSONLINES", "JSONOBJECT"]
+        },
+        "httpContentType": {
+          "type": "string",
+          "description": "HTTP Content-Type header"
+        },
+        "httpEndpoint": {
+          "type": "string",
+          "description": "HTTP endpoint",
+          "pattern": "^https://.*"
+        },
+        "httpCustomHeaders": {
+          "description": "custom HTTP headers",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "header": { "type": "string", "description": "HTTP header name" },
+              "value": { "type": "string", "description": "HTTP header value" }
+            }
+          },
+          "required": ["header", "value"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["httpEndpoint"],
+      "additionalProperties": false
+    },
+    "get_log-streams_by_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "log-stream-id",
+          "description": "The id of the log stream"
+        },
+        "name": { "type": "string", "description": "log stream name" },
+        "status": {
+          "type": "string",
+          "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+          "enum": ["active", "paused", "suspended"]
+        },
+        "type": { "type": "string", "enum": ["http"] },
+        "filters": {
+          "type": "array",
+          "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Filter type. Currently `category` is the only valid type.",
+                "enum": ["category"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Category group name",
+                "enum": [
+                  "auth.ancillary.fail",
+                  "auth.ancillary.success",
+                  "auth.login.fail",
+                  "auth.login.notification",
+                  "auth.login.success",
+                  "auth.logout.fail",
+                  "auth.logout.success",
+                  "auth.signup.fail",
+                  "auth.signup.success",
+                  "auth.silent_auth.fail",
+                  "auth.silent_auth.success",
+                  "auth.token_exchange.fail",
+                  "auth.token_exchange.success",
+                  "management.fail",
+                  "management.success",
+                  "system.notification",
+                  "user.fail",
+                  "user.notification",
+                  "user.success",
+                  "other"
+                ]
+              }
+            }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        "sink": { "$ref": "get_log-streams_by_id_response_sink" }
+      }
+    },
+    "get_log-streams_by_id_response_sink": {
+      "type": "object",
+      "properties": {
+        "httpAuthorization": {
+          "type": "string",
+          "description": "HTTP Authorization header"
+        },
+        "httpContentFormat": {
+          "type": "string",
+          "description": "HTTP JSON format",
+          "enum": ["JSONARRAY", "JSONLINES", "JSONOBJECT"]
+        },
+        "httpContentType": {
+          "type": "string",
+          "description": "HTTP Content-Type header"
+        },
+        "httpEndpoint": {
+          "type": "string",
+          "description": "HTTP endpoint",
+          "pattern": "^https://.*"
+        },
+        "httpCustomHeaders": {
+          "description": "custom HTTP headers",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "header": { "type": "string", "description": "HTTP header name" },
+              "value": { "type": "string", "description": "HTTP header value" }
+            }
+          },
+          "required": ["header", "value"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["httpEndpoint"],
+      "additionalProperties": false
+    },
+    "patch_log-streams_by_id_response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "log-stream-id",
+          "description": "The id of the log stream"
+        },
+        "name": { "type": "string", "description": "log stream name" },
+        "status": {
+          "type": "string",
+          "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+          "enum": ["active", "paused", "suspended"]
+        },
+        "type": { "type": "string", "enum": ["http"] },
+        "filters": {
+          "type": "array",
+          "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Filter type. Currently `category` is the only valid type.",
+                "enum": ["category"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Category group name",
+                "enum": [
+                  "auth.ancillary.fail",
+                  "auth.ancillary.success",
+                  "auth.login.fail",
+                  "auth.login.notification",
+                  "auth.login.success",
+                  "auth.logout.fail",
+                  "auth.logout.success",
+                  "auth.signup.fail",
+                  "auth.signup.success",
+                  "auth.silent_auth.fail",
+                  "auth.silent_auth.success",
+                  "auth.token_exchange.fail",
+                  "auth.token_exchange.success",
+                  "management.fail",
+                  "management.success",
+                  "system.notification",
+                  "user.fail",
+                  "user.notification",
+                  "user.success",
+                  "other"
+                ]
+              }
+            }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        "sink": { "$ref": "patch_log-streams_by_id_response_sink" }
+      }
+    },
+    "patch_log-streams_by_id_response_sink": {
+      "type": "object",
+      "properties": {
+        "httpAuthorization": {
+          "type": "string",
+          "description": "HTTP Authorization header"
+        },
+        "httpContentFormat": {
+          "type": "string",
+          "description": "HTTP JSON format",
+          "enum": ["JSONARRAY", "JSONLINES", "JSONOBJECT"]
+        },
+        "httpContentType": {
+          "type": "string",
+          "description": "HTTP Content-Type header"
+        },
+        "httpEndpoint": {
+          "type": "string",
+          "description": "HTTP endpoint",
+          "pattern": "^https://.*"
+        },
+        "httpCustomHeaders": {
+          "description": "custom HTTP headers",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "header": { "type": "string", "description": "HTTP header name" },
+              "value": { "type": "string", "description": "HTTP header value" }
+            }
+          },
+          "required": ["header", "value"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["httpEndpoint"],
+      "additionalProperties": false
+    },
+    "patch_log-streams_by_id_body": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "log stream name" },
+        "status": {
+          "type": "string",
+          "description": "The status of the log stream. Possible values: `active`, `paused`, `suspended`",
+          "enum": ["active", "paused", "suspended"]
+        },
+        "filters": {
+          "type": "array",
+          "description": "Only logs events matching these filters will be delivered by the stream. If omitted or empty, all events will be delivered.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Filter type. Currently `category` is the only valid type.",
+                "enum": ["category"]
+              },
+              "name": {
+                "type": "string",
+                "description": "Category group name",
+                "enum": [
+                  "auth.ancillary.fail",
+                  "auth.ancillary.success",
+                  "auth.login.fail",
+                  "auth.login.notification",
+                  "auth.login.success",
+                  "auth.logout.fail",
+                  "auth.logout.success",
+                  "auth.signup.fail",
+                  "auth.signup.success",
+                  "auth.silent_auth.fail",
+                  "auth.silent_auth.success",
+                  "auth.token_exchange.fail",
+                  "auth.token_exchange.success",
+                  "management.fail",
+                  "management.success",
+                  "system.notification",
+                  "user.fail",
+                  "user.notification",
+                  "user.success",
+                  "other"
+                ]
+              }
+            }
+          },
+          "required": ["type", "name"],
+          "additionalProperties": false
+        },
+        "sink": { "$ref": "patch_log-streams_by_id_body_sink" }
+      },
+      "additionalProperties": false
+    },
+    "patch_log-streams_by_id_body_sink": {
+      "type": "object",
+      "properties": {
+        "httpAuthorization": {
+          "type": "string",
+          "description": "HTTP Authorization header"
+        },
+        "httpContentFormat": {
+          "type": "string",
+          "description": "HTTP JSON format",
+          "enum": ["JSONARRAY", "JSONLINES", "JSONOBJECT"]
+        },
+        "httpContentType": {
+          "type": "string",
+          "description": "HTTP Content-Type header"
+        },
+        "httpEndpoint": {
+          "type": "string",
+          "description": "HTTP endpoint",
+          "pattern": "^https://.*"
+        },
+        "httpCustomHeaders": {
+          "description": "custom HTTP headers",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "header": { "type": "string", "description": "HTTP header name" },
+              "value": { "type": "string", "description": "HTTP header value" }
+            }
+          },
+          "required": ["header", "value"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["httpEndpoint"],
+      "additionalProperties": false
+    }
+  }
+}

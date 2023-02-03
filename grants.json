@@ -1,0 +1,149 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Grants",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/grants",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get grants",
+          "notes": "Retrieve the <a href=\"https://auth0.com/docs/api-auth/which-oauth-flow-to-use\">grants</a> associated with your account. ",
+          "type": "array",
+          "nickname": "get_grants",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "description": "user_id of the grants to retrieve.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "client_id",
+              "description": "client_id of the grants to retrieve.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "audience",
+              "description": "audience of the grants to retrieve.",
+              "type": "string"
+            }
+          ],
+          "items": { "$ref": "get_grants_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Grants successfully retrieved." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:grants.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:grants"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/grants/{id?}",
+      "operations": [
+        {
+          "method": "delete",
+          "summary": "Delete a grant",
+          "notes": "Delete a grant associated with your account.",
+          "type": "void",
+          "nickname": "delete_grants_by_id?",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the grant to delete.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "description": "user_id of the grant to delete.",
+              "type": "string"
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "User grant successfully deleted." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:grants.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:grants"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_grants_response": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "ID of the grant." },
+        "clientID": { "type": "string", "description": "ID of the client." },
+        "user_id": { "type": "string", "description": "ID of the user." },
+        "audience": {
+          "type": "string",
+          "description": "Audience of the grant."
+        },
+        "scope": {
+          "type": "array",
+          "description": "Scopes included in this grant.",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

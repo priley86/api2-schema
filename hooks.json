@@ -1,0 +1,810 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Hooks",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/hooks",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get hooks",
+          "notes": "Retrieve all <a href=\"https://auth0.com/docs/hooks\">hooks</a>. Accepts a list of fields to include or exclude in the result.\n",
+          "type": "array",
+          "nickname": "get_hooks",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "description": "Page index of the results to return. First page is 0.",
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "description": "Number of results per page. Paging is disabled if parameter not sent.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            {
+              "paramType": "query",
+              "name": "include_totals",
+              "description": "Return results inside an object that contains the total result count (true) or as a direct array of results (false, default).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "enabled",
+              "description": "Optional filter on whether a hook is enabled (true) or disabled (false).",
+              "type": "boolean"
+            },
+            {
+              "paramType": "query",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include in the result. Leave empty to retrieve all fields.",
+              "type": "string"
+            },
+            {
+              "paramType": "query",
+              "name": "triggerId",
+              "description": "Retrieves hooks that match the trigger",
+              "type": "string",
+              "enum": [
+                "credentials-exchange",
+                "pre-user-registration",
+                "post-user-registration",
+                "post-change-password",
+                "send-phone-message"
+              ]
+            }
+          ],
+          "items": { "$ref": "get_hooks_response" },
+          "responseMessages": [
+            { "code": 200, "message": "Hooks successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Hook not found.",
+              "errorCode": "inexistent_hook"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:hooks"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Create a hook",
+          "notes": "Create a new hook.\n",
+          "type": "post_hooks_response",
+          "nickname": "post_hooks",
+          "parameters": [
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "post_hooks_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Hook successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "This endpoint is disabled for your tenant.",
+              "errorCode": "hooks_not_allowed"
+            },
+            {
+              "code": 409,
+              "message": "Hook with the same name already exists.",
+              "errorCode": "hook_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["create:hooks"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/hooks/{id}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get a hook",
+          "notes": "Retrieve <a href=\"https://auth0.com/docs/hooks\">a hook</a> by its ID. Accepts a list of fields to include in the result.\n",
+          "type": "get_hooks_by_id_response",
+          "nickname": "get_hooks_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the hook to retrieve.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "fields",
+              "description": "Comma-separated list of fields to include in the result. Leave empty to retrieve all fields.",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Hook successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Hook not found.",
+              "errorCode": "inexistent_hook"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:hooks"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete a hook",
+          "notes": "Delete a hook.\n",
+          "type": "void",
+          "nickname": "delete_hooks_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the hook to delete.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Hook successfully deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["delete:hooks"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update a hook",
+          "notes": "Update an existing hook.\n",
+          "type": "patch_hooks_by_id_response",
+          "nickname": "patch_hooks_by_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the hook to update.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "type": "patch_hooks_by_id_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Hook successfully created." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "This endpoint is disabled for your tenant.",
+              "errorCode": "hooks_not_allowed"
+            },
+            {
+              "code": 404,
+              "message": "The hook does not exist",
+              "errorCode": "inexistent_hook"
+            },
+            {
+              "code": 409,
+              "message": "A hook with the same name already exists.",
+              "errorCode": "hook_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:hooks"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/hooks/{id}/secrets",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get hook secrets",
+          "notes": "Retrieve a hook's secrets by the ID of the hook. \n",
+          "type": "get_secrets_response",
+          "nickname": "get_secrets",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the hook to retrieve secrets from.",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Hook secrets successfully retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: read:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 404,
+              "message": "Hook not found.",
+              "errorCode": "inexistent_hook"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:hooks"] } }
+        },
+        {
+          "method": "delete",
+          "summary": "Delete hook secrets",
+          "notes": "Delete one or more existing secrets for a given hook. Accepts an array of secret names to delete. ",
+          "type": "void",
+          "nickname": "delete_secrets",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the hook whose secrets to delete.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Array of secret names to delete.",
+              "type": "delete_secrets_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 204, "message": "Hook secrets successfully deleted." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            { "code": 401, "message": "Invalid token." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: delete:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["delete:hooks"] } }
+        },
+        {
+          "method": "patch",
+          "summary": "Update hook secrets",
+          "notes": "Update one or more existing secrets for an existing hook. Accepts an object of key-value pairs, where the key is the name of the existing secret. \n",
+          "type": "patch_secrets_response",
+          "nickname": "patch_secrets",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "ID of the hook whose secrets to update.",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Hashmap of key-value pairs where the value must be a string.",
+              "type": "patch_secrets_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Hook secrets successfully updated." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "This endpoint is disabled for your tenant.",
+              "errorCode": "hooks_not_allowed"
+            },
+            {
+              "code": 404,
+              "message": "Hook or secret not found.",
+              "errorCode": "inexistent_hook"
+            },
+            {
+              "code": 409,
+              "message": "Secret with the same name already exists.",
+              "errorCode": "hook_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:hooks"] } }
+        },
+        {
+          "method": "post",
+          "summary": "Add hook secrets",
+          "notes": "Add one or more secrets to an existing hook. Accepts an object of key-value pairs, where the key is the name of the secret. A hook can have a maximum of 20 secrets. \n",
+          "type": "post_secrets_response",
+          "nickname": "post_secrets",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "description": "The id of the hook to retrieve",
+              "type": "string",
+              "required": true
+            },
+            {
+              "paramType": "body",
+              "name": "body",
+              "description": "Hashmap of key-value pairs where the value must be a string.",
+              "type": "post_secrets_body",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 201, "message": "Hook secrets successfully added." },
+            {
+              "code": 400,
+              "message": "Invalid request body. The message will vary depending on the cause.",
+              "errorCode": "invalid_body"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: create:hooks.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 403,
+              "message": "This endpoint is disabled for your tenant.",
+              "errorCode": "hooks_not_allowed"
+            },
+            {
+              "code": 409,
+              "message": "Secret with the same name already exists.",
+              "errorCode": "hook_conflict"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "consumes": ["application/json", "application/x-www-form-urlencoded"],
+          "authorizations": { "jwt": { "scopes": ["update:hooks"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_hooks_response": {
+      "type": "object",
+      "properties": {
+        "triggerId": { "type": "string", "description": "Trigger ID" },
+        "id": {
+          "type": "string",
+          "description": "ID of this hook.",
+          "defaultValue": "00001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this hook.",
+          "defaultValue": "hook"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this hook will be executed (true) or ignored (false).",
+          "defaultValue": true
+        },
+        "script": {
+          "type": "string",
+          "description": "Code to be executed when this hook runs.",
+          "defaultValue": "module.exports = function(client, scope, audience, context, cb) cb(null, access_token); };"
+        },
+        "dependencies": {
+          "$ref": "get_hooks_response_dependencies",
+          "description": "Dependencies of this hook used by webtask server."
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_hooks_response_dependencies": {
+      "type": "object",
+      "description": "Dependencies of this hook used by webtask server.",
+      "defaultValue": { "express": "4.1.0" },
+      "additionalProperties": { "type": "string" }
+    },
+    "post_hooks_response": {
+      "type": "object",
+      "properties": {
+        "triggerId": { "type": "string", "description": "Trigger ID" },
+        "id": {
+          "type": "string",
+          "description": "ID of this hook.",
+          "defaultValue": "00001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this hook.",
+          "defaultValue": "hook"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this hook will be executed (true) or ignored (false).",
+          "defaultValue": true
+        },
+        "script": {
+          "type": "string",
+          "description": "Code to be executed when this hook runs.",
+          "defaultValue": "module.exports = function(client, scope, audience, context, cb) cb(null, access_token); };"
+        },
+        "dependencies": {
+          "$ref": "post_hooks_response_dependencies",
+          "description": "Dependencies of this hook used by webtask server."
+        }
+      },
+      "additionalProperties": false
+    },
+    "post_hooks_response_dependencies": {
+      "type": "object",
+      "description": "Dependencies of this hook used by webtask server.",
+      "defaultValue": { "express": "4.1.0" },
+      "additionalProperties": { "type": "string" }
+    },
+    "post_hooks_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of this hook.",
+          "pattern": "^[a-zA-Z0-9]([ \\-a-zA-Z0-9]*[a-zA-Z0-9])?$",
+          "defaultValue": "my-hook"
+        },
+        "script": {
+          "type": "string",
+          "description": "Code to be executed when this hook runs.",
+          "defaultValue": "module.exports = function(client, scope, audience, context, cb) cb(null, access_token); };",
+          "minLength": 1
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this hook will be executed (true) or ignored (false).",
+          "default": false,
+          "defaultValue": false
+        },
+        "dependencies": {
+          "$ref": "post_hooks_body_dependencies",
+          "description": "Dependencies of this hook used by webtask server."
+        },
+        "triggerId": {
+          "type": "string",
+          "enum": [
+            "credentials-exchange",
+            "pre-user-registration",
+            "post-user-registration",
+            "post-change-password",
+            "send-phone-message"
+          ],
+          "description": "Execution stage of this rule. Can be `credentials-exchange`, `pre-user-registration`, `post-user-registration`, `post-change-password`, or `send-phone-message`.",
+          "default": "credentials-exchange",
+          "defaultValue": "credentials-exchange"
+        }
+      },
+      "required": ["name", "script", "triggerId"],
+      "additionalProperties": false
+    },
+    "post_hooks_body_dependencies": {
+      "type": "object",
+      "description": "Dependencies of this hook used by webtask server.",
+      "defaultValue": { "express": "4.0.1" },
+      "additionalProperties": { "type": "string" }
+    },
+    "get_hooks_by_id_response": {
+      "type": "object",
+      "properties": {
+        "triggerId": { "type": "string", "description": "Trigger ID" },
+        "id": {
+          "type": "string",
+          "description": "ID of this hook.",
+          "defaultValue": "00001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this hook.",
+          "defaultValue": "hook"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this hook will be executed (true) or ignored (false).",
+          "defaultValue": true
+        },
+        "script": {
+          "type": "string",
+          "description": "Code to be executed when this hook runs.",
+          "defaultValue": "module.exports = function(client, scope, audience, context, cb) cb(null, access_token); };"
+        },
+        "dependencies": {
+          "$ref": "get_hooks_by_id_response_dependencies",
+          "description": "Dependencies of this hook used by webtask server."
+        }
+      },
+      "additionalProperties": false
+    },
+    "get_hooks_by_id_response_dependencies": {
+      "type": "object",
+      "description": "Dependencies of this hook used by webtask server.",
+      "defaultValue": { "express": "4.1.0" },
+      "additionalProperties": { "type": "string" }
+    },
+    "patch_hooks_by_id_response": {
+      "type": "object",
+      "properties": {
+        "triggerId": { "type": "string", "description": "Trigger ID" },
+        "id": {
+          "type": "string",
+          "description": "ID of this hook.",
+          "defaultValue": "00001"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of this hook.",
+          "defaultValue": "hook"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this hook will be executed (true) or ignored (false).",
+          "defaultValue": true
+        },
+        "script": {
+          "type": "string",
+          "description": "Code to be executed when this hook runs.",
+          "defaultValue": "module.exports = function(client, scope, audience, context, cb) cb(null, access_token); };"
+        },
+        "dependencies": {
+          "$ref": "patch_hooks_by_id_response_dependencies",
+          "description": "Dependencies of this hook used by webtask server."
+        }
+      },
+      "additionalProperties": false
+    },
+    "patch_hooks_by_id_response_dependencies": {
+      "type": "object",
+      "description": "Dependencies of this hook used by webtask server.",
+      "defaultValue": { "express": "4.1.0" },
+      "additionalProperties": { "type": "string" }
+    },
+    "patch_hooks_by_id_body": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of this hook.",
+          "pattern": "^[a-zA-Z0-9]([ \\-a-zA-Z0-9]*[a-zA-Z0-9])?$",
+          "defaultValue": "my-hook"
+        },
+        "script": {
+          "type": "string",
+          "description": "Code to be executed when this hook runs.",
+          "minLength": 1,
+          "defaultValue": "module.exports = function(client, scope, audience, context, cb) cb(null, access_token); };"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this hook will be executed (true) or ignored (false).",
+          "default": false,
+          "defaultValue": false
+        },
+        "dependencies": {
+          "$ref": "patch_hooks_by_id_body_dependencies",
+          "description": "Dependencies of this hook used by webtask server."
+        }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "patch_hooks_by_id_body_dependencies": {
+      "type": "object",
+      "description": "Dependencies of this hook used by webtask server.",
+      "defaultValue": { "express": "4.0.1" },
+      "additionalProperties": { "type": "string" }
+    },
+    "get_secrets_response": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "description": "Hashmap of key-value pairs where the value must be a string.",
+      "additionalProperties": { "type": "string" },
+      "defaultValue": { "someApiSecret": "someApiSecretValue" }
+    },
+    "delete_secrets_body": { "type": "string" },
+    "patch_secrets_response": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "description": "Hashmap of key-value pairs where the value must be a string.",
+      "additionalProperties": { "type": "string" },
+      "defaultValue": { "someApiSecret": "someApiSecretValue" }
+    },
+    "patch_secrets_body": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "description": "Hashmap of key-value pairs where the value must be a string.",
+      "additionalProperties": { "type": "string" },
+      "defaultValue": { "someApiSecret": "someApiSecretValue" }
+    },
+    "post_secrets_response": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "description": "Hashmap of key-value pairs where the value must be a string.",
+      "additionalProperties": { "type": "string" },
+      "defaultValue": { "someApiSecret": "someApiSecretValue" }
+    },
+    "post_secrets_body": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 20,
+      "description": "Hashmap of key-value pairs where the value must be a string.",
+      "additionalProperties": { "type": "string" },
+      "defaultValue": { "someApiSecret": "someApiSecretValue" }
+    }
+  }
+}

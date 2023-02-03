@@ -1,0 +1,326 @@
+{
+  "apiVersion": "2",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "/Keys",
+  "produces": ["application/json"],
+  "apis": [
+    {
+      "path": "/api/v2/keys/signing",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get all Application Signing Keys",
+          "notes": "Get all Application Signing Keys",
+          "type": "array",
+          "nickname": "get_signing_keys",
+          "parameters": [],
+          "items": { "$ref": "get_signing_keys_response" },
+          "responseMessages": [
+            { "code": 200, "message": "The signing keys were retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: read:signing_keys",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:signing_keys"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/keys/signing/{kid}",
+      "operations": [
+        {
+          "method": "get",
+          "summary": "Get an Application Signing Key by its key id",
+          "notes": "Get an Application Signing Key by its key id",
+          "type": "get_signing_key_response",
+          "nickname": "get_signing_key",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 200, "message": "The signing keys were retrieved." },
+            {
+              "code": 400,
+              "message": "Invalid request URI. The message will vary depending on the cause.",
+              "errorCode": "invalid_uri"
+            },
+            {
+              "code": 400,
+              "message": "Invalid request query string. The message will vary depending on the cause.",
+              "errorCode": "invalid_query_string"
+            },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation"
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope, expected any of: read:signing_keys",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["read:signing_keys"] } }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/keys/signing/rotate",
+      "operations": [
+        {
+          "method": "post",
+          "summary": "Rotate the Application Signing Key",
+          "notes": "Rotate the Application Signing Key",
+          "type": "post_signing_keys_response",
+          "nickname": "post_signing_keys",
+          "parameters": [],
+          "responseMessages": [
+            { "code": 201, "message": "Signing key rotated successfully." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected create:signing_keys and update:signing_keys.",
+              "errorCode": "insufficient_scope"
+            },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": {
+            "jwt": { "scopes": ["create:signing_keys", "update:signing_keys"] }
+          }
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/keys/signing/{kid}/revoke",
+      "operations": [
+        {
+          "method": "put",
+          "summary": "Revoke an Application Signing Key by its key id",
+          "notes": "Revoke an Application Signing Key by its key id",
+          "type": "put_signing_keys_response",
+          "nickname": "put_signing_keys",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "kid",
+              "description": "Key id of the key to revoke",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            { "code": 200, "message": "Signing key revoked successfully." },
+            { "code": 401, "message": "Invalid token." },
+            { "code": 401, "message": "Client is not global." },
+            {
+              "code": 401,
+              "message": "Invalid signature received for JSON Web Token validation."
+            },
+            {
+              "code": 403,
+              "message": "Insufficient scope; expected any of: update:signing_keys.",
+              "errorCode": "insufficient_scope"
+            },
+            { "code": 404, "message": "Signing key not found." },
+            {
+              "code": 429,
+              "message": "Too many requests. Check the X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset headers."
+            }
+          ],
+          "authorizations": { "jwt": { "scopes": ["update:signing_keys"] } }
+        }
+      ]
+    }
+  ],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "models": {
+    "get_signing_keys_response": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string",
+          "description": "The key id of the signing key",
+          "defaultValue": "21hi274Rp02112mgkUGma"
+        },
+        "cert": {
+          "type": "string",
+          "description": "The public certificate of the signing key",
+          "defaultValue": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCA...YiA0TQhAt8=\r\n-----END CERTIFICATE-----"
+        },
+        "pkcs7": {
+          "type": "string",
+          "description": "The public certificate of the signing key in pkcs7 format",
+          "defaultValue": "-----BEGIN PKCS7-----\r\nMIIDPA....t8xAA==\r\n-----END PKCS7-----"
+        },
+        "current": {
+          "type": "boolean",
+          "description": "True if the key is the the current key",
+          "defaultValue": true
+        },
+        "next": {
+          "type": "boolean",
+          "description": "True if the key is the the next key"
+        },
+        "previous": {
+          "type": "boolean",
+          "description": "True if the key is the the previous key"
+        },
+        "current_since": {
+          "type": "string",
+          "description": "The date and time when the key became the current key"
+        },
+        "current_until": {
+          "type": "string",
+          "description": "The date and time when the current key was rotated"
+        },
+        "fingerprint": {
+          "type": "string",
+          "description": "The cert fingerprint",
+          "defaultValue": "CC:FB:DD:D8:9A:B5:DE:1B:F0:CC:36:D2:99:59:21:12:03:DD:A8:25"
+        },
+        "thumbprint": {
+          "type": "string",
+          "description": "The cert thumbprint",
+          "defaultValue": "CCFBDDD89AB5DE1BF0CC36D29959211203DDA825"
+        },
+        "revoked": {
+          "type": "boolean",
+          "description": "True if the key is revoked"
+        },
+        "revoked_at": {
+          "type": "string",
+          "description": "The date and time when the key was revoked"
+        }
+      },
+      "required": ["cert", "kid", "fingerprint", "thumbprint"],
+      "additionalProperties": false
+    },
+    "get_signing_key_response": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "type": "string",
+          "description": "The key id of the signing key",
+          "defaultValue": "21hi274Rp02112mgkUGma"
+        },
+        "cert": {
+          "type": "string",
+          "description": "The public certificate of the signing key",
+          "defaultValue": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCA...YiA0TQhAt8=\r\n-----END CERTIFICATE-----"
+        },
+        "pkcs7": {
+          "type": "string",
+          "description": "The public certificate of the signing key in pkcs7 format",
+          "defaultValue": "-----BEGIN PKCS7-----\r\nMIIDPA....t8xAA==\r\n-----END PKCS7-----"
+        },
+        "current": {
+          "type": "boolean",
+          "description": "True if the key is the the current key",
+          "defaultValue": true
+        },
+        "next": {
+          "type": "boolean",
+          "description": "True if the key is the the next key"
+        },
+        "previous": {
+          "type": "boolean",
+          "description": "True if the key is the the previous key"
+        },
+        "current_since": {
+          "type": "string",
+          "description": "The date and time when the key became the current key"
+        },
+        "current_until": {
+          "type": "string",
+          "description": "The date and time when the current key was rotated"
+        },
+        "fingerprint": {
+          "type": "string",
+          "description": "The cert fingerprint",
+          "defaultValue": "CC:FB:DD:D8:9A:B5:DE:1B:F0:CC:36:D2:99:59:21:12:03:DD:A8:25"
+        },
+        "thumbprint": {
+          "type": "string",
+          "description": "The cert thumbprint",
+          "defaultValue": "CCFBDDD89AB5DE1BF0CC36D29959211203DDA825"
+        },
+        "revoked": {
+          "type": "boolean",
+          "description": "True if the key is revoked"
+        },
+        "revoked_at": {
+          "type": "string",
+          "description": "The date and time when the key was revoked"
+        }
+      },
+      "required": ["cert", "kid", "fingerprint", "thumbprint"],
+      "additionalProperties": false
+    },
+    "post_signing_keys_response": {
+      "type": "object",
+      "properties": {
+        "cert": {
+          "type": "string",
+          "description": "Next key certificate",
+          "defaultValue": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCA...YiA0TQhAt8=\r\n-----END CERTIFICATE-----"
+        },
+        "kid": {
+          "type": "string",
+          "description": "Next key id",
+          "defaultValue": "21hi274Rp02112mgkUGma"
+        }
+      },
+      "required": ["cert", "kid"]
+    },
+    "put_signing_keys_response": {
+      "type": "object",
+      "properties": {
+        "cert": {
+          "type": "string",
+          "description": "Revoked key certificate",
+          "defaultValue": "-----BEGIN CERTIFICATE-----\r\nMIIDDTCCA...YiA0TQhAt8=\r\n-----END CERTIFICATE-----"
+        },
+        "kid": {
+          "type": "string",
+          "description": "Revoked key id",
+          "defaultValue": "21hi274Rp02112mgkUGma"
+        }
+      },
+      "required": ["cert", "kid"]
+    }
+  }
+}
