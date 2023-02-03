@@ -546,6 +546,7 @@
   "models": {
     "get_connections_response": {
       "type": "object",
+      "schemaName": "connection",
       "properties": {
         "name": {
           "type": "string",
@@ -601,6 +602,7 @@
     },
     "post_connections_response": {
       "type": "object",
+      "schemaName": "connection",
       "properties": {
         "name": {
           "type": "string",
@@ -663,6 +665,7 @@
     },
     "post_connections_body": {
       "type": "object",
+      "schemaName": "connectionCreate",
       "properties": {
         "name": {
           "type": "string",
@@ -789,7 +792,7 @@
         "non_persistent_attrs": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist)"
+          "description": "An array of user fields that should not be stored in the Auth0 database (https://manage.local.dev.auth0.com/docs/security/data-security/denylist)"
         },
         "enable_script_context": {
           "type": "boolean",
@@ -1014,6 +1017,7 @@
     },
     "get_connections_by_id_response": {
       "type": "object",
+      "schemaName": "connection",
       "properties": {
         "name": {
           "type": "string",
@@ -1076,6 +1080,7 @@
     },
     "patch_connections_by_id_response": {
       "type": "object",
+      "schemaName": "connection",
       "properties": {
         "name": {
           "type": "string",
@@ -1138,6 +1143,7 @@
     },
     "patch_connections_by_id_body": {
       "type": "object",
+      "schemaName": "connectionUpdate",
       "properties": {
         "display_name": {
           "type": "string",
@@ -1193,7 +1199,7 @@
         "non_persistent_attrs": {
           "type": "array",
           "items": { "type": "string" },
-          "description": "An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist)"
+          "description": "An array of user fields that should not be stored in the Auth0 database (https://manage.local.dev.auth0.com/docs/security/data-security/denylist)"
         },
         "enable_script_context": {
           "type": "boolean",

@@ -633,7 +633,7 @@
             { "code": 200, "message": "Invitation successfully created." },
             {
               "code": 400,
-              "message": "A default login route is required to generate the invitation url. For more information, see https://auth0.com/docs/universal-login/configure-default-login-routes",
+              "message": "A default login route is required to generate the invitation url. For more information, see https://manage.local.dev.auth0.com/docs/universal-login/configure-default-login-routes",
               "errorCode": "invalid_body"
             },
             {

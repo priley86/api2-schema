@@ -217,7 +217,7 @@
         "client_id": {
           "type": "string",
           "format": "client-id",
-          "description": "ID of the client. If provided for tenants using New Universal Login experience, the user will be prompted to redirect to the default login route of the corresponding application once the ticket is used. See <a target='' href='https://auth0.com/docs/universal-login/configure-default-login-routes#completing-the-password-reset-flow'>Configuring Default Login Routes</a> for more details.",
+          "description": "ID of the client. If provided for tenants using New Universal Login experience, the user will be prompted to redirect to the default login route of the corresponding application once the ticket is used. See <a target='' href='https://manage.local.dev.auth0.com/docs/universal-login/configure-default-login-routes#completing-the-password-reset-flow'>Configuring Default Login Routes</a> for more details.",
           "defaultValue": "DaM8bokEXBWrTUFCiJjWn50jei6ardyX"
         },
         "organization_id": {
@@ -359,7 +359,7 @@
         "client_id": {
           "type": "string",
           "format": "client-id",
-          "description": "ID of the client. If provided for tenants using New Universal Login experience, the user will be prompted to redirect to the default login route of the corresponding application once the ticket is used. See <a target='' href='https://auth0.com/docs/universal-login/configure-default-login-routes#completing-the-password-reset-flow'>Configuring Default Login Routes</a> for more details.",
+          "description": "ID of the client. If provided for tenants using New Universal Login experience, the user will be prompted to redirect to the default login route of the corresponding application once the ticket is used. See <a target='' href='https://manage.local.dev.auth0.com/docs/universal-login/configure-default-login-routes#completing-the-password-reset-flow'>Configuring Default Login Routes</a> for more details.",
           "defaultValue": "DaM8bokEXBWrTUFCiJjWn50jei6ardyX"
         },
         "organization_id": {

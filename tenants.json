@@ -108,6 +108,7 @@
   "models": {
     "tenant_settings_route_response": {
       "type": "object",
+      "schemaName": "tenantSettings",
       "properties": {
         "change_password": {
           "$ref": "tenant_settings_route_response_change_password",
@@ -428,16 +429,6 @@
       },
       "additionalProperties": false
     },
-    "tenant_settings_route_response_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in ID tokens",
-      "properties": { "sub": { "$ref": "tenant_settings_route_response_sub" } },
-      "additionalProperties": false
-    },
-    "tenant_settings_route_response_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
-    },
     "tenant_settings_route_response_session_cookie": {
       "type": "object",
       "description": "Session cookie configuration",
@@ -466,6 +457,7 @@
     },
     "patch_settings_response": {
       "type": "object",
+      "schemaName": "tenantSettings",
       "properties": {
         "change_password": {
           "$ref": "patch_settings_response_change_password",
@@ -824,6 +816,7 @@
     },
     "patch_settings_body": {
       "type": "object",
+      "schemaName": "tenantSettingsUpdate",
       "properties": {
         "change_password": {
           "$ref": "patch_settings_body_change_password",
@@ -1149,16 +1142,6 @@
       },
       "minProperties": 1,
       "additionalProperties": false
-    },
-    "patch_settings_body_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in ID tokens",
-      "properties": { "sub": { "$ref": "patch_settings_body_sub" } },
-      "additionalProperties": false
-    },
-    "patch_settings_body_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
     },
     "patch_settings_body_session_cookie": {
       "type": "object",

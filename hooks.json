@@ -163,11 +163,10 @@
               "required": true
             },
             {
-              "paramType": "path",
+              "paramType": "query",
               "name": "fields",
               "description": "Comma-separated list of fields to include in the result. Leave empty to retrieve all fields.",
-              "type": "string",
-              "required": false
+              "type": "string"
             }
           ],
           "responseMessages": [
@@ -536,6 +535,7 @@
   "models": {
     "get_hooks_response": {
       "type": "object",
+      "schemaName": "hook",
       "properties": {
         "triggerId": { "type": "string", "description": "Trigger ID" },
         "id": {
@@ -573,6 +573,7 @@
     },
     "post_hooks_response": {
       "type": "object",
+      "schemaName": "hook",
       "properties": {
         "triggerId": { "type": "string", "description": "Trigger ID" },
         "id": {
@@ -610,6 +611,7 @@
     },
     "post_hooks_body": {
       "type": "object",
+      "schemaName": "hookCreate",
       "properties": {
         "name": {
           "type": "string",
@@ -658,6 +660,7 @@
     },
     "get_hooks_by_id_response": {
       "type": "object",
+      "schemaName": "hook",
       "properties": {
         "triggerId": { "type": "string", "description": "Trigger ID" },
         "id": {
@@ -695,6 +698,7 @@
     },
     "patch_hooks_by_id_response": {
       "type": "object",
+      "schemaName": "hook",
       "properties": {
         "triggerId": { "type": "string", "description": "Trigger ID" },
         "id": {
@@ -732,6 +736,7 @@
     },
     "patch_hooks_by_id_body": {
       "type": "object",
+      "schemaName": "hookUpdate",
       "properties": {
         "name": {
           "type": "string",

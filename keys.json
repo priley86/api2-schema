@@ -57,7 +57,15 @@
           "notes": "Get an Application Signing Key by its key id",
           "type": "get_signing_key_response",
           "nickname": "get_signing_key",
-          "parameters": [],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "kid",
+              "description": "Key id of the key to retrieve",
+              "type": "string",
+              "required": true
+            }
+          ],
           "responseMessages": [
             { "code": 200, "message": "The signing keys were retrieved." },
             {

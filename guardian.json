@@ -310,13 +310,13 @@
         {
           "method": "get",
           "summary": "Retrieve phone configuration (one of auth0|twilio|phone-message-hook)",
-          "type": "get_selected-provider_response",
-          "nickname": "get_selected-provider",
+          "type": "get_phone_providers_response",
+          "nickname": "get_phone_providers",
           "parameters": [],
           "responseMessages": [
             {
               "code": 200,
-              "message": "Returns selected SMS provider configuration"
+              "message": "Returns selected Phone provider configuration"
             },
             { "code": 400, "message": "Invalid input based on schemas" },
             {
@@ -330,20 +330,20 @@
         {
           "method": "put",
           "summary": "Update phone configuration (one of auth0|twilio|phone-message-hook)",
-          "type": "put_selected-provider_response",
-          "nickname": "put_selected-provider",
+          "type": "put_phone_providers_response",
+          "nickname": "put_phone_providers",
           "parameters": [
             {
               "paramType": "body",
               "name": "body",
-              "type": "put_selected-provider_body",
+              "type": "put_phone_providers_body",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "message": "Returns selected SMS provider configuration"
+              "message": "Returns selected Phone provider configuration"
             },
             { "code": 400, "message": "Invalid input based on schemas" },
             {
@@ -364,13 +364,13 @@
           "method": "get",
           "summary": "Retrieve Enrollment and Verification Phone Templates",
           "notes": "Retrieve phone enrollment and verification templates (subscription required).",
-          "type": "get_templates_response",
-          "nickname": "get_templates",
+          "type": "get_factor_phone_templates_response",
+          "nickname": "get_factor_phone_templates",
           "parameters": [],
           "responseMessages": [
             {
               "code": 200,
-              "message": "SMS enrollment and verification templates successfully retrieved."
+              "message": "Phone enrollment and verification templates successfully retrieved."
             },
             { "code": 400, "message": "Invalid input based on schemas." },
             {
@@ -389,20 +389,20 @@
           "method": "put",
           "summary": "Update Enrollment and Verification Phone Templates",
           "notes": "Customize the messages sent to complete phone enrollment and verification (subscription required).",
-          "type": "put_templates_response",
-          "nickname": "put_templates",
+          "type": "put_factor_phone_templates_response",
+          "nickname": "put_factor_phone_templates",
           "parameters": [
             {
               "paramType": "body",
               "name": "body",
-              "type": "put_templates_body",
+              "type": "put_factor_phone_templates_body",
               "required": true
             }
           ],
           "responseMessages": [
             {
               "code": 200,
-              "message": "SMS enrollment and verification templates successfully updated."
+              "message": "Phone enrollment and verification templates successfully updated."
             },
             { "code": 400, "message": "Invalid input based on schemas." },
             {
@@ -426,8 +426,8 @@
         {
           "method": "get",
           "summary": "Retrieve push notification provider",
-          "type": "get_selected-provider_response",
-          "nickname": "get_selected-provider",
+          "type": "get_pn_providers_response",
+          "nickname": "get_pn_providers",
           "parameters": [],
           "responseMessages": [
             {
@@ -446,13 +446,13 @@
         {
           "method": "put",
           "summary": "Update Push Notification configuration (one of direct|sns|guardian)",
-          "type": "put_selected-provider_response",
-          "nickname": "put_selected-provider",
+          "type": "put_pn_providers_response",
+          "nickname": "put_pn_providers",
           "parameters": [
             {
               "paramType": "body",
               "name": "body",
-              "type": "put_selected-provider_body",
+              "type": "put_pn_providers_body",
               "required": true
             }
           ],
@@ -479,9 +479,9 @@
         {
           "method": "get",
           "summary": "Retrieve SMS configuration (one of auth0|twilio|phone-message-hook)",
-          "notes": "A new endpoint is available to retrieve the configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider'>phone configuration</a>). It has the same payload as this one. Please use it instead.",
-          "type": "get_selected-provider_response",
-          "nickname": "get_selected-provider",
+          "notes": "A new endpoint is available to retrieve the configuration related to phone factors (<a href='https://manage.local.dev.auth0.com/docs/api/management/v2/#!/Guardian/get_selected_provider'>phone configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "get_sms_providers_response",
+          "nickname": "get_sms_providers",
           "parameters": [],
           "responseMessages": [
             {
@@ -500,14 +500,14 @@
         {
           "method": "put",
           "summary": "Update SMS configuration (one of auth0|twilio|phone-message-hook)",
-          "notes": "A new endpoint is available to update the configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider'>phone configuration</a>). It has the same payload as this one. Please use it instead.",
-          "type": "put_selected-provider_response",
-          "nickname": "put_selected-provider",
+          "notes": "A new endpoint is available to update the configuration related to phone factors (<a href='https://manage.local.dev.auth0.com/docs/api/management/v2/#!/Guardian/put_selected_provider'>phone configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "put_sms_providers_response",
+          "nickname": "put_sms_providers",
           "parameters": [
             {
               "paramType": "body",
               "name": "body",
-              "type": "put_selected-provider_body",
+              "type": "put_sms_providers_body",
               "required": true
             }
           ],
@@ -534,9 +534,9 @@
         {
           "method": "get",
           "summary": "Retrieve SMS Enrollment and Verification Templates",
-          "notes": "Retrieve SMS enrollment and verification templates (subscription required). \n\n    A new endpoint is available to retrieve enrollment and verification templates related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/get_templates'>phone templates</a>). It has the same payload as this one. Please use it instead.",
-          "type": "get_templates_response",
-          "nickname": "get_templates",
+          "notes": "Retrieve SMS enrollment and verification templates (subscription required). \n\n    A new endpoint is available to retrieve enrollment and verification templates related to phone factors (<a href='https://manage.local.dev.auth0.com/docs/api/management/v2/#!/Guardian/get_templates'>phone templates</a>). It has the same payload as this one. Please use it instead.",
+          "type": "get_factor_sms_templates_response",
+          "nickname": "get_factor_sms_templates",
           "parameters": [],
           "responseMessages": [
             {
@@ -559,14 +559,14 @@
         {
           "method": "put",
           "summary": "Update SMS Enrollment and Verification Templates",
-          "notes": "Customize the messages sent to complete SMS enrollment and verification (subscription required).\n    \n    A new endpoint is available to update enrollment and verification templates related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/put_templates'>phone templates</a>). It has the same payload as this one. Please use it instead.",
-          "type": "put_templates_response",
-          "nickname": "put_templates",
+          "notes": "Customize the messages sent to complete SMS enrollment and verification (subscription required).\n    \n    A new endpoint is available to update enrollment and verification templates related to phone factors (<a href='https://manage.local.dev.auth0.com/docs/api/management/v2/#!/Guardian/put_templates'>phone templates</a>). It has the same payload as this one. Please use it instead.",
+          "type": "put_factor_sms_templates_response",
+          "nickname": "put_factor_sms_templates",
           "parameters": [
             {
               "paramType": "body",
               "name": "body",
-              "type": "put_templates_body",
+              "type": "put_factor_sms_templates_body",
               "required": true
             }
           ],
@@ -598,13 +598,13 @@
           "method": "get",
           "summary": "Retrieve Twilio phone configuration",
           "notes": "Retrieve the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio phone provider configuration</a> (subscription required).",
-          "type": "get_twilio_response",
-          "nickname": "get_twilio",
+          "type": "get_phone_twilio_factor_provider_response",
+          "nickname": "get_phone_twilio_factor_provider",
           "parameters": [],
           "responseMessages": [
             {
               "code": 200,
-              "message": "Twilio SMS configuration successfully retrieved."
+              "message": "Twilio Phone configuration successfully retrieved."
             },
             { "code": 400, "message": "Invalid input based on schemas." },
             {
@@ -632,7 +632,7 @@
           "responseMessages": [
             {
               "code": 200,
-              "message": "Twilio SMS configuration successfully updated."
+              "message": "Twilio Phone configuration successfully updated."
             },
             { "code": 400, "message": "Invalid input based on schemas." },
             {
@@ -817,9 +817,9 @@
         {
           "method": "get",
           "summary": "Retrieve Twilio SMS configuration",
-          "notes": "Retrieve the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio SMS provider configuration</a> (subscription required).\n\n    A new endpoint is available to retrieve the Twilio configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/get_twilio'>phone Twilio configuration</a>). It has the same payload as this one. Please use it instead.",
-          "type": "get_twilio_response",
-          "nickname": "get_twilio",
+          "notes": "Retrieve the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio SMS provider configuration</a> (subscription required).\n\n    A new endpoint is available to retrieve the Twilio configuration related to phone factors (<a href='https://manage.local.dev.auth0.com/docs/api/management/v2/#!/Guardian/get_twilio'>phone Twilio configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "get_sms_twilio_factor_provider_response",
+          "nickname": "get_sms_twilio_factor_provider",
           "parameters": [],
           "responseMessages": [
             {
@@ -838,14 +838,14 @@
         {
           "method": "put",
           "summary": "Update Twilio SMS configuration",
-          "notes": "Configure the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio SMS provider configuration</a> (subscription required).\n    \n    A new endpoint is available to update the Twilio configuration related to phone factors (<a href='https://auth0.com/docs/api/management/v2/#!/Guardian/put_twilio'>phone Twilio configuration</a>). It has the same payload as this one. Please use it instead.",
-          "type": "put_twilio_response",
-          "nickname": "put_twilio",
+          "notes": "Configure the <a href=\"https://auth0.com/docs/multifactor-authentication/twilio-configuration\">Twilio SMS provider configuration</a> (subscription required).\n    \n    A new endpoint is available to update the Twilio configuration related to phone factors (<a href='https://manage.local.dev.auth0.com/docs/api/management/v2/#!/Guardian/put_twilio'>phone Twilio configuration</a>). It has the same payload as this one. Please use it instead.",
+          "type": "put_sms_twilio_factor_provider_response",
+          "nickname": "put_sms_twilio_factor_provider",
           "parameters": [
             {
               "paramType": "body",
               "name": "body",
-              "type": "put_twilio_body",
+              "type": "put_sms_twilio_factor_provider_body",
               "required": true
             }
           ],
@@ -1023,6 +1023,7 @@
   "models": {
     "get_factors_response": {
       "type": "object",
+      "schemaName": "factor",
       "properties": {
         "enabled": {
           "type": "boolean",
@@ -1071,6 +1072,7 @@
     },
     "get_enrollments_by_id_response": {
       "type": "object",
+      "schemaName": "enrollment",
       "properties": {
         "id": {
           "type": "string",
@@ -1152,7 +1154,7 @@
       "required": ["message_types"],
       "additionalProperties": false
     },
-    "get_selected-provider_response": {
+    "get_phone_providers_response": {
       "type": "object",
       "properties": {
         "provider": {
@@ -1162,7 +1164,7 @@
       },
       "additionalProperties": false
     },
-    "put_selected-provider_response": {
+    "put_phone_providers_response": {
       "type": "object",
       "properties": {
         "provider": {
@@ -1172,7 +1174,7 @@
       },
       "additionalProperties": false
     },
-    "put_selected-provider_body": {
+    "put_phone_providers_body": {
       "type": "object",
       "properties": {
         "provider": {
@@ -1183,8 +1185,9 @@
       "required": ["provider"],
       "additionalProperties": false
     },
-    "get_templates_response": {
+    "get_factor_phone_templates_response": {
       "type": "object",
+      "schemaName": "templateMessages",
       "properties": {
         "enrollment_message": {
           "type": "string",
@@ -1200,8 +1203,9 @@
       "required": ["enrollment_message", "verification_message"],
       "additionalProperties": false
     },
-    "put_templates_response": {
+    "put_factor_phone_templates_response": {
       "type": "object",
+      "schemaName": "templateMessages",
       "properties": {
         "enrollment_message": {
           "type": "string",
@@ -1217,8 +1221,9 @@
       "required": ["enrollment_message", "verification_message"],
       "additionalProperties": false
     },
-    "put_templates_body": {
+    "put_factor_phone_templates_body": {
       "type": "object",
+      "schemaName": "templateMessages",
       "properties": {
         "enrollment_message": {
           "type": "string",
@@ -1234,8 +1239,116 @@
       "required": ["enrollment_message", "verification_message"],
       "additionalProperties": false
     },
-    "get_twilio_response": {
+    "get_pn_providers_response": {
       "type": "object",
+      "properties": {
+        "provider": { "enum": ["guardian", "sns", "direct"], "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "put_pn_providers_response": {
+      "type": "object",
+      "properties": {
+        "provider": { "enum": ["guardian", "sns", "direct"], "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "put_pn_providers_body": {
+      "type": "object",
+      "properties": {
+        "provider": { "enum": ["guardian", "sns", "direct"], "type": "string" }
+      },
+      "required": ["provider"],
+      "additionalProperties": false
+    },
+    "get_sms_providers_response": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "enum": ["auth0", "twilio", "phone-message-hook"],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_sms_providers_response": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "enum": ["auth0", "twilio", "phone-message-hook"],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_sms_providers_body": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "enum": ["auth0", "twilio", "phone-message-hook"],
+          "type": "string"
+        }
+      },
+      "required": ["provider"],
+      "additionalProperties": false
+    },
+    "get_factor_sms_templates_response": {
+      "type": "object",
+      "schemaName": "templateMessages",
+      "properties": {
+        "enrollment_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are invited to enroll with a phone number.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}. Please enter this code to verify your enrollment."
+        },
+        "verification_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are prompted to verify their account.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}"
+        }
+      },
+      "required": ["enrollment_message", "verification_message"],
+      "additionalProperties": false
+    },
+    "put_factor_sms_templates_response": {
+      "type": "object",
+      "schemaName": "templateMessages",
+      "properties": {
+        "enrollment_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are invited to enroll with a phone number.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}. Please enter this code to verify your enrollment."
+        },
+        "verification_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are prompted to verify their account.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}"
+        }
+      },
+      "required": ["enrollment_message", "verification_message"],
+      "additionalProperties": false
+    },
+    "put_factor_sms_templates_body": {
+      "type": "object",
+      "schemaName": "templateMessages",
+      "properties": {
+        "enrollment_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are invited to enroll with a phone number.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}. Please enter this code to verify your enrollment."
+        },
+        "verification_message": {
+          "type": "string",
+          "description": "Message sent to the user when they are prompted to verify their account.",
+          "defaultValue": "{{code}} is your verification code for {{tenant.friendly_name}}"
+        }
+      },
+      "required": ["enrollment_message", "verification_message"],
+      "additionalProperties": false
+    },
+    "get_phone_twilio_factor_provider_response": {
+      "type": "object",
+      "schemaName": "twilioFactorProvider",
       "properties": {
         "from": {
           "type": "string",
@@ -1381,6 +1494,7 @@
     },
     "get_sns_response": {
       "type": "object",
+      "schemaName": "snsFactorProvider",
       "properties": {
         "aws_access_key_id": {
           "type": "string",
@@ -1559,6 +1673,109 @@
       },
       "additionalProperties": false
     },
+    "get_sms_twilio_factor_provider_response": {
+      "type": "object",
+      "schemaName": "twilioFactorProvider",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "From number",
+          "minLength": 0,
+          "maxLength": 64,
+          "defaultValue": "+1223323"
+        },
+        "messaging_service_sid": {
+          "type": "string",
+          "description": "Copilot SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "5dEkAiHLPCuQ1uJj4qNXcAnERFAL6cpq"
+        },
+        "auth_token": {
+          "type": "string",
+          "description": "Twilio Authentication token",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "zw5Ku6z2sxhd0ZVXto5SDHX6KPDByJPU"
+        },
+        "sid": {
+          "type": "string",
+          "description": "Twilio SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_sms_twilio_factor_provider_response": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "From number",
+          "minLength": 0,
+          "maxLength": 64,
+          "defaultValue": "+1223323"
+        },
+        "messaging_service_sid": {
+          "type": "string",
+          "description": "Copilot SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "5dEkAiHLPCuQ1uJj4qNXcAnERFAL6cpq"
+        },
+        "auth_token": {
+          "type": "string",
+          "description": "Twilio Authentication token",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "zw5Ku6z2sxhd0ZVXto5SDHX6KPDByJPU"
+        },
+        "sid": {
+          "type": "string",
+          "description": "Twilio SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        }
+      },
+      "additionalProperties": false
+    },
+    "put_sms_twilio_factor_provider_body": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "From number",
+          "minLength": 0,
+          "maxLength": 64,
+          "defaultValue": "+1223323"
+        },
+        "messaging_service_sid": {
+          "type": "string",
+          "description": "Copilot SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "5dEkAiHLPCuQ1uJj4qNXcAnERFAL6cpq"
+        },
+        "auth_token": {
+          "type": "string",
+          "description": "Twilio Authentication token",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "zw5Ku6z2sxhd0ZVXto5SDHX6KPDByJPU"
+        },
+        "sid": {
+          "type": "string",
+          "description": "Twilio SID",
+          "minLength": 1,
+          "maxLength": 1000,
+          "defaultValue": "wywA2BH4VqTpfywiDuyDAYZL3xQjoO40"
+        }
+      },
+      "additionalProperties": false
+    },
     "patch_fcm_response": {
       "type": "object",
       "minProperties": 0,
@@ -1601,6 +1818,7 @@
     },
     "post_ticket_body": {
       "type": "object",
+      "schemaName": "enrollmentCreate",
       "properties": {
         "user_id": {
           "type": "string",

@@ -352,6 +352,7 @@
   "models": {
     "get_custom-domains_response": {
       "type": "object",
+      "schemaName": "customDomain",
       "additionalProperties": false,
       "properties": {
         "custom_domain_id": {
@@ -568,6 +569,7 @@
     },
     "get_custom-domains_by_id_response": {
       "type": "object",
+      "schemaName": "customDomain",
       "additionalProperties": false,
       "properties": {
         "custom_domain_id": {

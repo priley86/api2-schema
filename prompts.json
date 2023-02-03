@@ -359,6 +359,7 @@
   "models": {
     "get_prompts_response": {
       "type": "object",
+      "schemaName": "promptsSettings",
       "properties": {
         "universal_login_experience": {
           "type": "string",
@@ -377,6 +378,7 @@
     },
     "patch_prompts_response": {
       "type": "object",
+      "schemaName": "promptsSettings",
       "properties": {
         "universal_login_experience": {
           "type": "string",
@@ -395,6 +397,7 @@
     },
     "patch_prompts_body": {
       "type": "object",
+      "schemaName": "promptsSettingsUpdate",
       "description": "Prompts settings",
       "properties": {
         "universal_login_experience": {

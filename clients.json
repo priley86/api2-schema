@@ -440,6 +440,7 @@
   "models": {
     "get_clients_response": {
       "type": "object",
+      "schemaName": "client",
       "properties": {
         "client_id": {
           "type": "string",
@@ -1471,40 +1472,9 @@
       "required": ["rotation_type", "expiration_type"],
       "additionalProperties": false
     },
-    "get_clients_response_private_key_jwt": {
-      "description": "Defines `private_key_jwt` client authentication method .",
-      "type": "object",
-      "properties": {
-        "credentials": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": { "type": "string", "description": "Credential ID" }
-            },
-            "required": ["id"],
-            "additionalProperties": false
-          },
-          "uniqueItems": false,
-          "minItems": 0,
-          "maxItems": 2
-        }
-      },
-      "required": ["credentials"],
-      "additionalProperties": false
-    },
-    "get_clients_response_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in ID tokens",
-      "properties": { "sub": { "$ref": "get_clients_response_sub" } },
-      "additionalProperties": false
-    },
-    "get_clients_response_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
-    },
     "post_clients_response": {
       "type": "object",
+      "schemaName": "client",
       "properties": {
         "client_id": {
           "type": "string",
@@ -2570,6 +2540,7 @@
     },
     "post_clients_body": {
       "type": "object",
+      "schemaName": "clientCreate",
       "properties": {
         "name": {
           "type": "string",
@@ -3595,58 +3566,9 @@
       "required": ["rotation_type", "expiration_type"],
       "additionalProperties": false
     },
-    "post_clients_body_private_key_jwt": {
-      "description": "Defines `private_key_jwt` client authentication method .",
-      "type": "object",
-      "properties": {
-        "credentials": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "credential_type": {
-                "type": "string",
-                "enum": ["public_key"],
-                "description": "Credential type (`public_key`)"
-              },
-              "name": {
-                "type": "string",
-                "description": "Friendly name for a credential.",
-                "maxLength": 128
-              },
-              "pem": {
-                "type": "string",
-                "description": "PEM-formatted public key (SPKI and PKCS1) or X509 certificate."
-              },
-              "alg": {
-                "type": "string",
-                "enum": ["RS256", "RS384", "PS256"],
-                "description": "Algorithm which will be used with the credential. Can be one of RS256, RS384, PS256"
-              }
-            },
-            "required": ["credential_type", "pem"],
-            "additionalProperties": false
-          },
-          "uniqueItems": false,
-          "minItems": 0,
-          "maxItems": 2
-        }
-      },
-      "required": ["credentials"],
-      "additionalProperties": false
-    },
-    "post_clients_body_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in ID tokens",
-      "properties": { "sub": { "$ref": "post_clients_body_sub" } },
-      "additionalProperties": false
-    },
-    "post_clients_body_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
-    },
     "get_clients_by_id_response": {
       "type": "object",
+      "schemaName": "client",
       "properties": {
         "client_id": {
           "type": "string",
@@ -4714,6 +4636,7 @@
     },
     "patch_clients_by_id_response": {
       "type": "object",
+      "schemaName": "client",
       "properties": {
         "client_id": {
           "type": "string",
@@ -5781,6 +5704,7 @@
     },
     "patch_clients_by_id_body": {
       "type": "object",
+      "schemaName": "clientUpdate",
       "properties": {
         "name": {
           "type": "string",
@@ -6798,40 +6722,9 @@
       "required": ["rotation_type", "expiration_type"],
       "additionalProperties": false
     },
-    "patch_clients_by_id_body_private_key_jwt": {
-      "description": "Defines `private_key_jwt` client authentication method .",
-      "type": "object",
-      "properties": {
-        "credentials": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "id": { "type": "string", "description": "Credential ID" }
-            },
-            "required": ["id"],
-            "additionalProperties": false
-          },
-          "uniqueItems": true,
-          "minItems": 0,
-          "maxItems": 2
-        }
-      },
-      "required": ["credentials"],
-      "additionalProperties": false
-    },
-    "patch_clients_by_id_body_claims_mapping": {
-      "type": "object",
-      "description": "Custom configuration for claims in ID tokens",
-      "properties": { "sub": { "$ref": "patch_clients_by_id_body_sub" } },
-      "additionalProperties": false
-    },
-    "patch_clients_by_id_body_sub": {
-      "properties": { "source": { "enum": ["default"] } },
-      "required": ["source"]
-    },
     "post_rotate-secret_response": {
       "type": "object",
+      "schemaName": "client",
       "properties": {
         "client_id": {
           "type": "string",

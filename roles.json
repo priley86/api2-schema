@@ -604,6 +604,7 @@
     },
     "post_roles_body": {
       "title": "post_role",
+      "schemaName": "roleCreate",
       "type": "object",
       "properties": {
         "name": { "type": "string", "description": "Name of the role." },
@@ -642,6 +643,7 @@
     "patch_roles_by_id_body": {
       "title": "update_role",
       "type": "object",
+      "schemaName": "roleUpdate",
       "properties": {
         "name": { "type": "string", "description": "Name of this role." },
         "description": {
@@ -653,6 +655,7 @@
     },
     "get_role_permission_response": {
       "type": "object",
+      "schemaName": "permission",
       "properties": {
         "resource_server_identifier": {
           "type": "string",

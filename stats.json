@@ -102,6 +102,7 @@
   "models": {
     "get_daily_response": {
       "type": "object",
+      "schemaName": "statsEntry",
       "properties": {
         "date": {
           "type": "string",

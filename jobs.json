@@ -173,7 +173,7 @@
         {
           "method": "post",
           "summary": "Create import users job",
-          "notes": "Import users from a <a href=\"https://auth0.com/docs/users/references/bulk-import-database-schema-examples\">formatted file</a> into a connection via a long-running job.",
+          "notes": "Import users from a <a href=\"https://manage.local.dev.auth0.com/docs/users/references/bulk-import-database-schema-examples\">formatted file</a> into a connection via a long-running job.",
           "type": "post_users-imports_response",
           "nickname": "post_users-imports",
           "parameters": [
@@ -366,6 +366,7 @@
   "models": {
     "get_jobs_by_id_response": {
       "type": "object",
+      "schemaName": "job",
       "properties": {
         "status": {
           "type": "string",
@@ -439,6 +440,7 @@
     },
     "post_users-exports_response": {
       "type": "object",
+      "schemaName": "job",
       "properties": {
         "status": {
           "type": "string",
@@ -564,6 +566,7 @@
     },
     "post_users-imports_response": {
       "type": "object",
+      "schemaName": "job",
       "properties": {
         "status": {
           "type": "string",
@@ -606,6 +609,7 @@
     },
     "post_verification-email_response": {
       "type": "object",
+      "schemaName": "job",
       "properties": {
         "status": {
           "type": "string",

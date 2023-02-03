@@ -237,6 +237,7 @@
   "models": {
     "get_user-blocks_response": {
       "type": "object",
+      "schemaName": "userBlock",
       "properties": {
         "blocked_for": {
           "type": "array",
@@ -269,6 +270,7 @@
     },
     "get_user-blocks_by_id_response": {
       "type": "object",
+      "schemaName": "userBlock",
       "properties": {
         "blocked_for": {
           "type": "array",
